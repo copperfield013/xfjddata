@@ -1,0 +1,21 @@
+package com.abc.rule.people.ipm.ipmTimer
+
+import com.abc.record.Attribute;
+import com.abc.record.AttributeFactory;
+import com.abc.fuse.attribute.FuseAttribute;
+import com.abc.fuse.attribute.FuseMultiAttribute;
+
+import com.zhsq.biz.common.*;
+import com.zhsq.biz.constant.people.*;
+import com.zhsq.biz.people.algorithm.*;
+import com.zhsq.biz.constant.*;
+
+global java.util.List addedLabelList;
+global java.util.List removedLabelList;
+global java.util.List attributeList;
+global java.util.List putFuseMultiAttributeList;
+global java.util.List removedMultiAttrList;
+global java.util.Map removedMultiAttrMap;
+global com.abc.record.RecordCompound recordCompound;
+
+ 

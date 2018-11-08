@@ -1,0 +1,107 @@
+package com.abc.rule.people.tipm.tipmTimer
+
+import com.abc.record.Attribute;
+import com.abc.record.AttributeFactory;
+import com.abc.fuse.attribute.FuseAttribute;
+import com.abc.fuse.attribute.FuseMultiAttribute;
+import com.abc.query.criteria.Criteria;
+
+import com.zhsq.biz.common.*;
+import com.zhsq.biz.constant.people.*;
+import com.zhsq.biz.people.algorithm.*;
+import com.zhsq.biz.constant.*;
+import com.abc.relation.RecordRelation;
+import java.util.Date;
+import com.abc.auth.AuthHelper;
+
+global java.util.List addedLabelList;
+global java.util.List removedLabelList;
+global java.util.List attributeList;
+global java.util.List putFuseMultiAttributeList;
+global java.util.List removedMultiAttrList;//根据name删除所有
+global java.util.Map removedMultiAttrMap;//根据keyValue和name删除一行
+global com.abc.record.RecordCompound recordCompound;
+
+global java.lang.String userCode;
+global java.lang.String recordCode;
+global java.lang.String entityType;
+global java.lang.String hostType;
+global java.lang.String hostCode;
+global  com.abc.complexus.RecordComplexus recordComplexus;
+global com.abc.ops.RecordRelationOpsBuilder recordRelationOpsBuilder;
+
+rule "小于60岁去除所有老人标签"
+	salience 8
+when
+	$nameA:FuseAttribute(name==PeopleItem.出生日期, CommonCalculation.isBasicLawful(value));
+	eval(BirthdayIntrospection.extractAge($nameA.getValueStrToSql())<60);
+then 
+	removedLabelList.add(EnumKeyValue.ENUM_人口标签_60_69老人);
+	removedLabelList.add(EnumKeyValue.ENUM_人口标签_70_79老人);
+	removedLabelList.add(EnumKeyValue.ENUM_人口标签_80_89岁老人);
+	removedLabelList.add(EnumKeyValue.ENUM_人口标签_90以上岁老人);
+	
+	Attribute attribute=AttributeFactory.newInstance(PeopleItem.几岁老人, null);
+	attributeList.add(attribute);
+end
+
+rule "60-69岁老人"
+	salience 8
+when
+	$nameA:FuseAttribute(name==PeopleItem.出生日期, CommonCalculation.isBasicLawful(value));
+	eval(BirthdayIntrospection.extractAge($nameA.getValueStrToSql())>=60 && BirthdayIntrospection.extractAge($nameA.getValueStrToSql()) <=69);
+then 
+	addedLabelList.add(EnumKeyValue.ENUM_人口标签_60_69老人);
+	removedLabelList.add(EnumKeyValue.ENUM_人口标签_70_79老人);
+	removedLabelList.add(EnumKeyValue.ENUM_人口标签_80_89岁老人);
+	removedLabelList.add(EnumKeyValue.ENUM_人口标签_90以上岁老人);
+	
+	Attribute attribute=AttributeFactory.newInstance(PeopleItem.几岁老人, EnumKeyValue.ENUM_老人标签_60_69岁老人);
+	attributeList.add(attribute);
+end
+
+rule "70-79岁老人"
+	salience 8
+when
+	$nameA:FuseAttribute(name==PeopleItem.出生日期, CommonCalculation.isBasicLawful(value));
+	eval(BirthdayIntrospection.extractAge($nameA.getValueStrToSql())>=70 && BirthdayIntrospection.extractAge($nameA.getValueStrToSql()) <=79);
+then 
+	removedLabelList.add(EnumKeyValue.ENUM_人口标签_60_69老人);
+	addedLabelList.add(EnumKeyValue.ENUM_人口标签_70_79老人);
+	removedLabelList.add(EnumKeyValue.ENUM_人口标签_80_89岁老人);
+	removedLabelList.add(EnumKeyValue.ENUM_人口标签_90以上岁老人);
+	
+	Attribute attribute=AttributeFactory.newInstance(PeopleItem.几岁老人, EnumKeyValue.ENUM_老人标签_70_79岁老人);
+	attributeList.add(attribute);
+end
+
+rule "80-89岁老人"
+	salience 8
+when
+	$nameA:FuseAttribute(name==PeopleItem.出生日期, CommonCalculation.isBasicLawful(value));
+	eval(BirthdayIntrospection.extractAge($nameA.getValueStrToSql())>=80 && BirthdayIntrospection.extractAge($nameA.getValueStrToSql()) <=89);
+then 
+	removedLabelList.add(EnumKeyValue.ENUM_人口标签_60_69老人);
+	removedLabelList.add(EnumKeyValue.ENUM_人口标签_70_79老人);
+	addedLabelList.add(EnumKeyValue.ENUM_人口标签_80_89岁老人);
+	removedLabelList.add(EnumKeyValue.ENUM_人口标签_90以上岁老人);
+	
+	Attribute attribute=AttributeFactory.newInstance(PeopleItem.几岁老人, EnumKeyValue.ENUM_老人标签_80_89岁老人);
+	attributeList.add(attribute);
+end
+
+rule "90岁以上老人"
+	salience 8
+when
+	$nameA:FuseAttribute(name==PeopleItem.出生日期, CommonCalculation.isBasicLawful(value));
+	eval(BirthdayIntrospection.extractAge($nameA.getValueStrToSql())>=90);
+then 
+	removedLabelList.add(EnumKeyValue.ENUM_人口标签_60_69老人);
+	removedLabelList.add(EnumKeyValue.ENUM_人口标签_70_79老人);
+	removedLabelList.add(EnumKeyValue.ENUM_人口标签_80_89岁老人);
+	addedLabelList.add(EnumKeyValue.ENUM_人口标签_90以上岁老人);
+	
+	Attribute attribute=AttributeFactory.newInstance(PeopleItem.几岁老人, EnumKeyValue.ENUM_老人标签_90岁以上老人);
+	attributeList.add(attribute);
+end
+

@@ -1,0 +1,22 @@
+
+package com.abc.rule.worktask.identity.query
+
+import com.abc.fuse.attribute.FuseAttribute;
+import com.abc.fuse.attribute.RelationFAttribute;
+import com.abc.query.criteria.Criteria;
+import com.zhsq.biz.constant.people.PeopleItem;
+import com.zhsq.biz.common.*;
+
+
+global java.lang.String entityType;
+
+
+query "query criteria" () 
+
+  criteria : Criteria()
+
+end
+
+
+
+

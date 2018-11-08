@@ -1,0 +1,26 @@
+
+package com.abc.rule.xfjd.family.ripm
+
+import java.util.Collection;
+import java.util.Date;
+
+import com.abc.record.Attribute;
+import com.abc.record.AttributeFactory;
+import com.abc.fuse.attribute.FuseAttribute;
+import com.abc.fuse.attribute.FuseMultiAttribute;
+import com.abc.relation.RecordRelation;
+import com.abc.auth.AuthHelper;
+import com.abc.record.RecordCompound;
+
+import com.zhsq.biz.constant.people.*;
+import com.zhsq.biz.constant.family.*;
+import com.zhsq.biz.constant.*;
+import com.zhsq.biz.common.*;
+
+global java.lang.String userCode;
+global java.lang.String recordCode;
+global java.lang.String entityType;
+global  com.abc.complexus.RecordComplexus recordComplexus;
+global com.abc.ops.RecordRelationOpsBuilder recordRelationOpsBuilder;
+
+

@@ -1,0 +1,21 @@
+package com.zhsq.rule.worktask.check
+
+import com.abc.fuse.attribute.FuseAttribute;
+import com.abc.query.criteria.Criteria;
+import com.zhsq.biz.constant.people.*;
+import com.zhsq.biz.people.algorithm.IDIntrospection;
+import com.zhsq.biz.common.*;
+import com.abc.fuse.ErrorMessage;
+import com.zhsq.biz.constant.MessageCodeConstant;
+
+global java.lang.String entityType;
+global  com.abc.complexus.RecordComplexus recordComplexus;
+
+query "query error message" () 
+
+  errorMessage : ErrorMessage()
+
+end
+
+
+

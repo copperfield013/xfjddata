@@ -1,0 +1,45 @@
+package com.abc.rule.people.identity.query
+
+import com.abc.fuse.attribute.FuseAttribute;
+import com.abc.fuse.attribute.RelationFAttribute;
+import com.abc.query.criteria.Criteria;
+import com.zhsq.biz.constant.people.PeopleItem;
+import com.zhsq.biz.common.*;
+
+global java.lang.String entityType;
+ 
+rule "姓名 and 身份证号 criteria" 
+	activation-group "people查询条件"
+	salience 9  
+when
+    $nameFB:FuseAttribute(name==PeopleItem.姓名,CommonCalculation.isBasicLawful(value));
+    $homeFB:FuseAttribute(name==PeopleItem.身份证号码,CommonCalculation.isBasicLawful(value));
+then
+ 	insert(CriteriaFactory.createGodCriteria($nameFB,entityType));
+	insert(CriteriaFactory.createGodCriteria($homeFB,entityType));
+end
+
+rule "姓名 and 户籍地址 criteria" 
+	activation-group "people查询条件"
+	salience 8  
+when
+    $nameFA:FuseAttribute(name==PeopleItem.姓名,CommonCalculation.isBasicLawful(value));
+    $homeFB:FuseAttribute(name == PeopleItem.户籍所在地,CommonCalculation.isBasicLawful(value));
+    $homeFC:FuseAttribute(name == PeopleItem.户籍地门牌号,CommonCalculation.isBasicLawful(value));
+then      
+ 	insert(CriteriaFactory.createGodCriteria($nameFA,entityType));
+	insert(CriteriaFactory.createGodCriteria($homeFB,entityType));
+	insert(CriteriaFactory.createGodCriteria($homeFC,entityType));
+end
+
+
+
+query "query criteria" () 
+
+  criteria : Criteria()
+
+end
+
+
+
+

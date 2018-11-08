@@ -1,0 +1,60 @@
+package com.abc.rule.worktask.tipm
+
+import com.abc.record.Attribute;
+import com.abc.record.AttributeFactory;
+import com.abc.fuse.attribute.FuseAttribute;
+import com.abc.fuse.attribute.FuseMultiAttribute;
+import com.abc.query.criteria.Criteria;
+
+import com.zhsq.biz.common.*;
+import com.zhsq.biz.constant.worktask.*;
+import com.zhsq.biz.worktask.algorithm.*;
+import com.zhsq.biz.constant.*;
+import com.abc.relation.RecordRelation;
+import java.util.Date;
+
+global java.util.List addedLabelList;
+global java.util.List removedLabelList;
+global java.util.List attributeList;
+global java.util.List putFuseMultiAttributeList;
+global java.util.List removedMultiAttrList;//根据name删除所有
+global java.util.Map removedMultiAttrMap;//根据keyValue和name删除一行
+global com.abc.record.RecordCompound recordCompound;
+
+global java.lang.String userCode;
+global java.lang.String recordCode;
+global java.lang.String entityType;
+global  com.abc.complexus.RecordComplexus recordComplexus;
+global com.abc.ops.RecordRelationOpsBuilder recordRelationOpsBuilder;
+
+rule "新建任务设置"
+	salience 20 
+when
+	 FuseAttribute( name==WorkTaskItem.任务状态, value==EnumKeyValue.ENUM_任务状态_新建);
+then 
+	//设置任务创建人
+	Attribute attribute=AttributeFactory.newInstance(WorkTaskItem.创建人,AuthUtil.getUserName(userCode));
+	attributeList.add(attribute);
+end
+
+rule "派发任务"
+	salience 18
+when
+    $attr:FuseAttribute( name==WorkTaskItem.保存派发, value==EnumKeyValue.ENUM_保存派发_派发);
+	$statu: FuseAttribute( name==WorkTaskItem.任务状态, value==EnumKeyValue.ENUM_任务状态_新建);
+then
+	 $statu.setValue(EnumKeyValue.ENUM_任务状态_处理中);
+	 Attribute attribute=AttributeFactory.newInstance(WorkTaskItem.派发时间,new Date());
+	attributeList.add($statu);
+	attributeList.add(attribute);
+end
+
+rule "任务有执行人设置任务领用为否"
+	salience 10 
+when
+    RecordRelation( type==RelationType.RR_工作任务_任务执行人_用户);
+    $nameFA: FuseAttribute( name==WorkTaskItem.是否需要领用, CommonCalculation.isBasicLawful(value), value==EnumKeyValue.ENUM_是否_是)
+then 
+	 $nameFA.setValue(EnumKeyValue.ENUM_是否_否);
+	attributeList.add($nameFA);
+end

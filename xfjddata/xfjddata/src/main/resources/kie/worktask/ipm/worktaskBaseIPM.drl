@@ -1,0 +1,61 @@
+package com.abc.rule.worktask.ipm
+
+import com.abc.record.Attribute;
+import com.abc.record.AttributeFactory;
+import com.abc.fuse.attribute.FuseAttribute;
+import com.abc.fuse.attribute.FuseMultiAttribute;
+
+import com.zhsq.biz.common.*;
+import com.zhsq.biz.constant.worktask.*;
+import com.zhsq.biz.worktask.algorithm.*;
+import com.zhsq.biz.constant.*;
+
+import java.util.Date;
+
+global java.util.List addedLabelList;
+global java.util.List removedLabelList;
+global java.util.List attributeList;
+global java.util.List putFuseMultiAttributeList;
+global java.util.List removedMultiAttrList;//根据name删除所有
+global java.util.Map removedMultiAttrMap;//根据keyValue和name删除一行
+global com.abc.record.RecordCompound recordCompound;
+
+rule "新建任务设置"
+	salience 20 
+when
+	 FuseAttribute( name==WorkTaskItem.任务状态, value==EnumKeyValue.ENUM_任务状态_新建);
+then 
+	//超时任务为否
+	 Attribute attribute=AttributeFactory.newInstance(WorkTaskItem.任务是否超时,EnumKeyValue.ENUM_是否_否);
+	attributeList.add(attribute);
+	//设置任务创建时间
+	Attribute attributeTime=AttributeFactory.newInstance(WorkTaskItem.创建时间,new Date());
+	attributeList.add(attributeTime);
+end
+
+rule "归档任务"
+	salience 9
+when
+    $gdVg:FuseAttribute( name==WorkTaskItem.归档废弃, value==EnumKeyValue.ENUM_归档废弃_归档);
+	$gd:FuseAttribute( name==WorkTaskItem.任务状态, value!=EnumKeyValue.ENUM_任务状态_归档);
+	$gdtime: FuseAttribute(name==WorkTaskItem.归档时间  );
+then
+	$gd.setValue(EnumKeyValue.ENUM_任务状态_归档);
+	$gdVg.setValue(null);
+	$gdtime.setValue(new Date());
+	attributeList.add($gd);
+	attributeList.add($gdVg);
+	attributeList.add($gdtime);
+end
+
+rule "废弃任务"
+	salience 9
+when
+    $gdVf:FuseAttribute( name==WorkTaskItem.归档废弃, value==EnumKeyValue.ENUM_归档废弃_废弃);
+	$task:FuseAttribute( name==WorkTaskItem.任务状态, value!=EnumKeyValue.ENUM_任务状态_废弃);
+then
+	$task.setValue(EnumKeyValue.ENUM_任务状态_废弃);
+	$gdVf.setValue(null);
+	attributeList.add($task);
+	attributeList.add($gdVf);
+end

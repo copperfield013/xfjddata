@@ -1,0 +1,255 @@
+package com.abc.rule.people.ipm
+
+import com.abc.record.Attribute;
+import com.abc.record.AttributeFactory;
+import com.abc.fuse.attribute.FuseAttribute;
+import com.abc.fuse.attribute.FuseMultiAttribute;
+
+import com.zhsq.biz.common.*;
+import com.zhsq.biz.constant.people.*;
+import com.zhsq.biz.people.algorithm.*;
+import com.zhsq.biz.constant.*;
+import com.abc.util.CodeManager;
+
+global java.lang.String hjtime;//户籍更改：变动日期
+global java.util.List addedLabelList;
+global java.util.List removedLabelList;
+global java.util.List attributeList;
+global java.util.List putFuseMultiAttributeList;
+global java.util.List removedMultiAttrList;
+global java.util.Map removedMultiAttrMap;//
+global com.abc.record.RecordCompound recordCompound;
+
+rule "把身份证号从15位改为18位"
+	salience 20 
+when
+	$idtype:FuseMultiAttribute(name==PeopleItem.证件信息_证件类型,value==EnumKeyValue.ENUM_证件类型_身份证,$keyValue:keyValue);
+    $idValue:FuseMultiAttribute(name==PeopleItem.证件信息_证件号码,keyValue==$keyValue,CommonCalculation.isBasicLawful(value));
+	eval(IDIntrospection.validate15IDCard($idValue.getValueStrToSql()));
+then 
+	$idValue.setValue(IDIntrospection.convertIdTo18($idValue.getValueStrToSql()));
+	putFuseMultiAttributeList.add($idValue);
+end
+
+rule "根据身份证号自动填写性别和生日"
+	salience 15
+when
+	$idtype:FuseMultiAttribute(name==PeopleItem.证件信息_证件类型,value==EnumKeyValue.ENUM_证件类型_身份证,$keyValue:keyValue);
+    $idValue:FuseMultiAttribute(name==PeopleItem.证件信息_证件号码,keyValue==$keyValue,CommonCalculation.isBasicLawful(value));
+	 eval(IDIntrospection.inspectId($idValue.getValueStrToSql()));
+then 
+//设置出生日期
+	Attribute birthday=AttributeFactory.newInstance(PeopleItem.出生日期, IDIntrospection.extractBirthday($idValue.getValueStrToSql()));
+	attributeList.add(birthday);
+	//设置性别
+	Attribute sex=AttributeFactory.newInstance(PeopleItem.性别, IDIntrospection.extractSex($idValue.getValueStrToSql()));
+	attributeList.add(sex);
+end
+
+rule "新增人口标记为没死亡1"
+	salience 9 
+when
+	$nameB:FuseAttribute(name==PeopleItem.是否死亡, value==null);
+then 
+	$nameB.setValue(EnumKeyValue.ENUM_是否_否);
+	attributeList.add($nameB);
+end
+
+rule "新增人口标记为没死亡2"
+	salience 9 
+when
+	not FuseAttribute(name==PeopleItem.是否死亡);
+then 
+	Attribute attributea=AttributeFactory.newInstance(PeopleItem.是否死亡,EnumKeyValue.ENUM_是否_否);
+	attributeList.add(attributea);
+end
+
+rule "人口死亡标记为未确认1"
+	salience 9 
+when
+	$nameB:FuseAttribute(name==PeopleItem.是否死亡,CommonCalculation.isBasicLawful(value), value==EnumKeyValue.ENUM_是否_是);
+    not  FuseAttribute(name==PeopleItem.待确认死亡);
+then 
+	Attribute attributea=AttributeFactory.newInstance(PeopleItem.待确认死亡,EnumKeyValue.ENUM_待确认死亡_未确认);
+	attributeList.add(attributea);
+	Attribute attrA=AttributeFactory.newInstance(PeopleItem.死亡人口对应任务,"1.停止资金发送");
+	attributeList.add(attrA);
+end
+
+rule "人口死亡标记为未确认"
+	salience 9 
+when
+	$nameB:FuseAttribute(name==PeopleItem.是否死亡,CommonCalculation.isBasicLawful(value), value==EnumKeyValue.ENUM_是否_是);
+    $namec:  FuseAttribute(name==PeopleItem.待确认死亡, value==null);
+then 
+	$namec.setValue(EnumKeyValue.ENUM_待确认死亡_未确认);
+	attributeList.add($namec);
+	Attribute attrA=AttributeFactory.newInstance(PeopleItem.死亡人口对应任务,"1.停止资金发送");
+	attributeList.add(attrA);
+end
+
+rule "人口没死亡标记待确认为null"
+	salience 9 
+when
+	$nameB:FuseAttribute(name==PeopleItem.是否死亡,CommonCalculation.isBasicLawful(value), value==EnumKeyValue.ENUM_是否_否);
+    $namec:  FuseAttribute(name==PeopleItem.待确认死亡);
+    $named:  FuseAttribute(name==PeopleItem.死亡时间);
+then 
+	$namec.setValue(null);
+	$named.setValue(null);
+	attributeList.add($namec);
+	attributeList.add($named);
+end
+
+rule "获取最新户籍变更信息设置户籍地门牌号"
+	salience 15
+when
+	$FAa:FuseMultiAttribute(name==PeopleItem.户籍变更_变动后街路巷,$keyValue:keyValue);
+   $FAb:FuseMultiAttribute(name==PeopleItem.户籍变更_变动后门楼详址, $keyValue==keyValue);
+    $FAc:FuseMultiAttribute(name==PeopleItem.户籍变更_更改户籍门牌号, $keyValue==keyValue);
+     $FAd:FuseMultiAttribute(name==PeopleItem.户籍变更_变动日期, $keyValue==keyValue);
+	eval(String.valueOf(EnumKeyValue.ENUM_是否_是).equals($FAc.getValueStrToSql()))
+	eval(hjtime==null || DateUtils.toLongTime(null, hjtime) < DateUtils.toLongTime(null, $FAd.getValueStrToSql()))
+then    
+	//设置户籍门牌号
+	Attribute attribute=AttributeFactory.newInstance(PeopleItem.户籍地门牌号, $FAa.getValueStrToSql()+$FAb.getValueStrToSql());
+	attributeList.add(attribute);
+	$FAc.setValue(EnumKeyValue.ENUM_是否_否);
+	putFuseMultiAttributeList.add($FAc);
+	kcontext.getKnowledgeRuntime().setGlobal("hjtime", $FAd.getValueStrToSql());
+end
+
+
+rule "残疾信息有值设置【是否残疾】为是one"
+	salience 10 
+when
+	exists FuseMultiAttribute(name==PeopleItem.残疾信息_残疾类别)
+	$attr: FuseAttribute( name==PeopleItem.是否残疾, value!=EnumKeyValue.ENUM_是否_是 )
+then 
+	$attr.setValue(EnumKeyValue.ENUM_是否_是);
+	attributeList.add($attr);
+end
+
+rule "残疾信息有值设置【是否残疾】为是two"
+	salience 10 
+when
+	exists FuseMultiAttribute(name==PeopleItem.残疾信息_残疾类别)
+	not FuseAttribute( name==PeopleItem.是否残疾 )
+then 
+	Attribute attrA=AttributeFactory.newInstance(PeopleItem.是否残疾,EnumKeyValue.ENUM_是否_是);
+	attributeList.add(attrA);
+end
+
+rule "把居住地址的值赋值给居住地门牌号"
+	salience 10 
+when
+	FuseMultiAttribute(name==PeopleItem.居住信息_居住地址_社区)
+then 
+	
+	IDIntrospection.showText("33333333333");
+
+end 
+
+/*
+rule "把身份证号从15位改为18位2"
+	salience 10 
+	
+when
+	$idValue:FuseAttribute(name==PeopleItem.身份证号码,CommonCalculation.isBasicLawful(value));
+	eval(IDIntrospection.validate15IDCard($idValue.getValueStrToSql()));
+then
+	$idValue.setValue(IDIntrospection.convertIdTo18($idValue.getValueStrToSql()));
+	attributeList.add($idValue);
+end
+*/
+
+//下面识别身份证号错误信息
+/*
+rule "清空人口错误"
+	salience 7
+when
+   $fa: FuseMultiAttribute(name==PeopleItem.人口错误信息_错误类型);
+then  
+	IDIntrospection.showText($fa.getCode());
+
+	removedMultiAttrList.add(PeopleItem.人口错误信息_错误类型);
+end 
+
+rule "身份证校验错误"
+	salience 6
+when
+    $idtype:FuseMultiAttribute(name==PeopleItem.证件信息_证件类型,value==EnumKeyValue.ENUM_证件类型_身份证,$keyValue:keyValue);
+    $idValue:FuseMultiAttribute(name==PeopleItem.证件信息_证件号码,keyValue==$keyValue,CommonCalculation.isBasicLawful(value));
+    eval(!IDIntrospection.inspectId($idValue.getValueStrToSql()));
+then 
+	String code = CodeManager.newCode();
+
+ 	FuseMultiAttribute attrA= new FuseMultiAttribute();
+ 	attrA.setMultiName(PeopleItem.人口错误信息);
+ 	attrA.setName(PeopleItem.人口错误信息_错误类型);
+ 	attrA.setValue(EnumKeyValue.ENUM_错误类型_身份证错误);
+ 	attrA.setKeyValue(code);
+ 	putFuseMultiAttributeList.add(attrA);
+ 	
+ 	FuseMultiAttribute attrB= new FuseMultiAttribute();
+ 	attrB.setMultiName(PeopleItem.人口错误信息);
+ 	attrB.setName(PeopleItem.人口错误信息_描述);
+ 	attrB.setValue("身份证校验错误");
+ 	attrB.setKeyValue(code);
+ 	
+ 	putFuseMultiAttributeList.add(attrB);
+end
+
+rule "身份证号出生日期与出生日期属性是否一致"
+	salience 5
+when 
+	
+    $idtype1:FuseMultiAttribute(name==PeopleItem.证件信息_证件类型,value==EnumKeyValue.ENUM_证件类型_身份证,$keyValue:keyValue);
+    $idValue1:FuseMultiAttribute(name==PeopleItem.证件信息_证件号码,keyValue==$keyValue,CommonCalculation.isBasicLawful(value));
+   	$birthday: FuseAttribute(name==PeopleItem.出生日期 ,CommonCalculation.isBasicLawful(value))
+    eval(!IDIntrospection.inspectBirthday($idValue1.getValueStrToSql(), $birthday.getValueStrToSql()));
+then
+	String code = CodeManager.newCode();
+
+ 	FuseMultiAttribute attrA= new FuseMultiAttribute();
+ 	attrA.setMultiName(PeopleItem.人口错误信息);
+ 	attrA.setName(PeopleItem.人口错误信息_错误类型);
+ 	attrA.setValue(EnumKeyValue.ENUM_错误类型_身份证错误);
+ 	attrA.setKeyValue(code);
+ 	putFuseMultiAttributeList.add(attrA);
+ 	
+ 	FuseMultiAttribute attrB= new FuseMultiAttribute();
+ 	attrB.setMultiName(PeopleItem.人口错误信息);
+ 	attrB.setName(PeopleItem.人口错误信息_描述);
+ 	attrB.setValue("身份证号出生日期与出生日期属性不一致");
+ 	attrB.setKeyValue(code);
+ 	putFuseMultiAttributeList.add(attrB);
+end
+
+rule "身份证号性别与性别属性是否一致"
+	salience 5
+when
+    $idtype2:FuseMultiAttribute(name==PeopleItem.证件信息_证件类型,value==EnumKeyValue.ENUM_证件类型_身份证,$keyValue:keyValue);
+    $idValue2:FuseMultiAttribute(name==PeopleItem.证件信息_证件号码,keyValue==$keyValue,CommonCalculation.isBasicLawful(value));
+   	$sex: FuseAttribute(name==PeopleItem.性别 ,CommonCalculation.isBasicLawful(value))
+    eval(!IDIntrospection.inspectSex($idValue2.getValueStrToSql(), $sex.getValueStrToSql()));
+then
+	String code = CodeManager.newCode();
+ 	FuseMultiAttribute attrA= new FuseMultiAttribute();
+ 	attrA.setMultiName(PeopleItem.人口错误信息);
+ 	attrA.setName(PeopleItem.人口错误信息_错误类型);
+ 	attrA.setValue(EnumKeyValue.ENUM_错误类型_身份证错误);
+ 	attrA.setKeyValue(code);
+ 	putFuseMultiAttributeList.add(attrA);
+ 	
+ 	FuseMultiAttribute attrB= new FuseMultiAttribute();
+ 	attrB.setMultiName(PeopleItem.人口错误信息);
+ 	attrB.setName(PeopleItem.人口错误信息_描述);
+ 	attrB.setValue("身份证号性别与性别属性是不一致");
+ 	attrB.setKeyValue(code);
+ 	putFuseMultiAttributeList.add(attrB);
+end
+
+*/
+
+ 

@@ -1,0 +1,140 @@
+package com.abc.rule.people.tipm
+
+import com.abc.record.Attribute;
+import com.abc.record.AttributeFactory;
+import com.abc.record.RecordCompound;
+
+import com.abc.fuse.attribute.FuseAttribute;
+import com.abc.fuse.attribute.FuseMultiAttribute;
+
+import com.zhsq.biz.common.*;
+import com.zhsq.biz.constant.people.*;
+import com.zhsq.biz.people.algorithm.*;
+import com.zhsq.biz.constant.*;
+
+import com.abc.relation.RecordRelation;
+import com.abc.relation.RelationCorrelation;
+import com.abc.query.criteria.Criteria;
+import java.util.Date;
+import com.abc.auth.AuthHelper;
+
+import java.util.Set;
+import java.util.HashSet;
+
+global java.util.List addedLabelList;
+global java.util.List removedLabelList;
+global java.util.List attributeList;
+global java.util.List putFuseMultiAttributeList;
+global java.util.List removedMultiAttrList;//根据name删除所有
+global java.util.Map removedMultiAttrMap;//根据keyValue和name删除一行
+global com.abc.record.RecordCompound recordCompound;
+
+global java.lang.String userCode;
+global java.lang.String recordCode;
+global java.lang.String entityType;
+global java.lang.String hostType;
+global java.lang.String hostCode;
+
+global  com.abc.complexus.RecordComplexus recordComplexus;
+global com.abc.ops.RecordRelationOpsBuilder recordRelationOpsBuilder;
+
+
+global java.util.Set peopleSet;//存放子女的值
+
+rule "人和家庭的关系放进空间"
+salience 10 
+when
+	eval(BaseConstant.TYPE_家庭信息.equals(hostType));
+then 
+
+	RecordCompound recordCompound=recordComplexus.getHostRecordCompound();
+		RelationCorrelation relationCorrelation = recordComplexus.getRelationCorrelation(hostCode);
+		if (relationCorrelation != null) {
+			relationCorrelation.getRecordRelation().forEach(recordRelation -> 
+			insert(recordRelation)
+			);
+		}
+	
+	//激活 
+	kcontext.getKnowledgeRuntime().getAgenda().getAgendaGroup( "a_家庭与人的关系" ).setFocus();
+end
+
+rule "家庭中第一次添加成员与户主的关系"//第一次添加户主和成员
+	agenda-group "a_家庭与人的关系"
+	salience 10 
+when
+ RecordRelation(type==RelationType.RR_家庭信息_户主_人口信息,left==hostCode, $huzCode:right);
+ RecordRelation(type==RelationType.RR_家庭信息_成员_人口信息,left==hostCode,$memberCode:right, right==recordCode);
+ eval(recordComplexus.getRecordCompound($memberCode).findAttribute(PeopleItem.和户主关系) != null );
+ eval(BaseConstant.getRelationName(recordComplexus.getRecordCompound($memberCode).findAttribute(PeopleItem.和户主关系).getValueStrToSql()) != null);
+ eval(recordComplexus.getRecordCompound($memberCode).findAttribute(PeopleItem.和户主关系历史) == null || recordComplexus.getRecordCompound($memberCode).findAttribute(PeopleItem.和户主关系历史).getValueStrToSql() == null)
+then    
+	//添加关系
+	 String enumRelationName = recordComplexus.getRecordCompound($memberCode).findAttribute(PeopleItem.和户主关系).getValueStrToSql();
+	 String relationName = BaseConstant.getRelationName(enumRelationName);
+	recordRelationOpsBuilder.putRelation(relationName,$huzCode); 
+	
+	//设置和户主关系历史 的值
+	Attribute attrbute=AttributeFactory.newInstance(PeopleItem.和户主关系历史, enumRelationName);
+	attributeList.add(attrbute);
+end
+
+rule "编辑家庭成员与户主的关系"//编辑户主与成员的关系
+	agenda-group "a_家庭与人的关系"
+	salience 10 
+when
+ RecordRelation(type==RelationType.RR_家庭信息_户主_人口信息,left==hostCode, $huzCode:right);
+ RecordRelation(type==RelationType.RR_家庭信息_成员_人口信息,left==hostCode,$memberCode:right,right==recordCode);
+ eval(recordComplexus.getRecordCompound($memberCode).findAttribute(PeopleItem.和户主关系) != null );
+ eval(BaseConstant.getRelationName(recordComplexus.getRecordCompound($memberCode).findAttribute(PeopleItem.和户主关系).getValueStrToSql()) != null);
+ eval(recordComplexus.getRecordCompound($memberCode).findAttribute(PeopleItem.和户主关系历史) != null && recordComplexus.getRecordCompound($memberCode).findAttribute(PeopleItem.和户主关系历史).getValueStrToSql() != null && !(recordComplexus.getRecordCompound($memberCode).findAttribute(PeopleItem.和户主关系).getValueStrToSql().equals(recordComplexus.getRecordCompound($memberCode).findAttribute(PeopleItem.和户主关系历史).getValueStrToSql()) ) )
+then    
+	//添加关系
+	 String enumRelationName = recordComplexus.getRecordCompound($memberCode).findAttribute(PeopleItem.和户主关系).getValueStrToSql();
+	 String relationName = BaseConstant.getRelationName(enumRelationName);
+	recordRelationOpsBuilder.putRelation(relationName,$huzCode); 
+	//移除关系
+	String enumRealtionNameHis = recordComplexus.getRecordCompound($memberCode).findAttribute(PeopleItem.和户主关系历史).getValueStrToSql();
+	String relationNameHis =BaseConstant.getRelationName(enumRealtionNameHis);
+	recordRelationOpsBuilder.removeRelation(relationNameHis,$huzCode);
+	
+	//设置【和户主关系历史】 的值
+	Attribute attrbute=AttributeFactory.newInstance(PeopleItem.和户主关系历史, enumRelationName);
+	attributeList.add(attrbute);
+	
+end
+
+rule "不存在归属家庭关系置空和户主关系1"
+	salience 10 
+when
+	eval(BaseConstant.TYPE_人口信息.equals(hostType));
+	not RecordRelation(type==RelationType.RR_人口信息_归属家庭_家庭信息);
+	not RecordRelation(type==RelationType.RR_人口信息_户主家庭_家庭信息);
+	$FA: FuseAttribute(name==PeopleItem.和户主关系, value!=null  )
+then
+	$FA.setValue(null);
+	attributeList.add($FA);
+	Attribute huzhuHis=AttributeFactory.newInstance(PeopleItem.和户主关系历史, null);
+	attributeList.add(huzhuHis);
+end
+
+rule "根据子女数量设置【是否独生子女】one"
+	salience 10 
+when
+	RecordRelation(type==RelationType.RR_人口信息_父母_人口信息,left==recordCode, $right:right);
+	eval(IDIntrospection.getChildrenCount(recordComplexus, $right) ==1)
+then 
+	Attribute attrbute=AttributeFactory.newInstance(PeopleItem.是否独生子, EnumKeyValue.ENUM_是否_是);
+	attributeList.add(attrbute);
+end
+
+rule "根据子女数量设置【是否独生子女】two"
+	salience 10 
+when
+	RecordRelation(type==RelationType.RR_人口信息_父母_人口信息,left==recordCode, $right:right);
+	eval(IDIntrospection.getChildrenCount(recordComplexus, $right) != 1)
+then 
+	Attribute attrbute=AttributeFactory.newInstance(PeopleItem.是否独生子, EnumKeyValue.ENUM_是否_否);
+	attributeList.add(attrbute);
+end
+

@@ -1,0 +1,74 @@
+package com.zhsq.rule.family.check
+
+import com.abc.fuse.attribute.FuseAttribute;
+import com.abc.query.criteria.Criteria;
+import com.abc.record.AttributeFactory;
+import com.zhsq.biz.constant.people.*;
+import com.zhsq.biz.constant.family.*;
+import com.zhsq.biz.constant.*;
+import com.zhsq.biz.family.algorithm.*;
+
+import com.abc.relation.RecordRelation;
+import com.zhsq.biz.people.algorithm.IDIntrospection;
+import com.zhsq.biz.common.*;
+import com.abc.fuse.ErrorMessage;
+import com.zhsq.biz.constant.MessageCodeConstant;
+
+global java.lang.String entityType;
+global  com.abc.complexus.RecordComplexus recordComplexus;
+
+rule "家庭没有户主"
+	salience 10
+when
+	$value :FuseAttribute( name==FamilyItem.家庭地址 )
+	FuseAttribute( name==FamilyItem.家庭分类, value==EnumKeyValue.ENUM_家庭分类_户籍家庭)
+ 	not RecordRelation(type == RelationType.RR_家庭信息_户主_人口信息);
+then 
+	
+	ErrorMessage errorMessage=new ErrorMessage();
+	errorMessage.setFuseAttribute($value);
+ 	errorMessage.setCode(MessageCodeConstant.ERR2001);
+ 	errorMessage.setContent(MessageCodeConstant.getName(MessageCodeConstant.ERR2001));
+ 	insert(errorMessage);
+end
+
+rule "家庭有户主但是和户主关系不是户主"
+	salience 10
+when
+	FuseAttribute( name==FamilyItem.家庭分类, value==EnumKeyValue.ENUM_家庭分类_户籍家庭)
+	$value :FuseAttribute( name==FamilyItem.家庭地址 )
+ 	 RecordRelation(type == RelationType.RR_家庭信息_户主_人口信息, $huzCode:right);
+ 	 eval(recordComplexus.getRecordCompound($huzCode) != null)
+ 	 eval( recordComplexus.getRecordCompound($huzCode).findAttribute(PeopleItem.和户主关系) !=null)
+ 	 eval( !String.valueOf(EnumKeyValue.ENUM_和户主关系_户主).equals(recordComplexus.getRecordCompound($huzCode).findAttribute(PeopleItem.和户主关系).getValueStrToSql()) )
+then 
+	ErrorMessage errorMessage=new ErrorMessage();
+	errorMessage.setFuseAttribute($value);
+ 	errorMessage.setCode(MessageCodeConstant.ERR2002);
+ 	errorMessage.setContent(MessageCodeConstant.getName(MessageCodeConstant.ERR2002));
+ 	insert(errorMessage);
+end
+
+rule "家庭中户主大于一个"
+	salience 10
+when
+	FuseAttribute( name==FamilyItem.家庭分类, value==EnumKeyValue.ENUM_家庭分类_户籍家庭)
+	$value :FuseAttribute( name==FamilyItem.家庭地址 )
+ 	RecordRelation(type == RelationType.RR_家庭信息_户主_人口信息, $left:left);
+ 	eval(DataIntrospection.getHzCount(recordComplexus, $left)>1 )
+then 
+	ErrorMessage errorMessage=new ErrorMessage();
+	errorMessage.setFuseAttribute($value);
+ 	errorMessage.setCode(MessageCodeConstant.ERR2003);
+ 	errorMessage.setContent(MessageCodeConstant.getName(MessageCodeConstant.ERR2003));
+ 	insert(errorMessage);
+end
+
+query "query error message" () 
+
+  errorMessage : ErrorMessage()
+
+end
+
+
+
