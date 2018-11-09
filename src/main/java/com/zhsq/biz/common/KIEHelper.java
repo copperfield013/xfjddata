@@ -1,6 +1,7 @@
 package com.zhsq.biz.common;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,36 +12,30 @@ import org.kie.api.runtime.rule.QueryResultsRow;
 
 import com.abc.application.BizFusionContext;
 import com.abc.complexus.RecordComplexus;
-import com.abc.fuse.ErrorMessage;
-import com.abc.fuse.attribute.FuseAttribute;
-import com.abc.fuse.attribute.FuseMultiAttribute;
-import com.abc.fuse.transfer.impl.FirstAttributeTransform;
-import com.abc.ops.RecordCROpsPair;
-import com.abc.ops.RecordCompoundOps;
-import com.abc.ops.RecordCompoundOpsBuilder;
-import com.abc.ops.RecordRelationOps;
-import com.abc.ops.RecordRelationOpsBuilder;
-import com.abc.query.criteria.Criteria;
-import com.abc.record.Attribute;
-import com.abc.record.Record;
-import com.abc.record.RecordCompound;
+import com.abc.fuse.improve.ImprveResult;
+import com.abc.fuse.improve.attribute.leaf.FuseLeafAttribute;
+import com.abc.fuse.improve.ops.builder.RecordRelationOpsBuilder;
+import com.abc.fuse.improve.ops.builder.RootRecordOpsBuilder;
+import com.abc.fuse.improve.ops.complexus.OpsComplexus;
+import com.abc.fuse.improve.transfer.BizzAttributeTransfer;
 import com.abc.relation.RelationCorrelation;
-import com.zhsq.biz.constant.people.PeopleItem;
+import com.abc.rrc.query.queryrecord.criteria.Criteria;
+import com.abc.rrc.record.RootRecord;
+
+import aj.org.objectweb.asm.Attribute;
 
 public class KIEHelper {
 
-	public static List<Criteria> getBizCriteriaListFromKIE(RecordComplexus complexus, KieSession kSession) {
-		Record record = complexus.getHostRecordCompound().getRecord();
+	public static List<Criteria> getBizCriteriaListFromKIE(String recordCode, RecordComplexus complexus,
+			KieSession kSession) {
+		RootRecord record = complexus.getHostRootRecord();
 		List<Criteria> criteriaList = new ArrayList<Criteria>();
 
-		FirstAttributeTransform firstAttributeTransform = new FirstAttributeTransform(record);
-		firstAttributeTransform.transfer();
-		firstAttributeTransform.getFuseAttributeList().forEach(fuseAttribute -> kSession.insert(fuseAttribute));
-		kSession.setGlobal("entityType", record.getRecordType());
+		BizzAttributeTransfer.transfer(record).forEach(fuseAttribute -> kSession.insert(fuseAttribute));
+		kSession.setGlobal("entityType", record.getName());
 		// kSession.startProcess("peopleQuery");
 
 		kSession.fireAllRules();
-		FuseAttribute fa = null;
 		QueryResults results = kSession.getQueryResults("query criteria");
 
 		for (QueryResultsRow row : results) {
@@ -50,31 +45,39 @@ public class KIEHelper {
 		return criteriaList;
 	}
 
-	public static RecordCompoundOps getRecordCompoundOpsFromKIE(RecordCompound recordCompound, KieSession kSession) {
+	public static ImprveResult getImproveResultFromKIE(BizFusionContext bizFusionContext, String recordCode,
+			OpsComplexus opsComplexus, RecordComplexus recordComplexus, KieSession kSession) {
+		String userCode = bizFusionContext.getUserCode();
 
-		FirstAttributeTransform firstAttributeTransform = new FirstAttributeTransform(recordCompound.getRecord());
-		firstAttributeTransform.transfer();
-		firstAttributeTransform.getFuseAttributeList().forEach(fuseAttribute -> kSession.insert(fuseAttribute));
+		RootRecord rootRecord = recordComplexus.getRootRecord(recordCode);
+		String recordType = rootRecord.getName();
 
+		// 定义 全局变量
 		List<Integer> addedLabelList = new ArrayList<Integer>();
 		List<Integer> removedLabelList = new ArrayList<Integer>();
 		List<Attribute> attributeList = new ArrayList<Attribute>();
-		List<FuseMultiAttribute> putFuseMultiAttributeList = new ArrayList<FuseMultiAttribute>();
-		List<String> removedMultiAttrList = new ArrayList<String>();// 多值属性 name
-		Map<String, String> removedMultiAttrMap = new HashMap<String, String>();
+		List<FuseLeafAttribute> putFuseLeafAttributeList = new ArrayList<FuseLeafAttribute>();
+		Map<String, Collection<Attribute>> addedLeafAttrMap = new HashMap<String, Collection<Attribute>>();
+		Map<String, String> removedLeafAttrMap = new HashMap<String, String>();
+		RecordRelationOpsBuilder recordRelationOpsBuilder = RecordRelationOpsBuilder.getInstance(recordType,
+				recordCode);
 
+		kSession.setGlobal("userCode", userCode);
+		kSession.setGlobal("recordCode", recordCode);
+		kSession.setGlobal("recordType", rootRecord.getName());
+		kSession.setGlobal("recordComplexus", recordComplexus);
+		kSession.setGlobal("recordRelationOpsBuilder", recordRelationOpsBuilder);
 		try {
 			kSession.setGlobal("addedLabelList", addedLabelList);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		try {
 			kSession.setGlobal("removedLabelList", removedLabelList);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 		try {
 
 			kSession.setGlobal("attributeList", attributeList);
@@ -84,14 +87,14 @@ public class KIEHelper {
 		}
 		try {
 
-			kSession.setGlobal("putFuseMultiAttributeList", putFuseMultiAttributeList);
+			kSession.setGlobal("putFuseLeafAttributeList", putFuseLeafAttributeList);
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		try {
 
-			kSession.setGlobal("removedMultiAttrList", removedMultiAttrList);
+			kSession.setGlobal("addedLeafAttrMap", addedLeafAttrMap);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -99,243 +102,74 @@ public class KIEHelper {
 
 		try {
 
-			kSession.setGlobal("removedMultiAttrMap", removedMultiAttrMap);
+			kSession.setGlobal("removedLeafAttrMap", removedLeafAttrMap);
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		try {
-			kSession.setGlobal("recordCompound", recordCompound);
+			kSession.setGlobal("rootRecord", rootRecord);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		kSession.fireAllRules();
-		// 执行相关查询
-
-		kSession.destroy();
-		RecordCompoundOpsBuilder recordCompoundOpsBuilder = new RecordCompoundOpsBuilder();
-		recordCompoundOpsBuilder.removeLabels(removedLabelList);
-		recordCompoundOpsBuilder.putLabels(addedLabelList);
-		recordCompoundOpsBuilder.putAttributes(attributeList);
-		// 删除多值属性
-		for (String fmAttr : removedMultiAttrList) {
-			recordCompoundOpsBuilder.removeMultiAttribute(fmAttr);
-		}
-
-		for (String key : removedMultiAttrMap.keySet()) {
-			recordCompoundOpsBuilder.removeMultiAttributeValue(removedMultiAttrMap.get(key), key);
-		}
-
-		// 添加多值属性
-		for (FuseMultiAttribute fmAttr : putFuseMultiAttributeList) {
-			recordCompoundOpsBuilder.putMultiAttrbuteValue(fmAttr.getKeyValue(), fmAttr);
-		}
-
-		return recordCompoundOpsBuilder.getRecordCompoundOps();
-	}
-
-	public static List<ErrorMessage> getErrorMessageFromKIE( String recordCode,RecordComplexus recordComplexus, KieSession kSession) {
-		List<ErrorMessage> errorList = new ArrayList<ErrorMessage>();
-
-		Record record = recordComplexus.getHostRecordCompound().getRecord();
-		FirstAttributeTransform firstAttributeTransform = new FirstAttributeTransform(record);
-		firstAttributeTransform.transfer();
-		firstAttributeTransform.getFuseAttributeList().forEach(fuseAttribute -> kSession.insert(fuseAttribute));
-		
-		RelationCorrelation relationCorrelation = recordComplexus.getRelationCorrelation(recordCode);
-		if (relationCorrelation != null) {
-			relationCorrelation.getRecordRelation().forEach(recordRelation -> kSession.insert(recordRelation));
-		}
-		
-		kSession.setGlobal("entityType", record.getRecordType());
-		
 		try {
 			kSession.setGlobal("recordComplexus", recordComplexus);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		kSession.fireAllRules();
 
-		QueryResults results = kSession.getQueryResults("query error message");
-
-		for (QueryResultsRow row : results) {
-			errorList.add((ErrorMessage) row.get("errorMessage"));
-		}
-		// List<DisabledError> disableErrorList=new ArrayList<DisabledError>();
-		//
-		// DisabledError disabledError;
-		// Attribute attribute;
-		// for(ErrorMessage em:errorList){
-		// disabledError=new DisabledError(em.getContent(), em.getContent());
-		// attribute=record.findAttribute(DisabledItem.姓名);
-		// if(attribute!=null){
-		// disabledError.setDisabledName(attribute.getValueStrToSql());
-		// }
-		// attribute=record.findAttribute(DisabledItem.身份证);
-		// if(attribute!=null){
-		// disabledError.setDisabledIDCard(attribute.getValueStrToSql());
-		// }
-		// attribute=record.findAttribute(DisabledItem.行政区域编码);
-		// if(attribute!=null){
-		// disabledError.setDisabledAreaCode(attribute.getValueStrToSql());
-		// }
-		// disableErrorList.add(disabledError );
-		// }
-		//
-		// DisabledErrorManager.saveError(record.getCode(),disableErrorList);
-		//
-		// disabledCheckCallBack.afterCheck(disableErrorList);
-		kSession.destroy();
-		return errorList;
-	}
-	
-	public static RecordRelationOps getRecordRelationOpsFromKIE(BizFusionContext bizFusionContext, String recordCode,
-			RecordComplexus recordComplexus, KieSession kSession) {
-		String userCode = bizFusionContext.getUserCode();
-		String recordType = recordComplexus.getRecordCompound(recordCode).getRecordType();
-		RecordRelationOpsBuilder recordRelationOpsBuilder = RecordRelationOpsBuilder.getInstance(recordCode,
-				recordType);
-
-		kSession.setGlobal("userCode", userCode);
-		kSession.setGlobal("recordCode", recordCode);
-		kSession.setGlobal("entityType", recordComplexus.getRecordCompound(recordCode).getRecordType());
-		kSession.setGlobal("recordComplexus", recordComplexus);
-		kSession.setGlobal("recordRelationOpsBuilder", recordRelationOpsBuilder);
-
-		FirstAttributeTransform firstAttributeTransform = new FirstAttributeTransform(
-				recordComplexus.getRecordCompound(recordCode).getRecord());
-		firstAttributeTransform.transfer();
-		firstAttributeTransform.getFuseAttributeList().forEach(fuseAttribute -> kSession.insert(fuseAttribute));
+		// insert object
+		BizzAttributeTransfer.transfer(rootRecord).forEach(fuseAttribute -> kSession.insert(fuseAttribute));
 		RelationCorrelation relationCorrelation = recordComplexus.getRelationCorrelation(recordCode);
 		if (relationCorrelation != null) {
 			relationCorrelation.getRecordRelation().forEach(recordRelation -> kSession.insert(recordRelation));
 		}
+
+		if (opsComplexus != null) {
+			if (opsComplexus.getRootRecordOps(recordCode) != null) {
+				BizzAttributeTransfer.transfer(opsComplexus.getRootRecordOps(recordCode))
+						.forEach(opsAttr -> kSession.insert(opsAttr));
+			}
+
+			if (opsComplexus.getRecordRelationOps(recordCode) != null) {
+				BizzAttributeTransfer.transfer(opsComplexus.getRecordRelationOps(recordCode))
+						.forEach(opsAttr -> kSession.insert(opsAttr));
+			}
+
+		}
+
+		// 触发规则
 		kSession.fireAllRules();
-		
 		kSession.destroy();
-		return recordRelationOpsBuilder.getRecordRelationOps();
-	}
-	
-	public static RecordCROpsPair getRecordCROpsPairFromKIE(BizFusionContext bizFusionContext, String recordCode,
-			RecordComplexus recordComplexus, KieSession kSession) {
-		FirstAttributeTransform firstAttributeTransform = new FirstAttributeTransform(recordComplexus.getRecordCompound(recordCode).getRecord());
-		firstAttributeTransform.transfer();
-		firstAttributeTransform.getFuseAttributeList().forEach(fuseAttribute -> kSession.insert(fuseAttribute));
 
-		List<Integer> addedLabelList = new ArrayList<Integer>();
-		List<Integer> removedLabelList = new ArrayList<Integer>();
-		List<Attribute> attributeList = new ArrayList<Attribute>();
-		List<FuseMultiAttribute> putFuseMultiAttributeList = new ArrayList<FuseMultiAttribute>();
-		List<String> removedMultiAttrList = new ArrayList<String>();// 多值属性 name
-		Map<String, String> removedMultiAttrMap = new HashMap<String, String>();
-
-		try {
-			kSession.setGlobal("addedLabelList", addedLabelList);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		try {
-			kSession.setGlobal("removedLabelList", removedLabelList);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		try {
-
-			kSession.setGlobal("attributeList", attributeList);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		try {
-
-			kSession.setGlobal("putFuseMultiAttributeList", putFuseMultiAttributeList);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		try {
-
-			kSession.setGlobal("removedMultiAttrList", removedMultiAttrList);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		try {
-
-			kSession.setGlobal("removedMultiAttrMap", removedMultiAttrMap);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		try {
-			kSession.setGlobal("recordCompound", recordComplexus.getRecordCompound(recordCode));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		String recordType = recordComplexus.getRecordCompound(recordCode).getRecordType();
-		String hostType = recordComplexus.getHostType();
-		String hostCode = recordComplexus.getHostCode();
-	///////
-		String userCode = bizFusionContext.getUserCode();
-		RecordRelationOpsBuilder recordRelationOpsBuilder = RecordRelationOpsBuilder.getInstance(recordCode,
-				recordType);
-
-		kSession.setGlobal("userCode", userCode);
-		kSession.setGlobal("recordCode", recordCode);
-		kSession.setGlobal("entityType", recordType);
-		kSession.setGlobal("recordComplexus", recordComplexus);
-		kSession.setGlobal("recordRelationOpsBuilder", recordRelationOpsBuilder);
-		
-		try {
-			kSession.setGlobal("hostType", hostType);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		try {
-			kSession.setGlobal("hostCode", hostCode);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		RelationCorrelation relationCorrelation = recordComplexus.getRelationCorrelation(recordCode);
-		if (relationCorrelation != null) {
-			relationCorrelation.getRecordRelation().forEach(recordRelation -> kSession.insert(recordRelation));
-		}
-		
-		kSession.fireAllRules();
-		// 执行相关查询
-
-		kSession.destroy();
-		RecordCompoundOpsBuilder recordCompoundOpsBuilder = new RecordCompoundOpsBuilder();
-		recordCompoundOpsBuilder.removeLabels(removedLabelList);
-		recordCompoundOpsBuilder.putLabels(addedLabelList);
-		recordCompoundOpsBuilder.putAttributes(attributeList);
-		// 删除多值属性
-		for (String fmAttr : removedMultiAttrList) {
-			recordCompoundOpsBuilder.removeMultiAttribute(fmAttr);
-		}
-
-		for (String key : removedMultiAttrMap.keySet()) {
-			recordCompoundOpsBuilder.removeMultiAttributeValue(removedMultiAttrMap.get(key), key);
-		}
-
+		// 组装结果
+		RootRecordOpsBuilder rootRecordOpsBuilder = RootRecordOpsBuilder.getInstance(recordType, recordCode);
+		rootRecordOpsBuilder.setRemoveLabel(removedLabelList);
+		rootRecordOpsBuilder.setAddLabel(addedLabelList);
+		rootRecordOpsBuilder.setUpdateAttribute(attributeList);
 		// 添加多值属性
-		for (FuseMultiAttribute fmAttr : putFuseMultiAttributeList) {
-			recordCompoundOpsBuilder.putMultiAttrbuteValue(fmAttr.getKeyValue(), fmAttr);
+		for (String leafName : addedLeafAttrMap.keySet()) {
+			rootRecordOpsBuilder.addLeaf(leafName, addedLeafAttrMap.get(leafName));
 		}
-		
-		RecordCROpsPair recordCROpsPair = new RecordCROpsPair();
-		recordCROpsPair.setRecordCompoundOps(recordCompoundOpsBuilder.getRecordCompoundOps());
-		recordCROpsPair.setRecordRelationOps(recordRelationOpsBuilder.getRecordRelationOps());
-		
-		return recordCROpsPair;
+		// 删除的多值属性
+		for (String key : removedLeafAttrMap.keySet()) {
+			rootRecordOpsBuilder.putRemoveLeaf(removedLeafAttrMap.get(key), key);
+		}
+		// 添加更新的多值属性
+		rootRecordOpsBuilder.putUpdateLeafAttribute(putFuseLeafAttributeList);
+
+		ImprveResult imprveResult = new ImprveResult();
+		imprveResult.setRootRecordOps(rootRecordOpsBuilder.getRootRecordOps());
+		imprveResult.setRecordRelationOps(recordRelationOpsBuilder.getRecordRelationOps());
+
+		return imprveResult;
 	}
 
+	public static ImprveResult getImproveResultFromKIE(BizFusionContext bizFusionContext, String recordCode,
+			RecordComplexus recordComplexus, KieSession kSession) {
+		return getImproveResultFromKIE(bizFusionContext, recordCode, null, recordComplexus, kSession);
+	}
 
 }

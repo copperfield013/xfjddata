@@ -1,32 +1,35 @@
 package com.zhsq.biz.common;
 
-
 import java.util.List;
 
 import com.abc.complexus.RecordComplexus;
 import com.abc.fuse.identity.query.IdentityQuery;
+import com.abc.fuse.identity.query.impl.DeniedIdentityQuery;
+import com.abc.fuse.identity.query.impl.RecordCodeIdentityQuery;
 import com.abc.rrc.query.queryrecord.criteria.Criteria;
+
+
 
 
 public abstract class AbstractIdentityQuery  implements IdentityQuery{
 
-	public List<Criteria> getCriteriaList(RecordComplexus complexus) {
+	public List<Criteria> getCriteriaList(String recordCode,RecordComplexus complexus) {
 		
-		RecordCodeOnlyIQ recordCodeOnlyIQ = new RecordCodeOnlyIQ();
-		List<Criteria> result = recordCodeOnlyIQ.getCriteriaList(complexus);
+		RecordCodeIdentityQuery recordCodeOnlyIQ = new RecordCodeIdentityQuery();
+		List<Criteria> result = recordCodeOnlyIQ.getCriteriaList(recordCode,complexus);
 		if (result.size() > 0) {
 			return result;
 		}
 
-		List<Criteria> criteriaList = bizCriteriaList(complexus);
+		List<Criteria> criteriaList = bizCriteriaList(recordCode,complexus);
 
 		if (criteriaList==null || criteriaList.size() == 0) {
-			NoElementForIQ noElementForIQ = new NoElementForIQ();
-			criteriaList=noElementForIQ.getCriteriaList(complexus);
+			DeniedIdentityQuery noElementForIQ = new DeniedIdentityQuery();
+			criteriaList=noElementForIQ.getCriteriaList(recordCode,complexus);
 		}
 		return criteriaList;
 	}
 
-	protected abstract  List<Criteria> bizCriteriaList(RecordComplexus complexus);
+	protected abstract  List<Criteria> bizCriteriaList(String recordCode,RecordComplexus complexus);
 
 }

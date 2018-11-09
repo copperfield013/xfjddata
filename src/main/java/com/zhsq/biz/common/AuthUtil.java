@@ -22,7 +22,7 @@ public class AuthUtil {
 	public static String getUserName(String userCode) {
 
 		UserComplexus userComplexus = instance.getUserComplexus(userCode);
-		return userComplexus.getUserRecordCompound().getfindAttribute(UserItem.昵称).getValueStrToShow();
+		return userComplexus.getUserRecord().findAttribute(UserItem.昵称).getValueForShow();
 	}
 
 	public static Collection<String> getUserAuth(String userCode, String label) {
@@ -45,7 +45,7 @@ public class AuthUtil {
 	
 	public static RootRecord getUserRecordCompound(String userCode) {
 		UserComplexus userComplexus = instance.getUserComplexus(userCode);
-		return userComplexus.getUserRecordCompound();
+		return userComplexus.getUserRecord();
 	}
 
 }

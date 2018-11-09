@@ -18,7 +18,7 @@
 		<version.proxool>0.9.1</version.proxool>
 		<version.kie>7.10.0.Final</version.kie>
 		<version.kie.ci>7.10.0.Final</version.kie.ci>
-		<version.item>4.0.0.alphal</version.item>
+		<version.item>4.0.10.alphal</version.item>
 		<version.abcutil>0.0.20</version.abcutil> 
 		
 		<project.builder.sourcesEncoding>UTF-8</project.builder.sourcesEncoding>
