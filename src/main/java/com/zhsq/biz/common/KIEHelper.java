@@ -32,7 +32,7 @@ public class KIEHelper {
 		List<Criteria> criteriaList = new ArrayList<Criteria>();
 
 		BizzAttributeTransfer.transfer(record).forEach(fuseAttribute -> kSession.insert(fuseAttribute));
-		kSession.setGlobal("entityType", record.getName());
+		kSession.setGlobal("recordType", record.getName());
 		// kSession.startProcess("peopleQuery");
 
 		kSession.fireAllRules();
@@ -57,7 +57,7 @@ public class KIEHelper {
 		List<Integer> removedLabelList = new ArrayList<Integer>();
 		List<Attribute> attributeList = new ArrayList<Attribute>();
 		List<FuseLeafAttribute> putFuseLeafAttributeList = new ArrayList<FuseLeafAttribute>();
-		Map<String, Collection<Attribute>> addedLeafAttrMap = new HashMap<String, Collection<Attribute>>();
+		List<FuseLeafAttribute> addedLeafAttrList = new ArrayList<FuseLeafAttribute>();
 		Map<String, String> removedLeafAttrMap = new HashMap<String, String>();
 		RecordRelationOpsBuilder recordRelationOpsBuilder = RecordRelationOpsBuilder.getInstance(recordType,
 				recordCode);
@@ -94,7 +94,7 @@ public class KIEHelper {
 		}
 		try {
 
-			kSession.setGlobal("addedLeafAttrMap", addedLeafAttrMap);
+			kSession.setGlobal("addedLeafAttrMap", addedLeafAttrList);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -135,7 +135,7 @@ public class KIEHelper {
 
 			if (opsComplexus.getRecordRelationOps(recordCode) != null) {
 				BizzAttributeTransfer.transfer(opsComplexus.getRecordRelationOps(recordCode))
-						.forEach(opsAttr -> kSession.insert(opsAttr));
+						.forEach(opsRelation -> kSession.insert(opsRelation));
 			}
 
 		}
@@ -150,9 +150,8 @@ public class KIEHelper {
 		rootRecordOpsBuilder.setAddLabel(addedLabelList);
 		rootRecordOpsBuilder.setUpdateAttribute(attributeList);
 		// 添加多值属性
-		for (String leafName : addedLeafAttrMap.keySet()) {
-			rootRecordOpsBuilder.addLeaf(leafName, addedLeafAttrMap.get(leafName));
-		}
+
+		rootRecordOpsBuilder.setAddedLeafAttribute(addedLeafAttrList);
 		// 删除的多值属性
 		for (String key : removedLeafAttrMap.keySet()) {
 			rootRecordOpsBuilder.putRemoveLeaf(removedLeafAttrMap.get(key), key);
