@@ -1,7 +1,6 @@
 package com.zhsq.test.biz;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -11,18 +10,13 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.abc.application.BizFusionContext;
-import com.abc.application.FusionContext;
-import com.abc.auth.constant.AuthConstant;
 import com.abc.mapping.entity.Entity;
 import com.abc.mapping.entity.RelationEntity;
 import com.abc.panel.Discoverer;
-import com.abc.panel.Integration;
 import com.abc.panel.PanelFactory;
 import com.abc.rrc.query.entity.impl.EntitySortedPagedQuery;
 import com.abc.rrc.query.queryrecord.criteria.Criteria;
 import com.abc.rrc.query.queryrecord.criteria.CriteriaFactory;
-import com.zhsq.biz.constant.BaseConstant;
-import com.zhsq.biz.worktask.WorkTaskBNB;
 
 @ContextConfiguration(locations = "classpath*:spring-core.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -51,9 +45,8 @@ public class BizQueryTest {
 	public List<Criteria> buildCriteria(String recordCode){
 
 		List<Criteria> criterias = new ArrayList<Criteria>();
-		CriteriaFactory criteriaFactory = new CriteriaFactory();
 		Criteria common;
-		common =criteriaFactory.createLikeCriteria(recordCode,"SW0208","刘志华");//姓名
+		common =CriteriaFactory.createLikeCriteria(recordCode,"SW0208","刘志华");//姓名
 		criterias.add(common);
 		return criterias; 
 	} 
