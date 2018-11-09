@@ -1,5 +1,6 @@
 package com.zhsq.biz.timertask;
 
+import java.util.Collection;
 import java.util.List;
 
 import com.abc.application.BizFusionContext;
@@ -8,12 +9,12 @@ import com.abc.application.FusionContext;
 import com.abc.auth.constant.AuthConstant;
 import com.abc.panel.Integration;
 import com.abc.panel.PanelFactory;
-import com.abc.query.criteria.Criteria;
-import com.abc.service.RecordFactory;
+import com.abc.rrc.query.RecordQueryPanel;
+import com.abc.rrc.query.queryrecord.criteria.Criteria;
 
 public class LoadEntityToWorkMemory {
 	public static void loadEntity(String entityType, List<Criteria> criteria, BizNoBusy bizNoBusy) {
-		List<String> codes=RecordFactory.query(criteria);
+		Collection<String> codes=RecordQueryPanel.query(criteria);
 		Integration integration=PanelFactory.getIntegration();
 		BizFusionContext context = new BizFusionContext();
 		context.putBizMap(entityType, bizNoBusy);
@@ -23,7 +24,7 @@ public class LoadEntityToWorkMemory {
 			
 			//integration.integrate(codes.get(0), context);
 			for(String code :codes) {
-				integration.integrate(code, context);
+				integration.integrate(context,code);
 			}
 		}
 	}

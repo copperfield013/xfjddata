@@ -10,8 +10,8 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import com.abc.query.criteria.BizCriteriaFactory;
-import com.abc.query.criteria.Criteria;
+import com.abc.rrc.query.queryrecord.criteria.Criteria;
+import com.abc.rrc.query.queryrecord.criteria.CriteriaFactory;
 import com.zhsq.biz.constant.BaseConstant;
 import com.zhsq.biz.constant.people.PeopleItem;
 import com.zhsq.biz.constant.worktask.WorkTaskItem;
@@ -38,9 +38,9 @@ public class PeopleTimeTask {
 			String format = sdf.format(date);
 		
 			List<Criteria> criterias = new ArrayList<Criteria>();
-			BizCriteriaFactory criteriaFactory = new BizCriteriaFactory();
+			CriteriaFactory criteriaFactory = new CriteriaFactory();
 			Criteria common;
-			common = criteriaFactory.createOpenBetweenQueryCriteria(PeopleItem.出生日期, null, format);
+			common = criteriaFactory.createBetweenCriteria(BaseConstant.TYPE_人口信息,PeopleItem.出生日期, null, format);
 			criterias.add(common);
 			return criterias; 
 	}

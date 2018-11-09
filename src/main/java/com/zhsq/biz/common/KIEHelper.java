@@ -154,10 +154,10 @@ public class KIEHelper {
 		rootRecordOpsBuilder.setAddedLeafAttribute(addedLeafAttrList);
 		// 删除的多值属性
 		for (String key : removedLeafAttrMap.keySet()) {
-			rootRecordOpsBuilder.putRemoveLeaf(removedLeafAttrMap.get(key), key);
+			rootRecordOpsBuilder.setRemoveLeaf(removedLeafAttrMap.get(key), key);
 		}
 		// 添加更新的多值属性
-		rootRecordOpsBuilder.putUpdateLeafAttribute(putFuseLeafAttributeList);
+		rootRecordOpsBuilder.setUpdateLeafAttribute(putFuseLeafAttributeList);
 
 		ImprveResult imprveResult = new ImprveResult();
 		imprveResult.setRootRecordOps(rootRecordOpsBuilder.getRootRecordOps());

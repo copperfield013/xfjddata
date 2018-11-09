@@ -12,9 +12,9 @@ import org.apache.log4j.Logger;
 import org.apache.poi.util.SystemOutLogger;
 
 import com.abc.complexus.RecordComplexus;
-import com.abc.record.RecordCompound;
 import com.abc.relation.RecordRelation;
 import com.abc.relation.RelationCorrelation;
+import com.abc.rrc.record.RootRecord;
 import com.zhsq.biz.constant.EnumKeyValue;
 import com.zhsq.biz.constant.RelationType;
 
@@ -27,7 +27,7 @@ public class IDIntrospection {
 	
 	public static Integer getChildrenCount(RecordComplexus recordComplexus, String recordCode) {
 		Integer count = 0;
-		RecordCompound recordCompound=recordComplexus.getHostRecordCompound();
+		RootRecord recordCompound=recordComplexus.getHostRootRecord();
 		RelationCorrelation relationCorrelation = recordComplexus.getRelationCorrelation(recordCode);
 		if (relationCorrelation != null) {
 			Collection<RecordRelation> recordRelation = relationCorrelation.getRecordRelation();

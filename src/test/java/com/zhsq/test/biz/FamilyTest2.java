@@ -15,6 +15,7 @@ import com.abc.mapping.entity.Entity;
 import com.abc.mapping.entity.SimpleEntity;
 import com.abc.panel.Discoverer;
 import com.abc.panel.Integration;
+import com.abc.panel.IntegrationMsg;
 import com.abc.panel.PanelFactory;
 import com.zhsq.biz.constant.EnumKeyValue;
 import com.zhsq.biz.constant.family.FamilyItem;
@@ -40,7 +41,8 @@ public class FamilyTest2 {
 		Integration integration=PanelFactory.getIntegration();
 		Entity entity=createEntity(mapperName);
 		logger.debug(entity.toJson());
-					String code=integration.integrate(entity, context);
+		IntegrationMsg imsg=integration.integrate(context,entity);
+		String code=imsg.getCode();
 		Discoverer discoverer=PanelFactory.getDiscoverer(context);
 		Entity result=discoverer.discover(code);
 		logger.debug(code + " : "+ result.toJson());

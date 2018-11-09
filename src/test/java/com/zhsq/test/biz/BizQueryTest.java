@@ -18,11 +18,9 @@ import com.abc.mapping.entity.RelationEntity;
 import com.abc.panel.Discoverer;
 import com.abc.panel.Integration;
 import com.abc.panel.PanelFactory;
-import com.abc.query.criteria.BizCriteriaFactory;
-import com.abc.query.criteria.Criteria;
-import com.abc.query.entity.impl.EntitySortedPagedQuery;
-import com.abc.record.RecordCompound;
-import com.abc.service.RecordFactory;
+import com.abc.rrc.query.entity.impl.EntitySortedPagedQuery;
+import com.abc.rrc.query.queryrecord.criteria.Criteria;
+import com.abc.rrc.query.queryrecord.criteria.CriteriaFactory;
 import com.zhsq.biz.constant.BaseConstant;
 import com.zhsq.biz.worktask.WorkTaskBNB;
 
@@ -50,12 +48,12 @@ public class BizQueryTest {
 		}*/
 	}
 	
-	public List<Criteria> buildCriteria(){
+	public List<Criteria> buildCriteria(String recordCode){
 
 		List<Criteria> criterias = new ArrayList<Criteria>();
-		BizCriteriaFactory criteriaFactory = new BizCriteriaFactory();
+		CriteriaFactory criteriaFactory = new CriteriaFactory();
 		Criteria common;
-		common =criteriaFactory.createLikeQueryCriteria("SW0208","刘志华");//姓名
+		common =criteriaFactory.createLikeCriteria(recordCode,"SW0208","刘志华");//姓名
 		criterias.add(common);
 		return criterias; 
 	} 
@@ -74,10 +72,11 @@ public class BizQueryTest {
 				logger.debug("第" + i + "页,共" + sortedPagedQuery.getAllCount()
 						+ "条数据,每页" + sortedPagedQuery.getPageSize() + "条");
 				// abcNode.selectAliasAsTitle();
-				for (Entity entity : sortedPagedQuery.visit(i)) {
+				for (Object obj : sortedPagedQuery.visit(i)) {
+					Entity entity=(Entity)obj;
 					// people.addMapping(abcNode);
-					for(String name:entity.getRelationNames()){
-						List<RelationEntity> rel=entity.getRelations(name);
+					for(Object name:entity.getRelationNames()){
+						List<RelationEntity> rel=entity.getRelations((String)name);
 						for(RelationEntity re:rel){
 							logger.debug(re.getFullName()+"-e:"+re.getFullName());
 							logger.debug(re.getFullName()+"-e:"+re.getEntity().getFullName());
