@@ -1,12 +1,13 @@
 package com.abc.rule.people.identity.query
 
-import com.abc.fuse.attribute.FuseAttribute;
-import com.abc.fuse.attribute.RelationFAttribute;
-import com.abc.query.criteria.Criteria;
-import com.zhsq.biz.constant.people.PeopleItem;
-import com.zhsq.biz.common.*;
+import com.abc.rrc.query.queryrecord.criteria.Criteria;
 
-global java.lang.String entityType;
+import com.abc.fuse.improve.attribute.FuseAttribute;
+import com.abc.rrc.query.queryrecord.criteria.CriteriaFactory;
+import com.zhsq.biz.common.CommonCalculation;
+import com.zhsq.biz.constant.people.PeopleItem;
+
+global java.lang.String recordName;
  
 rule "姓名 and 身份证号 criteria" 
 	activation-group "people查询条件"
@@ -14,9 +15,9 @@ rule "姓名 and 身份证号 criteria"
 when
     $nameFB:FuseAttribute(name==PeopleItem.姓名,CommonCalculation.isBasicLawful(value));
     $homeFB:FuseAttribute(name==PeopleItem.身份证号码,CommonCalculation.isBasicLawful(value));
-then
- 	insert(CriteriaFactory.createGodCriteria($nameFB,entityType));
-	insert(CriteriaFactory.createGodCriteria($homeFB,entityType));
+then 
+ 	insert(CriteriaFactory.createEqualCriteria(recordName,$nameFB.getAttribute()));
+	insert(CriteriaFactory.createEqualCriteria(recordName,$homeFB.getAttribute()));
 end
 
 rule "姓名 and 户籍地址 criteria" 
@@ -27,12 +28,10 @@ when
     $homeFB:FuseAttribute(name == PeopleItem.户籍所在地,CommonCalculation.isBasicLawful(value));
     $homeFC:FuseAttribute(name == PeopleItem.户籍地门牌号,CommonCalculation.isBasicLawful(value));
 then      
- 	insert(CriteriaFactory.createGodCriteria($nameFA,entityType));
-	insert(CriteriaFactory.createGodCriteria($homeFB,entityType));
-	insert(CriteriaFactory.createGodCriteria($homeFC,entityType));
+ 	insert(CriteriaFactory.createEqualCriteria(recordName,$nameFA.getAttribute()));
+	insert(CriteriaFactory.createEqualCriteria(recordName,$homeFB.getAttribute()));
+	insert(CriteriaFactory.createEqualCriteria(recordName,$homeFC.getAttribute()));
 end
-
-
 
 query "query criteria" () 
 

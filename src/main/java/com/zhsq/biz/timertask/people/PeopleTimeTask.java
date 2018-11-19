@@ -27,7 +27,6 @@ public class PeopleTimeTask {
 	//@Scheduled(cron = "0 0/3 * * * ?")//每3分钟执行一次
 	@Scheduled(cron = "0 0 1 * * ?")
 	public void doSomething() {
-		 
 		 LoadEntityToWorkMemory.loadEntity(BaseConstant.TYPE_人口信息, buildCriteria(), new PeopleBNBTimer());
 	}
 	 

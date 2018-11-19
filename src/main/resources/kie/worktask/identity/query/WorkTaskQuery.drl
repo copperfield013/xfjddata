@@ -1,14 +1,9 @@
-
 package com.abc.rule.worktask.identity.query
 
-import com.abc.fuse.attribute.FuseAttribute;
-import com.abc.fuse.attribute.RelationFAttribute;
-import com.abc.query.criteria.Criteria;
-import com.zhsq.biz.constant.people.PeopleItem;
-import com.zhsq.biz.common.*;
+import com.abc.rrc.query.queryrecord.criteria.Criteria;
 
 
-global java.lang.String entityType;
+global java.lang.String recordName;
 
 
 query "query criteria" () 

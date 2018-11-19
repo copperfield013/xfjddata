@@ -1,72 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <kmodule xmlns="http://www.drools.org/xsd/kmodule">
 	
-	<kbase name="peopleidtquery" packages="kie.people.identity.query">
-		<ksession name="ks-people-idt-query" />
-	</kbase>
-	<kbase name="peoplecheck" packages="kie.people.check">
-		<ksession name="ks-people-check" />
-	</kbase>
-	
-	<kbase name="peopleipm" packages="kie.people.ipm, kie.people.ipm.ipmTimer">
-		<ksession name="ks-people-ipm" />
-	</kbase>
-	<kbase name="peopleipmtimer" packages="kie.people.ipm.ipmTimer">
-		<ksession name="ks-people-ipm-timer" />
-	</kbase>
-	
-	<kbase name="peopleripm" packages="kie.people.ripm">
-		<ksession name="ks-people-ripm" />
-	</kbase>
-	
-	<kbase name="peopletipm" packages="kie.people.tipm, kie.people.tipm.tipmTimer">
-		<ksession name="ks-people-tipm" />
-	</kbase>
-	<kbase name="peopletipmtimer" packages="kie.people.tipm.tipmTimer">
-		<ksession name="ks-people-tipm-timer" />
-	</kbase>
-	
-	<kbase name="worktaskipm" packages="kie.worktask.ipm">
-		<ksession name="ks-worktask-ipm" />
-	</kbase>
-	
-	<kbase name="worktaskripm" packages="kie.worktask.ripm">
-		<ksession name="ks-worktask-ripm" />
-	</kbase>
-	<kbase name="worktasktipm" packages="kie.worktask.tipm, kie.worktask.tipm.tipmTimer">
-		<ksession name="ks-worktask-tipm" />
-	</kbase>
-	<kbase name="worktasktipmtimer" packages="kie.worktask.tipm, kie.worktask.tipm.tipmTimer">
-		<ksession name="ks-worktask-tipm-timer" />
-	</kbase>
-	
-	<kbase name="worktaskidtquery" packages="kie.worktask.identity.query">
-		<ksession name="ks-worktask-idt-query" />
-	</kbase>
-	<kbase name="worktaskcheck" packages="kie.worktask.check">
-		<ksession name="ks-worktask-check" />
-	</kbase>
-	
-	<kbase name="familycheck" packages="kie.family.check">
-		<ksession name="ks-family-check" />
-	</kbase>
+	<!-- family -->
 	<kbase name="familyidtquery" packages="kie.family.identity.query">
 		<ksession name="ks-family-idt-query" />
 	</kbase>
-	<kbase name="familyipm" packages="kie.family.ipm, kie.family.ipm.ipmTimer">
+	<kbase name="familypreipm" packages="kie.family.preipm.*">
+		<ksession name="ks-family-preipm" />
+	</kbase>
+	<kbase name="familyipm" packages="kie.family.ipm.*">
 		<ksession name="ks-family-ipm" />
 	</kbase>
-	<kbase name="familyipmtimer" packages="kie.family.ipm.ipmTimer">
-		<ksession name="ks-family-ipm-timer" />
+	<kbase name="familypostimp" packages="kie.family.postimp">
+		<ksession name="ks-family-postimp" />
 	</kbase>
-	<kbase name="familyripm" packages="kie.family.ripm">
-		<ksession name="ks-family-ripm" />
+	
+	<!-- people -->
+	<kbase name="peopleidtquery" packages="kie.people.identity.query">
+		<ksession name="ks-people-idt-query" />
 	</kbase>
-	<kbase name="familytipm" packages="kie.family.tipm, kie.family.tipm.tipmTimer">
-		<ksession name="ks-family-tipm" />
+	<kbase name="peopleipmtimer" packages="kie.people.ipm.ipmTimer">
+		<ksession name="ks-people-ipm-ipmTimer" />
 	</kbase>
-	<kbase name="familytipmtimer" packages="kie.family.tipm.tipmTimer">
-		<ksession name="ks-family-tipm-timer" />
+	
+	<kbase name="peoplepreipm" packages="kie.people.preipm.*">
+		<ksession name="ks-people-preipm" />
+	</kbase>
+	<kbase name="peopleipm" packages="kie.people.ipm.*">
+		<ksession name="ks-people-ipm" />
+	</kbase>
+	<kbase name="peoplePostIMP" packages="kie.people.postimp">
+		<ksession name="ks-people-postimp" />
+	</kbase>
+	
+	<!-- worktask -->
+	<kbase name="worktaskidtquery" packages="kie.worktask.identity.query">
+		<ksession name="ks-worktask-idt-query" />
+	</kbase>
+	<kbase name="worktaskipm" packages="kie.worktask.ipm.*">
+		<ksession name="ks-worktask-ipm" />
+	</kbase>
+	<kbase name="worktaskpreipm" packages="kie.worktask.preipm.*">
+		<ksession name="ks-worktask-preipm" />
 	</kbase>
 	
 </kmodule>

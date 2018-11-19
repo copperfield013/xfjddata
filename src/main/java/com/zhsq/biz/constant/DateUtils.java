@@ -8,7 +8,6 @@ public class DateUtils {
 	private static String date = "yyyy-MM-dd";
 	private static String dateTime = "yyyy-MM-dd HH:mm:ss";
 	private static SimpleDateFormat sdf = null;
-	
 	/**
 	 * 返回日期的毫秒值
 	 * @param time

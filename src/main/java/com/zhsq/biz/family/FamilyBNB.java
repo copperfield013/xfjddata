@@ -8,69 +8,86 @@ import com.abc.application.BizFusionContext;
 import com.abc.application.BizNoBusy;
 import com.abc.callback.IFusitionCallBack;
 import com.abc.complexus.RecordComplexus;
-import com.abc.fuse.ErrorMessage;
-import com.abc.identity.query.IdentityQuery;
-import com.abc.ops.RecordCROpsPair;
-import com.abc.ops.RecordCompoundOps;
-import com.abc.ops.RecordRelationOps;
-import com.abc.ops.complexus.RecordComplexusOps;
-import com.abc.quality.check.Check;
-import com.abc.quality.improve.Improvement;
-import com.abc.query.criteria.Criteria;
-import com.abc.record.Attribute;
-import com.abc.record.MultiAttribute;
-import com.abc.record.RecordCompound;
+import com.abc.fuse.identity.query.IdentityQuery;
+import com.abc.fuse.improve.Improvement;
+import com.abc.fuse.improve.ImprveResult;
+import com.abc.fuse.improve.ops.complexus.OpsComplexus;
+import com.abc.rrc.query.queryrecord.criteria.Criteria;
 import com.zhsq.biz.common.AbstractIdentityQuery;
 import com.zhsq.biz.common.KIEHelper;
 import com.zhsq.biz.common.SessionFactory;
-import com.zhsq.biz.constant.people.PeopleItem;
 
 @Repository(value = "XFJDE305")
-public class FamilyBNB implements BizNoBusy,IdentityQuery, Improvement,IFusitionCallBack,Check{
+public class FamilyBNB implements BizNoBusy, IdentityQuery, Improvement, IFusitionCallBack {
+	
+	/**
+	 * 只有关系改变时， 
+	 * true: 关系改变执行融合
+	 * false: 关系改变也不执行融合
+	 */
 	@Override
-	public List<Criteria> getCriteriaList(RecordComplexus complexus) {
-		return new AbstractIdentityQuery(){
+	public boolean improveOnlyCorrelativeRelation() {
+		/*return Improvement.super.improveOnlyCorrelativeRelation();*/
+		return false;
+	}
+	
+	/**
+	 * true: 只要为true， 任何情况都融合
+	 * false: 任何情况都不融合
+	 */
+	@Override
+	public boolean improveEveryTime() {
+		// TODO Auto-generated method stub
+		return Improvement.super.improveEveryTime();
+	}
+	
+	/**
+	 * 需要的时候去融合， 方法内部为判断什么情况为需要
+	 */
+	@Override
+	public boolean needImprove(String arg0, OpsComplexus arg1) {
+		// TODO Auto-generated method stub
+		return Improvement.super.needImprove(arg0, arg1);
+	}
+	
+	@Override
+	public List<Criteria> getCriteriaList(String recordCode, RecordComplexus complexus) {
+		return new AbstractIdentityQuery() {
+
 			@Override
-			protected List<Criteria> bizCriteriaList(RecordComplexus complexus) {
-				return KIEHelper.getBizCriteriaListFromKIE(complexus,SessionFactory.findSessionKeepContainer("ks-family-idt-query"));
+			protected List<Criteria> bizCriteriaList(String recordCode, RecordComplexus complexus) {
+				return KIEHelper.getBizCriteriaListFromKIE(recordCode, complexus,
+						SessionFactory.findSessionKeepContainer("ks-family-idt-query"));
 			}
-			
-		}.getCriteriaList(complexus);
-		
+
+		}.getCriteriaList(recordCode, complexus);
+
 	}
 
 	@Override
-	public boolean afterFusition(String code,BizFusionContext context) {
-		return true;
-	}
-
-
-	@Override
-	public List<ErrorMessage> beforeCheck(RecordComplexus arg0) {
-		
-		return null;
+	public ImprveResult preImprove(BizFusionContext context, String recordCode, OpsComplexus opsComplexus,
+			RecordComplexus recordComplexus) {
+		return KIEHelper.getImproveResultFromKIE(context, recordCode, opsComplexus, recordComplexus,
+				SessionFactory.findSessionKeepContainer("ks-family-preipm"));
 	}
 
 	@Override
-	public List<ErrorMessage> afterCheck(BizFusionContext bizFusionContext, String recordCode, RecordComplexus recordComplexus) {
-		return 	 KIEHelper.getErrorMessageFromKIE(recordCode, recordComplexus,SessionFactory.findSessionKeepContainer("ks-family-check"));
-	}
+	public ImprveResult improve(BizFusionContext context, String recordCode, RecordComplexus recordComplexus) {
+		return KIEHelper.getImproveResultFromKIE(context, recordCode, recordComplexus,
+				SessionFactory.findSessionKeepContainer("ks-family-ipm"));
+	} 
 
 	@Override
-	public RecordCompoundOps improveFirst(RecordCompound arg0) {
-		return KIEHelper.getRecordCompoundOpsFromKIE(arg0,SessionFactory.findSessionKeepContainer("ks-family-ipm"));
-	}
+	public boolean afterFusition(String recordCode, BizFusionContext context) {
 
-	@Override
-	public RecordRelationOps improveSecond(BizFusionContext bizFusionContext, String recordCode, RecordComplexus recordComplexus) {
-		return 	 KIEHelper.getRecordRelationOpsFromKIE(bizFusionContext,recordCode,recordComplexus,SessionFactory.findSessionKeepContainer("ks-family-ripm"));
+		return false;
 	}
 	
+	//第三步， 可以把检查错误放进这里
 	@Override
-	public RecordCROpsPair improveThird(BizFusionContext bizFusionContext, String recordCode, RecordComplexus recordComplexus) {
-		return  KIEHelper.getRecordCROpsPairFromKIE(bizFusionContext,recordCode,recordComplexus,SessionFactory.findSessionKeepContainer("ks-family-tipm"));
+	public ImprveResult postImprove(BizFusionContext context, String recordCode, RecordComplexus recordComplexus) {
+		return KIEHelper.getImproveResultFromKIE(context, recordCode, recordComplexus,
+				SessionFactory.findSessionKeepContainer("ks-family-postimp"));
 	}
-	
-	
 
 }

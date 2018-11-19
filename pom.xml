@@ -18,8 +18,7 @@
 		<version.proxool>0.9.1</version.proxool>
 		<version.kie>7.10.0.Final</version.kie>
 		<version.kie.ci>7.10.0.Final</version.kie.ci>
-		<version.item>4.0.14.alphal</version.item>
-		<version.abcutil>0.0.20</version.abcutil> 
+		<version.item>4.0.66.alphal</version.item>
 		
 		<project.builder.sourcesEncoding>UTF-8</project.builder.sourcesEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -33,11 +32,6 @@
 			<groupId>com.abc</groupId>
 			<artifactId>item</artifactId>
 			<version>${version.item}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.abc</groupId>
-			<artifactId>util</artifactId>
-			<version>${version.abcutil}</version>
 		</dependency>
 		<dependency>
 			<groupId>log4j</groupId>

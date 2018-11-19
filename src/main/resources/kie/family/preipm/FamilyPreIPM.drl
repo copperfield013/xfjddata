@@ -1,4 +1,4 @@
-package com.abc.rule.family.ipm.ipmTimer
+package com.abc.rule.family.ipm
 
 import com.abc.fuse.improve.attribute.FuseAttribute;
 import com.abc.relation.RecordRelation;
@@ -7,6 +7,8 @@ import  com.zhsq.biz.constant.family.FamilyItem;
 import com.abc.rrc.record.Attribute;
 import com.abc.rrc.factory.AttributeFactory;
 import com.zhsq.biz.family.algorithm.DataIntrospection;
+import com.zhsq.biz.constant.EnumKeyValue;
+import com.zhsq.biz.constant.RelationType;
 
 global java.lang.String hostCode; 
 global java.lang.String hostType;
@@ -23,9 +25,5 @@ global java.util.List putFuseLeafAttributeList;
 global java.util.List addedLeafAttrList;
 global java.util.Map removedLeafAttrMap;
 global com.abc.rrc.record.RootRecord rootRecord;
-
 global  com.abc.fuse.improve.ops.builder.RecordRelationOpsBuilder recordRelationOpsBuilder;
 global com.abc.complexus.RecordComplexus recordComplexus;
-
-
- 

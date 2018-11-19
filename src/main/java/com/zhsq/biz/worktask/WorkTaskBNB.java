@@ -8,62 +8,54 @@ import com.abc.application.BizFusionContext;
 import com.abc.application.BizNoBusy;
 import com.abc.callback.IFusitionCallBack;
 import com.abc.complexus.RecordComplexus;
-import com.abc.fuse.ErrorMessage;
-import com.abc.identity.query.IdentityQuery;
-import com.abc.ops.RecordCROpsPair;
-import com.abc.ops.RecordCompoundOps;
-import com.abc.ops.RecordRelationOps;
-import com.abc.quality.check.Check;
-import com.abc.quality.improve.Improvement;
-import com.abc.query.criteria.Criteria;
-import com.abc.record.RecordCompound;
+import com.abc.fuse.identity.query.IdentityQuery;
+import com.abc.fuse.improve.Improvement;
+import com.abc.fuse.improve.ImprveResult;
+import com.abc.fuse.improve.ops.complexus.OpsComplexus;
+import com.abc.rrc.query.queryrecord.criteria.Criteria;
 import com.zhsq.biz.common.AbstractIdentityQuery;
 import com.zhsq.biz.common.KIEHelper;
 import com.zhsq.biz.common.SessionFactory;
 
 //@Repository(value = "XFJDE379")
-public class WorkTaskBNB implements BizNoBusy,IdentityQuery, Improvement,IFusitionCallBack,Check{
+public class WorkTaskBNB implements BizNoBusy, IdentityQuery, Improvement, IFusitionCallBack {
+	
 	@Override
-	public List<Criteria> getCriteriaList(RecordComplexus complexus) {
-		return new AbstractIdentityQuery(){
+	public List<Criteria> getCriteriaList(String recordCode, RecordComplexus complexus) {
+		return new AbstractIdentityQuery() {
 			@Override
-			protected List<Criteria> bizCriteriaList(RecordComplexus complexus) {
-				return KIEHelper.getBizCriteriaListFromKIE(complexus,SessionFactory.findSessionKeepContainer("ks-worktask-idt-query"));
+			protected List<Criteria> bizCriteriaList(String recordCode, RecordComplexus complexus) {
+				return KIEHelper.getBizCriteriaListFromKIE(recordCode, complexus,
+						SessionFactory.findSessionKeepContainer("ks-worktask-idt-query"));
 			}
-			
-		}.getCriteriaList(complexus);
-		
+
+		}.getCriteriaList(recordCode, complexus);
+
 	}
 
 	@Override
-	public boolean afterFusition(String code,BizFusionContext context) {
-		return true;
+	public ImprveResult preImprove(BizFusionContext context, String recordCode, OpsComplexus opsComplexus,
+			RecordComplexus recordComplexus) {
+		return KIEHelper.getImproveResultFromKIE(context, recordCode, opsComplexus, recordComplexus,
+				SessionFactory.findSessionKeepContainer("ks-worktask-preipm"));
 	}
 
 	@Override
-	public List<ErrorMessage> beforeCheck(RecordComplexus arg0) {
-		
+	public ImprveResult improve(BizFusionContext context, String recordCode, RecordComplexus recordComplexus) {
+		return KIEHelper.getImproveResultFromKIE(context, recordCode, recordComplexus,
+				SessionFactory.findSessionKeepContainer("ks-worktask-ipm"));
+	} 
+
+	@Override
+	public boolean afterFusition(String recordCode, BizFusionContext context) {
+
+		return false;
+	}
+
+	@Override
+	public ImprveResult postImprove(BizFusionContext arg0, String arg1, RecordComplexus arg2) {
+		// TODO Auto-generated method stub
 		return null;
-	}
-
-	@Override
-	public List<ErrorMessage> afterCheck(BizFusionContext arg0, String recordCode, RecordComplexus arg2) {
-		return 	 KIEHelper.getErrorMessageFromKIE(recordCode, arg2,SessionFactory.findSessionKeepContainer("ks-worktask-check"));
-	}
-
-	@Override
-	public RecordCompoundOps improveFirst(RecordCompound arg0) {
-		return KIEHelper.getRecordCompoundOpsFromKIE(arg0,SessionFactory.findSessionKeepContainer("ks-worktask-ipm"));
-	}
-
-	@Override
-	public RecordRelationOps improveSecond(BizFusionContext bizFusionContext, String recordCode, RecordComplexus recordComplexus) {
-		return 	 KIEHelper.getRecordRelationOpsFromKIE(bizFusionContext,recordCode,recordComplexus,SessionFactory.findSessionKeepContainer("ks-worktask-ripm"));
-	}
-
-	@Override
-	public RecordCROpsPair improveThird(BizFusionContext bizFusionContext, String recordCode, RecordComplexus recordComplexus) {
-		return  KIEHelper.getRecordCROpsPairFromKIE(bizFusionContext,recordCode,recordComplexus,SessionFactory.findSessionKeepContainer("ks-worktask-tipm"));
 	}
 
 }
