@@ -13,6 +13,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.abc.application.BizFusionContext;
 import com.abc.application.FusionContext;
 import com.abc.auth.constant.AuthConstant;
+import com.abc.fuse.improve.transfer.BizzAttributeTransfer;
 import com.abc.mapping.entity.Entity;
 import com.abc.mapping.entity.SimpleEntity;
 import com.abc.panel.Discoverer;
@@ -55,32 +56,31 @@ public class PeopleTest {
 	}
 	
 	private Entity createEntity(String mappingName) {
-		/*Entity entity = new Entity(mappingName);
-		entity.putValue("唯一编码", "080ea7087dc34dc4946553fe9c7d6d60");
-		entity.putValue("姓名", "乌拉拉1"); 
+		Entity entity = new Entity(mappingName);
+		//entity.putValue("唯一编码", "080ea7087dc34dc4946553fe9c7d6d60");
+		entity.putValue("姓名", "王宝乐"); 
 		entity.putValue("人口类型", "户籍人口");
 		entity.putValue("所属社区", EnumKeyValue.ENUM_祥符街道社区_祥符桥社区);
-		entity.putValue("户籍所在地", "杭州ef1");
-		entity.putValue("户籍地门牌号", "西湖73829号fefw");
+		/*entity.putValue("户籍所在地", "杭州ef1");
+		entity.putValue("户籍地门牌号", "西湖73829号fefw");*/
 		entity.putValue("身份证号码", "343434");
 		entity.putValue("性别", EnumKeyValue.ENUM_性别_女);
 		entity.putValue("出生日期", "2018-11-14");
 		
-		SimpleEntity sentity = new SimpleEntity("居住信息");
+		/*SimpleEntity sentity = new SimpleEntity("居住信息");
 		sentity.putValue("居住地址", "祥符桥社区->红郡公寓->４幢->１单元->９０４室");
 		sentity.putValue("居住地门牌号", "");
 		entity.putMultiAttrEntity(sentity);*/
 		
-		Entity relationentity = new Entity("人口信息");
+		//Entity relationentity = new Entity("人口信息");
 		//relationentity.putValue("唯一编码", "2350fdeefd2a45048ff2d337b90802c6");
-		relationentity.putValue("姓名", "略大992830-2"); 
-		relationentity.putValue("人口类型", "户籍人口");
-		relationentity.putValue("所属社区", EnumKeyValue.ENUM_祥符街道社区_祥符桥社区);
-		relationentity.putValue("身份证号码", "110101191403070751");
-		relationentity.putValue("出生日期", "2018-11-15");
+		//relationentity.putValue("姓名", "张三00999"); 
+		//relationentity.putValue("人口类型", "户籍人口");
+		//relationentity.putValue("所属社区", EnumKeyValue.ENUM_祥符街道社区_祥符桥社区);
+		//relationentity.putValue("身份证号码", "110101191403070751");
 		
 		
-		return relationentity;
+		//return relationentity;
 		
 		/*entity.putRelationEntity("子女信息","子女", relationentity);*/
 		/*
@@ -102,7 +102,6 @@ public class PeopleTest {
 		sentity2.putValue("残疾等级", EnumKeyValue.ENUM_残疾等级_一级);
 		entity.putMultiAttrEntity(sentity2);*/
 		
-		/*
 		SimpleEntity sentity1 = new SimpleEntity("户籍变更");
 		sentity1.putValue("申报人姓名", "李好帅");
 		sentity1.putValue("变动前街路巷", "好帅社区1");
@@ -111,7 +110,7 @@ public class PeopleTest {
 		sentity1.putValue("变动后门（楼）详址", "41幢8单元902");
 		sentity1.putValue("更改户籍门牌号", EnumKeyValue.ENUM_是否_是);
 		sentity1.putValue("变动日期", "2018-10-14");
-		entity.putMultiAttrEntity(sentity1);*/
+		entity.putMultiAttrEntity(sentity1);
 		
 		/*SimpleEntity sentity = new SimpleEntity("户籍变更");
 		sentity.putValue("申报人姓名", "李好帅");
@@ -127,18 +126,11 @@ public class PeopleTest {
 		/*Entity relationentity = new Entity("配置文件名称");*/
 //		relationentity.putValue("名字", "刘志华5");
 //		entity.putRelationEntity("关系名称", "关系标签（具体关系）", relationentity);
-		
-		
-		/*return entity;*/
+		return entity;
 	}
 	
 	@Test
 	public void fun() {
-		Integration integration=PanelFactory.getIntegration();
-		BizFusionContext context = new BizFusionContext();
-		context.setUserCode(AuthConstant.SUPERCODE);
-		context.setSource(FusionContext.SOURCE_COMMON);
-		integration.integrate(context,"2350fdeefd2a45048ff2d337b90802c6");
 		new PeopleTimeTask().doSomething();
 		
 	}

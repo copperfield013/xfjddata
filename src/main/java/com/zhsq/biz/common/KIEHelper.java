@@ -19,6 +19,7 @@ import com.abc.fuse.improve.ops.builder.RootRecordOpsBuilder;
 import com.abc.fuse.improve.ops.complexus.OpsComplexus;
 import com.abc.fuse.improve.transfer.BizzAttributeTransfer;
 import com.abc.relation.RelationCorrelation;
+import com.abc.rrc.query.criteria.BizzEntityCriteriaFactory;
 import com.abc.rrc.query.queryrecord.criteria.Criteria;
 import com.abc.rrc.record.RootRecord;
 
@@ -29,18 +30,31 @@ public class KIEHelper {
 	public static List<Criteria> getBizCriteriaListFromKIE(String recordCode, RecordComplexus complexus,
 			KieSession kSession) {
 		RootRecord record = complexus.getHostRootRecord();
-		List<Criteria> criteriaList = new ArrayList<Criteria>();
+		//List<Criteria> criteriaList = new ArrayList<Criteria>();
 
 		BizzAttributeTransfer.transfer(record).forEach(fuseAttribute -> kSession.insert(fuseAttribute));
 		kSession.setGlobal("recordName", record.getName());
+		
+		BizzEntityCriteriaFactory bizzEntityCriteriaFactory =null;
+		try {
+			bizzEntityCriteriaFactory = new BizzEntityCriteriaFactory(record.getName());
+			kSession.setGlobal("bizzEntityCriteriaFactory", bizzEntityCriteriaFactory);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		// kSession.startProcess("peopleQuery");
 
 		kSession.fireAllRules();
-		QueryResults results = kSession.getQueryResults("query criteria");
+		
+		List<Criteria> criteriaList = bizzEntityCriteriaFactory.getCriterias();
+		
+		/*QueryResults results = kSession.getQueryResults("query criteria");
 
 		for (QueryResultsRow row : results) {
 			criteriaList.add((Criteria) row.get("criteria"));
-		}
+		}*/
+		
 		kSession.destroy();
 		return criteriaList;
 	}

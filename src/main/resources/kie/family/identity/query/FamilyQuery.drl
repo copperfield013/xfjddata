@@ -3,13 +3,9 @@ package com.abc.rule.family.identity.query
 import com.abc.rrc.query.queryrecord.criteria.Criteria;
 
 global java.lang.String recordName;
+global com.abc.rrc.query.criteria.BizzEntityCriteriaFactory bizzEntityCriteriaFactory;
 
 
-query "query criteria" () 
-
-  criteria : Criteria()
-
-end
 
 
 

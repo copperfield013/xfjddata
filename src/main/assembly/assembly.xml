@@ -8,36 +8,36 @@
 	</formats>
 	<fileSets>
 		<fileSet>
-			<directory>D:\eclipse\workspace\xfjd\target\classes</directory>
+			<directory>D:\eclipse\workspace\xfjddata\target\classes</directory>
 			<outputDirectory>classes</outputDirectory>
 			<includes>
 				<include>bizz.properties</include>
 			</includes>
 		</fileSet>
 		<fileSet>
-			<directory>D:\eclipse\workspace\xfjd\target\classes\com</directory>
+			<directory>D:\eclipse\workspace\xfjddata\target\classes\com</directory>
 			<outputDirectory>classes\com</outputDirectory>
 			<includes>
 				<include>bizz.properties</include>
 			</includes>
 		</fileSet>
 		<fileSet>
-			<directory>D:\eclipse\workspace\xfjd\target\classes\com</directory>
+			<directory>D:\eclipse\workspace\xfjddata\target\classes\com</directory>
 			<outputDirectory>classes\com</outputDirectory>
 		</fileSet>
 		<fileSet>
-			<directory>D:\eclipse\workspace\xfjd\target\classes\mapping</directory>
+			<directory>D:\eclipse\workspace\xfjddata\target\classes\mapping</directory>
 			<outputDirectory>classes\mapping</outputDirectory>
 			<includes>
 				<include>default_dm.properties</include>
 			</includes>
 		</fileSet>
 		<fileSet>
-			<directory>D:\eclipse\workspace\xfjd\target\classes\kie</directory>
+			<directory>D:\eclipse\workspace\xfjddata\target\classes\kie</directory>
 			<outputDirectory>classes\kie</outputDirectory>
 		</fileSet>
 		<fileSet>
-			<directory>D:\eclipse\workspace\xfjd\target\classes\META-INF</directory>
+			<directory>D:\eclipse\workspace\xfjddata\target\classes\META-INF</directory>
 			<outputDirectory>classes\META-INF</outputDirectory>
 		</fileSet>
 	</fileSets>

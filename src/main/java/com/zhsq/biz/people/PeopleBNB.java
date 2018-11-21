@@ -13,7 +13,6 @@ import com.abc.fuse.improve.Improvement;
 import com.abc.fuse.improve.ImprveResult;
 import com.abc.fuse.improve.ops.complexus.OpsComplexus;
 import com.abc.rrc.query.queryrecord.criteria.Criteria;
-import com.zhsq.biz.common.AbstractIdentityQuery;
 import com.zhsq.biz.common.KIEHelper;
 import com.zhsq.biz.common.SessionFactory;
 
@@ -28,16 +27,8 @@ public class PeopleBNB implements BizNoBusy, IdentityQuery, Improvement, IFusiti
 	
 	@Override
 	public List<Criteria> getCriteriaList(String recordCode, RecordComplexus complexus) {
-		return new AbstractIdentityQuery() {
-
-			@Override
-			protected List<Criteria> bizCriteriaList(String recordCode, RecordComplexus complexus) {
-				return KIEHelper.getBizCriteriaListFromKIE(recordCode, complexus,
-						SessionFactory.findSessionKeepContainer("ks-people-idt-query"));
-			}
-
-		}.getCriteriaList(recordCode, complexus);
-
+		return KIEHelper.getBizCriteriaListFromKIE(recordCode, complexus,
+				SessionFactory.findSessionKeepContainer("ks-people-idt-query"));
 	}
 
 	@Override

@@ -31,7 +31,7 @@ global com.abc.complexus.RecordComplexus recordComplexus;
 rule "家庭与人存在户主关系设置户主姓名"
 	salience 10 
 when
-	FuseAttribute( name==FamilyItem.家庭分类, value==EnumKeyValue.ENUM_家庭分类_户籍家庭)
+	FuseAttribute( name==FamilyItem.家庭分类, attribute.sqlValue==EnumKeyValue.ENUM_家庭分类_户籍家庭)
 	RecordRelation(type==RelationType.RR_家庭信息_户主_人口信息,$peopleCode:right);
  	eval( recordComplexus.getRootRecord($peopleCode) !=null )
  	eval( recordComplexus.getRootRecord($peopleCode).findAttribute(PeopleItem.姓名) !=null )
@@ -46,7 +46,7 @@ end
 rule "家庭与人存在户主关系设置户主身份证号"
 	salience 10 
 when
-	FuseAttribute( name==FamilyItem.家庭分类, value==EnumKeyValue.ENUM_家庭分类_户籍家庭)
+	FuseAttribute( name==FamilyItem.家庭分类, attribute.sqlValue==EnumKeyValue.ENUM_家庭分类_户籍家庭)
  	RecordRelation(type==RelationType.RR_家庭信息_户主_人口信息,$peopleCode:right);
  	eval( recordComplexus.getRootRecord($peopleCode) !=null )
  	eval( recordComplexus.getRootRecord($peopleCode).findAttribute(PeopleItem.身份证号码) !=null )
@@ -60,7 +60,7 @@ end
 rule "家庭与人不存在户主关系设置户主姓名和身份证为空"
 	salience 10 
 when
-	FuseAttribute( name==FamilyItem.家庭分类, value==EnumKeyValue.ENUM_家庭分类_户籍家庭)
+	FuseAttribute( name==FamilyItem.家庭分类, attribute.sqlValue==EnumKeyValue.ENUM_家庭分类_户籍家庭)
  	not RecordRelation(type==RelationType.RR_家庭信息_户主_人口信息);
 then 
 	//设置户主姓名

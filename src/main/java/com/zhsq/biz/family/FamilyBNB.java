@@ -52,16 +52,8 @@ public class FamilyBNB implements BizNoBusy, IdentityQuery, Improvement, IFusiti
 	
 	@Override
 	public List<Criteria> getCriteriaList(String recordCode, RecordComplexus complexus) {
-		return new AbstractIdentityQuery() {
-
-			@Override
-			protected List<Criteria> bizCriteriaList(String recordCode, RecordComplexus complexus) {
-				return KIEHelper.getBizCriteriaListFromKIE(recordCode, complexus,
-						SessionFactory.findSessionKeepContainer("ks-family-idt-query"));
-			}
-
-		}.getCriteriaList(recordCode, complexus);
-
+		return KIEHelper.getBizCriteriaListFromKIE(recordCode, complexus,
+				SessionFactory.findSessionKeepContainer("ks-family-idt-query"));
 	}
 
 	@Override

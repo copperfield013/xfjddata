@@ -20,11 +20,6 @@ import com.zhsq.biz.constant.EnumKeyValue;
 import com.zhsq.biz.constant.RelationType;
 
 public class IDIntrospection {
-	private static Logger logger = Logger.getLogger(IDIntrospection.class);
-	public static void showText(String text) {
-		logger.debug("【【【【" + text + "】】】】");
-	}
-	
 	
 	public static Integer getChildrenCount(RecordComplexus recordComplexus,String recordName, String recordCode) {
 		Integer count = 0;

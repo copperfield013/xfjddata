@@ -56,6 +56,7 @@ then
 	kcontext.getKnowledgeRuntime().getAgenda().getAgendaGroup( "a_家庭与人的关系" ).setFocus();
 end
 
+
 rule "编辑家庭成员与户主的关系"//编辑户主与成员的关系
 	agenda-group "a_家庭与人的关系"
 	salience 10 
@@ -73,6 +74,7 @@ then
 	String relationName = BaseConstant.getRelationName(String.valueOf($opsValue));
 	recordRelationOpsBuilder.putRelation(relationName,$huzCode); 
 end
+
 
 rule "把身份证号从15位改为18位"
 	salience 20 
@@ -98,3 +100,4 @@ then
 	Attribute sex=AttributeFactory.newInstance(PeopleItem.性别, IDIntrospection.extractSex($idValue.getValueForShow()));
 	attributeList.add(sex);
 end
+

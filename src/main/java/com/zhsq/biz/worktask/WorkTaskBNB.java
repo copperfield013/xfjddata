@@ -22,15 +22,9 @@ public class WorkTaskBNB implements BizNoBusy, IdentityQuery, Improvement, IFusi
 	
 	@Override
 	public List<Criteria> getCriteriaList(String recordCode, RecordComplexus complexus) {
-		return new AbstractIdentityQuery() {
-			@Override
-			protected List<Criteria> bizCriteriaList(String recordCode, RecordComplexus complexus) {
-				return KIEHelper.getBizCriteriaListFromKIE(recordCode, complexus,
-						SessionFactory.findSessionKeepContainer("ks-worktask-idt-query"));
-			}
-
-		}.getCriteriaList(recordCode, complexus);
-
+		return KIEHelper.getBizCriteriaListFromKIE(recordCode, complexus,
+				SessionFactory.findSessionKeepContainer("ks-worktask-idt-query"));
+	
 	}
 
 	@Override

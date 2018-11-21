@@ -55,7 +55,7 @@ rule "家庭中添加成员与户主的关系one2"//第一次添加户主和成�
 when
 	 RecordRelation(type==RelationType.RR_家庭信息_户主_人口信息,left==hostCode, $huzCode:right);
 	 RecordRelation(type==RelationType.RR_家庭信息_成员_人口信息,left==hostCode,right==recordCode);
-	 FuseAttribute(name==PeopleItem.和户主关系, $value:value);
+	 FuseAttribute(name==PeopleItem.和户主关系, $value:attribute.sqlValue);
 then 
 	//添加关系
 	String relationName = BaseConstant.getRelationName(String.valueOf($value));
@@ -67,13 +67,13 @@ rule "不存在归属家庭关系置空和户主关系1"
 when
 	not RecordRelation(type==RelationType.RR_人口信息_归属家庭_家庭信息);
 	not RecordRelation(type==RelationType.RR_人口信息_户主家庭_家庭信息);
-	$FA: FuseAttribute(name==PeopleItem.和户主关系, value!=null  )
+	$FA: FuseAttribute(name==PeopleItem.和户主关系, attribute.sqlValue!=null  )
 then
  	Attribute attr = AttributeFactory.newInstance(PeopleItem.和户主关系, null);
 	attributeList.add(attr);
 end
 
-rule "根据子女数量设置【是否独生子女】one"
+rule "根据子女数量设置【是否独生子女】为是"
 	salience 10 
 when
 	RecordRelation(type==RelationType.RR_人口信息_父母_人口信息,left==recordCode, $right:right);
@@ -83,7 +83,7 @@ then
 	attributeList.add(attrbute);
 end
 
-rule "根据子女数量设置【是否独生子女】two"
+rule "根据子女数量设置【是否独生子女】为否"
 	salience 11 
 when
 	RecordRelation(type==RelationType.RR_人口信息_父母_人口信息,left==recordCode, $right:right);
