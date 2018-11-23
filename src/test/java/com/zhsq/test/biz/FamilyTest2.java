@@ -54,17 +54,18 @@ public class FamilyTest2 {
 
 	private Entity createEntity(String mappingName) {
 		Entity entity = new Entity(mappingName);
-		//entity.putValue("唯一编码", "fd8332f8d2914bb1a69fd42ffe69b3e4");
-		entity.putValue("户籍地址", "西sdf湖区333啦786"); 
-		entity.putValue("家庭总人数", "2");
+		entity.putValue("唯一编码", "d0994ca1a012487aa625b2c36e8cf18b");
+		entity.putValue("户籍地址", "家庭1"); 
+		//entity.putValue("家庭总人数", "2");
 		entity.putValue("家庭分类", EnumKeyValue.ENUM_家庭分类_户籍家庭);
 		
 		Entity relationentity = new Entity("家庭人口");
-		//relationentity.putValue("唯一编码", "6a5ba6f609064d1cbb7b07f8acc769e2");
-		relationentity.putValue("姓名", "韩立21213"); 
+		relationentity.putValue("唯一编码", "5ef7333cbf6742cb88a81580e9da2023");
+		relationentity.putValue("姓名", "韩立212d13"); 
 		relationentity.putValue("人口类型", "户籍人口");
 		relationentity.putValue("和户主关系", EnumKeyValue.ENUM_和户主关系_户主);
 		relationentity.putValue("所属社区", EnumKeyValue.ENUM_祥符街道社区_祥符桥社区);
+		relationentity.putValue("身份证号码", "23423423");
 		entity.putRelationEntity("家庭人口","户主", relationentity);
 		
 		/*Entity relationentity1 = new Entity("家庭人口");

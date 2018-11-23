@@ -13,6 +13,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.abc.application.BizFusionContext;
 import com.abc.application.FusionContext;
 import com.abc.auth.constant.AuthConstant;
+import com.abc.fuse.improve.attribute.OpsAttribute;
 import com.abc.fuse.improve.transfer.BizzAttributeTransfer;
 import com.abc.mapping.entity.Entity;
 import com.abc.mapping.entity.SimpleEntity;
@@ -20,6 +21,7 @@ import com.abc.panel.Discoverer;
 import com.abc.panel.Integration;
 import com.abc.panel.IntegrationMsg;
 import com.abc.panel.PanelFactory;
+import com.abc.rrc.record.Attribute;
 import com.zhsq.biz.constant.DateUtils;
 import com.zhsq.biz.constant.EnumKeyValue;
 import com.zhsq.biz.constant.people.PeopleItem;
@@ -57,15 +59,15 @@ public class PeopleTest {
 	
 	private Entity createEntity(String mappingName) {
 		Entity entity = new Entity(mappingName);
-		//entity.putValue("唯一编码", "080ea7087dc34dc4946553fe9c7d6d60");
-		entity.putValue("姓名", "王宝乐"); 
+		entity.putValue("唯一编码", "c1a4ced31f9d4053952ab964d837af38");
+		entity.putValue("姓名", "杜拉拉"); 
 		entity.putValue("人口类型", "户籍人口");
 		entity.putValue("所属社区", EnumKeyValue.ENUM_祥符街道社区_祥符桥社区);
 		/*entity.putValue("户籍所在地", "杭州ef1");
 		entity.putValue("户籍地门牌号", "西湖73829号fefw");*/
-		entity.putValue("身份证号码", "343434");
-		entity.putValue("性别", EnumKeyValue.ENUM_性别_女);
-		entity.putValue("出生日期", "2018-11-14");
+		//entity.putValue("身份证号码", "343434");
+		//entity.putValue("性别", EnumKeyValue.ENUM_性别_女);
+		//entity.putValue("出生日期", "2018-11-14");
 		
 		/*SimpleEntity sentity = new SimpleEntity("居住信息");
 		sentity.putValue("居住地址", "祥符桥社区->红郡公寓->４幢->１单元->９０４室");
@@ -132,7 +134,6 @@ public class PeopleTest {
 	@Test
 	public void fun() {
 		new PeopleTimeTask().doSomething();
-		
 	}
 	
 	

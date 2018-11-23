@@ -39,7 +39,7 @@ global com.abc.complexus.RecordComplexus recordComplexus;
 global java.lang.String hjtime;//户籍更改：变动日期
 
 
-rule "新增人口标记为没死亡1"
+rule "新增人口标记为没死亡"
 	salience 9 
 when
 	FuseAttribute(name==PeopleItem.是否死亡, attribute.sqlValue == null) or (not FuseAttribute(name==PeopleItem.是否死亡))
@@ -80,9 +80,9 @@ rule "获取最新户籍变更信息设置户籍地门牌号"
 when
 	$FAa:FuseLeafAttribute(name==PeopleItem.户籍变更_变动后街路巷,$leafCode:leafCode);
    $FAb:FuseLeafAttribute(name==PeopleItem.户籍变更_变动后门楼详址, $leafCode==leafCode);
-    $FAc:FuseLeafAttribute(name==PeopleItem.户籍变更_更改户籍门牌号, $leafCode==leafCode, $value:value);
+    $FAc:FuseLeafAttribute(name==PeopleItem.户籍变更_更改户籍门牌号, $leafCode==leafCode, $value:attribute.sqlValue);
      $FAd:FuseLeafAttribute(name==PeopleItem.户籍变更_变动日期, $leafCode==leafCode);
-	eval(String.valueOf(EnumKeyValue.ENUM_是否_是).equals($value))
+	eval(String.valueOf(EnumKeyValue.ENUM_是否_是).equals(String.valueOf($value)))
 	eval(hjtime==null || DateUtils.toLongTime(null, hjtime) < DateUtils.toLongTime(null, $FAd.getValueForShow()))
 then    
 	//设置户籍门牌号
@@ -94,7 +94,7 @@ then
 	kcontext.getKnowledgeRuntime().setGlobal("hjtime", $FAd.getValueForShow());
 end
 
-rule "残疾信息有值设置【是否残疾】为是one"
+rule "残疾信息有值设置【是否残疾】为是"
 	salience 10 
 when
 	exists FuseLeafAttribute(name==PeopleItem.残疾信息_残疾类别)

@@ -20,12 +20,6 @@ import com.zhsq.biz.common.SessionFactory;
 public class PeopleBNB implements BizNoBusy, IdentityQuery, Improvement, IFusitionCallBack {
 
 	@Override
-	public boolean improveOnlyCorrelativeRelation() {
-		// TODO Auto-generated method stub
-		return true;
-	}
-	
-	@Override
 	public List<Criteria> getCriteriaList(String recordCode, RecordComplexus complexus) {
 		return KIEHelper.getBizCriteriaListFromKIE(recordCode, complexus,
 				SessionFactory.findSessionKeepContainer("ks-people-idt-query"));

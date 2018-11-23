@@ -13,7 +13,6 @@ import com.abc.fuse.improve.Improvement;
 import com.abc.fuse.improve.ImprveResult;
 import com.abc.fuse.improve.ops.complexus.OpsComplexus;
 import com.abc.rrc.query.queryrecord.criteria.Criteria;
-import com.zhsq.biz.common.AbstractIdentityQuery;
 import com.zhsq.biz.common.KIEHelper;
 import com.zhsq.biz.common.SessionFactory;
 
@@ -25,30 +24,29 @@ public class FamilyBNB implements BizNoBusy, IdentityQuery, Improvement, IFusiti
 	 * true: 关系改变执行融合
 	 * false: 关系改变也不执行融合
 	 */
-	@Override
+	/*@Override
 	public boolean improveOnlyCorrelativeRelation() {
-		/*return Improvement.super.improveOnlyCorrelativeRelation();*/
-		return false;
-	}
+		return Improvement.super.improveOnlyCorrelativeRelation();
+	}*/
 	
 	/**
 	 * true: 只要为true， 任何情况都融合
 	 * false: 任何情况都不融合
 	 */
-	@Override
+	/*@Override
 	public boolean improveEveryTime() {
 		// TODO Auto-generated method stub
 		return Improvement.super.improveEveryTime();
-	}
+	}*/
 	
 	/**
 	 * 需要的时候去融合， 方法内部为判断什么情况为需要
 	 */
-	@Override
+	/*@Override
 	public boolean needImprove(String arg0, OpsComplexus arg1) {
 		// TODO Auto-generated method stub
 		return Improvement.super.needImprove(arg0, arg1);
-	}
+	}*/
 	
 	@Override
 	public List<Criteria> getCriteriaList(String recordCode, RecordComplexus complexus) {

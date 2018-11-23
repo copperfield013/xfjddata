@@ -63,4 +63,3 @@ then
 	Attribute attribute=AttributeFactory.newInstance(WorkTaskItem.任务是否超时,EnumKeyValue.ENUM_是否_是);
 	attributeList.add(attribute);
 end
-

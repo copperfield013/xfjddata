@@ -9,6 +9,7 @@ import com.abc.rrc.factory.AttributeFactory;
 import com.zhsq.biz.family.algorithm.DataIntrospection;
 import com.zhsq.biz.constant.EnumKeyValue;
 import com.zhsq.biz.constant.RelationType;
+import com.zhsq.biz.common.OutputDisplay;
 
 global java.lang.String hostCode; 
 global java.lang.String hostType;
@@ -36,12 +37,11 @@ when
  	eval( recordComplexus.getRootRecord($peopleCode) !=null )
  	eval( recordComplexus.getRootRecord($peopleCode).findAttribute(PeopleItem.姓名) !=null )
  	eval(recordComplexus.getRootRecord($peopleCode).findAttribute(PeopleItem.姓名).getValueStr() !=null)
-then 
+then 	
 	//设置户主姓名
 	Attribute attr=AttributeFactory.newInstance(FamilyItem.户主姓名, recordComplexus.getRootRecord($peopleCode).findAttribute(PeopleItem.姓名).getValueStr());
 	attributeList.add(attr);
 end
-
 
 rule "家庭与人存在户主关系设置户主身份证号"
 	salience 10 
@@ -52,6 +52,9 @@ when
  	eval( recordComplexus.getRootRecord($peopleCode).findAttribute(PeopleItem.身份证号码) !=null )
  	eval(recordComplexus.getRootRecord($peopleCode).findAttribute(PeopleItem.身份证号码).getValueStr() !=null)
 then 
+	OutputDisplay.showText(recordComplexus.getRootRecord($peopleCode));
+	OutputDisplay.showText( recordComplexus.getRootRecord($peopleCode).findAttribute(PeopleItem.身份证号码));
+	OutputDisplay.showText(recordComplexus.getRootRecord($peopleCode).findAttribute(PeopleItem.身份证号码).getValueStr());
 	//设置户主身份证号
 	Attribute idCode=AttributeFactory.newInstance(FamilyItem.户主身份证号, recordComplexus.getRootRecord($peopleCode).findAttribute(PeopleItem.身份证号码).getValueStr());
 	attributeList.add(idCode);

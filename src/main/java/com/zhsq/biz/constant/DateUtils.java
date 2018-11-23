@@ -19,7 +19,7 @@ public class DateUtils {
 		}
 		
 		if (dateFormat == null || "".equals(dateFormat)) {
-			sdf = new SimpleDateFormat(date);
+			dateFormat = date;
 		} 
 		
 		sdf = new SimpleDateFormat(dateFormat);
