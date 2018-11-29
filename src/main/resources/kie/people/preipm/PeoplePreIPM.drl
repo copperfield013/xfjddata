@@ -63,8 +63,8 @@ rule "编辑家庭成员与户主的关系"//编辑户主与成员的关系
 when
  RecordRelation(type==RelationType.RR_家庭信息_户主_人口信息,left==hostCode, $huzCode:right);
  RecordRelation(type==RelationType.RR_家庭信息_成员_人口信息,left==hostCode,right==recordCode);
- FuseAttribute(name==PeopleItem.和户主关系, attribute.sqlValue != null, $fa:attribute.sqlValue);
- OpsAttribute( name==PeopleItem.和户主关系 , value!=null, $opsValue:value)
+ FuseAttribute(name==PeopleItem.和户主关系,sqlValue != null, $fa:sqlValue);
+ OpsAttribute( name==PeopleItem.和户主关系 , sqlValue!=null, $opsValue:sqlValue)
  eval(!$fa.equals($opsValue))
 then    
 	//移除关系

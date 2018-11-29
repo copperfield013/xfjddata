@@ -35,13 +35,14 @@ public class DataIntrospection {
 	public static Integer getHzCount(RecordComplexus recordComplexus, String recordCode) {
 			Integer count = 0;
 			Collection<RecordRelation> recordRelation = getRecordRelation(recordComplexus, recordCode);
-			for (RecordRelation recordRelation2 : recordRelation) {
-				if (RelationType.RR_家庭信息_户主_人口信息.equals(recordRelation2.getType())) {
-					count++;
-				}
 			
-		}
-		
+			if (!recordRelation.isEmpty()) {
+				for (RecordRelation recordRelation2 : recordRelation) {
+					if (RelationType.RR_家庭信息_户主_人口信息.equals(recordRelation2.getType())) {
+						count++;
+					}
+				}
+			}
 		return count;
 	}
 	

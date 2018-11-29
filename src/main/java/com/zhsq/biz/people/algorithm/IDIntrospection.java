@@ -28,18 +28,15 @@ public class IDIntrospection {
 		RelationCorrelation relationCorrelation = 
 		recordComplexus.getRelationCorrelation(recordCode);//此方法是当前页面加载进来的关系
 		*/
-		
-		RelationCorrelation relationCorrelation = RelationQueryPanel.get(recordName, recordCode);
-		if (relationCorrelation != null) {
-			Collection<RecordRelation> recordRelation = relationCorrelation.getRecordRelation();
+		RelationCorrelation relationCorrelation = recordComplexus.getRelationCorrelation(recordCode);
+		Collection<RecordRelation> recordRelation = relationCorrelation.getRecordRelation();
+		if (!recordRelation.isEmpty()) {
 			for (RecordRelation recordRelation2 : recordRelation) {
 				if (RelationType.RR_人口信息_子女_人口信息.equals(recordRelation2.getType())) {
 					count++;
 				}
 			}
-			
 		}
-		
 		return count;
 	}
 	
