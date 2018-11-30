@@ -1,8 +1,8 @@
 package com.zhsq.test.biz;
 
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.junit.Test;
@@ -11,22 +11,21 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.abc.application.BizFusionContext;
+import com.abc.application.BizNoBusy;
 import com.abc.application.FusionContext;
-import com.abc.auth.constant.AuthConstant;
-import com.abc.fuse.improve.attribute.OpsAttribute;
-import com.abc.fuse.improve.transfer.BizzAttributeTransfer;
+import com.abc.complexus.RecordComplexus;
+import com.abc.fuse.improve.Improvement;
+import com.abc.fuse.improve.ImprveResult;
+import com.abc.fuse.improve.ops.builder.RootRecordOpsBuilder;
+import com.abc.fuse.improve.ops.complexus.OpsComplexus;
 import com.abc.mapping.entity.Entity;
 import com.abc.mapping.entity.SimpleEntity;
 import com.abc.panel.Discoverer;
 import com.abc.panel.Integration;
 import com.abc.panel.IntegrationMsg;
 import com.abc.panel.PanelFactory;
-import com.abc.rrc.record.Attribute;
-import com.zhsq.biz.constant.DateUtils;
+import com.abc.rrc.record.RootRecord;
 import com.zhsq.biz.constant.EnumKeyValue;
-import com.zhsq.biz.constant.people.PeopleItem;
-import com.zhsq.biz.people.algorithm.BirthdayIntrospection;
-import com.zhsq.biz.people.algorithm.IDIntrospection;
 import com.zhsq.biz.timertask.people.PeopleTimeTask;
 @ContextConfiguration(locations = "classpath*:spring-core.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -41,6 +40,7 @@ public class PeopleTest {
 		long startTime = System.currentTimeMillis();
 		BizFusionContext context=new BizFusionContext();
 		context.setSource(FusionContext.SOURCE_COMMON);
+//		context.putBizMap("XFJDE001", new PeopleBNB());
 //		context.setToEntityRange(BizFusionContext.ENTITY_CONTENT_RANGE_ABCNODE_CONTAIN);
 		context.setUserCode("e10adc3949ba59abbe56e057f28888u5");
 		Integration integration=PanelFactory.getIntegration();
@@ -93,11 +93,11 @@ public class PeopleTest {
 		relationentity1.putValue("身份证号码", "23231112");
 		entity.putRelationEntity("子女信息","子女", relationentity1);*/
 		
-		/*SimpleEntity sentity3 = new SimpleEntity("老人补助信息");
+		SimpleEntity sentity3 = new SimpleEntity("老人补助信息");
 		sentity3.putValue("补助类型", EnumKeyValue.ENUM_老人补助枚举_居家养老补助);
 		sentity3.putValue("补助金额", "3232");
 		entity.putMultiAttrEntity(sentity3);
-		*/
+		
 		/*SimpleEntity sentity3 = new SimpleEntity("人口错误信息");
 		sentity3.putValue("错误类型", EnumKeyValue.ENUM_错误类型_身份证错误);
 		sentity3.putValue("描述", "身份错误4444");
@@ -139,6 +139,46 @@ public class PeopleTest {
 	public void fun() {
 		new PeopleTimeTask().doSomething();
 	}
+	
+	protected class PeopleBNB implements BizNoBusy, Improvement {
+
+		@Override
+		public ImprveResult preImprove(BizFusionContext context, String recordCode, OpsComplexus opsComplexus,
+				RecordComplexus recordComplexus) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public ImprveResult improve(BizFusionContext context, String recordCode, RecordComplexus recordComplexus) {
+			RootRecord rootRecord = recordComplexus.getRootRecord(recordCode);
+			String recordName = rootRecord.getName();
+			List<Integer> addedLabelList = new ArrayList<Integer>();
+			List<Integer> removedLabelList = new ArrayList<Integer>();
+			removedLabelList.add(EnumKeyValue.ENUM_人口标签_户籍人口);
+			addedLabelList.add(EnumKeyValue.ENUM_人口标签_80_89岁老人);
+//			
+//			removedLabelList.add(EnumKeyValue.ENUM_人口标签_80_89岁老人);
+//			addedLabelList.add(EnumKeyValue.ENUM_人口标签_90以上岁老人);
+			
+			RootRecordOpsBuilder rootRecordOpsBuilder = RootRecordOpsBuilder.getInstance(recordName, recordCode);
+			rootRecordOpsBuilder.setRemoveLabel(removedLabelList);
+			rootRecordOpsBuilder.setAddLabel(addedLabelList);
+			ImprveResult imprveResult = new ImprveResult();
+			imprveResult.setRootRecordOps(rootRecordOpsBuilder.getRootRecordOps());
+//			imprveResult.setRecordRelationOps(recordRelationOpsBuilder.getRecordRelationOps());
+
+			return imprveResult;
+		}
+
+		@Override
+		public ImprveResult postImprove(BizFusionContext context, String recordCode, RecordComplexus recordComplexus) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+	}
+	
 	
 	
 }
