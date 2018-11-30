@@ -247,13 +247,16 @@ public class EnumKeyValue {
 	public static final Integer ENUM_人口称谓_舅舅=30330;
 	public static final Integer ENUM_人口称谓_姑姑=30331;
 	public static final Integer ENUM_人口称谓_姑父=30332;
-	public static final Integer ENUM_家庭分类_户籍家庭=30334;
-	public static final Integer ENUM_家庭分类_居住家庭=30335;
 	
+	public static final Integer ENUM_人口标签_残疾补助=30348;
+	public static final Integer ENUM_人口标签_居家养老补助=30349;
 	public static final Integer ENUM_和户主关系_爷爷=30336;
 	public static final Integer ENUM_和户主关系_奶奶=30337;
-	
+	public static final Integer ENUM_家庭分类_户籍家庭=30334;
+	public static final Integer ENUM_家庭分类_居住家庭=30335;
 	public static final Integer ENUM_错误类型_身份证错误=30339;
-	
 	public static final Integer ENUM_错误类型_家庭信息错误=30340;
+	public static final Integer ENUM_错误类型_数据冲突=30350;
+	public static final Integer ENUM_老人补助枚举_居家养老补助=30345;
+	public static final Integer ENUM_残疾人补助枚举_残疾补助=30347;
 }

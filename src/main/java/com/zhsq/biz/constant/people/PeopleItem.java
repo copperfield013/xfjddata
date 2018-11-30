@@ -67,35 +67,39 @@ public class PeopleItem {
 	public static final String 生育信息_姓名="XFJD448";
 	
 	public static final String 是否残疾="XFJD483";
-	
-	
 	public static final String 生育登记证件号="XFJD484";
 	public static final String 生育登记发证时间="XFJD485";
 	public static final String 孩次="XFJD486";
 	public static final String 计划内外="XFJD487";
 	public static final String 怀孕状况="XFJD492";
 	public static final String 几岁老人="XFJD493";
-	public static final String 高龄津贴="XFJD494";
-	public static final String  发放方式 ="XFJD495";
-	public static final String  养老金发放银行 ="XFJD496";
-	public static final String  开户行 ="XFJD497";
-	public static final String  银行卡号 ="XFJD498";
-	public static final String  是否参加城乡居民养老保险 ="XFJD499";
-	public static final String  补助金额 ="XFJD500";
-	public static final String  审批状态 ="XFJD501";
-	public static final String  审批人 ="XFJD502";
-	public static final String  审批日期 ="XFJD503";
-	public static final String  制单人 ="XFJD504";
-	public static final String  制单日期 ="XFJD505";
 	public static final String 和户主关系历史="XFJD515";
+	public static final String 高龄津贴="XFJD522";
+	public static final String 补助金额="XFJD523";
+	public static final String 发放方式="XFJD524";
+	public static final String 养老金发放银行="XFJD525";
+	public static final String 开户行="XFJD526";
+	public static final String 银行卡号="XFJD527";
+	public static final String  是否参加城乡居民养老保险="XFJD668";
+	public static final String 审批状态="XFJD669";
+	public static final String 审批人="XFJD670";
+	public static final String 审批日期="XFJD671";
+	public static final String 制单人="XFJD672";
+	public static final String 制单日期="XFJD673";
+	public static final String 人口称谓="XFJD711";
+	public static final String 人口错误信息="XFJD714";
+	public static final String 老人补助信息="XFJD739";
+	public static final String 残疾人补助信息="XFJD743";
+	public static final String 编辑时间="XFJDE001_ED";
+	
+	
+	public static final String 居家养老补助="XFJD739";
+	public static final String 残疾补助="XFJD743";
 	
 	public static final String 户籍变更_核对情况="XFJD506";
 	public static final String 居住信息_居住地址="XFJD488";
 	
 	public static final String 户籍变更_更改户籍门牌号="XFJD516";
-	public static final String 人口称谓="XFJD711";
-	
-	public static final String 人口错误信息="XFJD714";
 	
 	public static final String 人口错误信息_描述="XFJD715";
 	public static final String 人口错误信息_错误类型="XFJD716";
@@ -105,4 +109,11 @@ public class PeopleItem {
 	public static final String 居住信息_居住地址_楼栋="XFJD512";
 	public static final String 居住信息_居住地址_单元="XFJD513";
 	public static final String 居住信息_居住地址_室="XFJD514";
+	
+	public static final String 老人补助信息_补助金额="XFJD740";
+	public static final String 老人补助信息_描述="XFJD741";
+	public static final String 老人补助信息_补助类型="XFJD742";
+	public static final String 残疾人补助信息_补助金额="XFJD744";
+	public static final String 残疾人补助信息_描述="XFJD745";
+	public static final String 残疾人补助信息_补助类型="XFJD746";
 }

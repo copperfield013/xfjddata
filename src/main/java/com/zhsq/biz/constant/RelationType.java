@@ -27,4 +27,6 @@ public class RelationType {
 	public static final String RR_工作任务_访问_权限="XFJDE379R420";
 	public static final String RR_人口信息_爷爷奶奶_人口信息="XFJDE001R713";
 	public static final String RR_人口信息_孙子孙女_人口信息="XFJDE001R714";
+	public static final String RR_用户_关联人口_人口信息="ABCBE002R737";
+	public static final String RR_人口信息_关联用户_用户="XFJDE001R738";
 }

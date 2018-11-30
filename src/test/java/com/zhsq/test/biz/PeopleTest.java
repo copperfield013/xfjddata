@@ -35,7 +35,6 @@ public class PeopleTest {
 	private static Logger logger = Logger.getLogger(PeopleTest.class);
 	protected String mapperName = "人口信息";
 
-	
 	@Test
 	public void readData() {
 		
@@ -59,13 +58,13 @@ public class PeopleTest {
 	
 	private Entity createEntity(String mappingName) {
 		Entity entity = new Entity(mappingName);
-		entity.putValue("唯一编码", "c1a4ced31f9d4053952ab964d837af38");
-		entity.putValue("姓名", "杜拉拉"); 
+		entity.putValue("唯一编码", "fd1fe04845894d0f97bae06ef9b9fbfa");
+		entity.putValue("姓名", "乐乐1"); 
 		entity.putValue("人口类型", "户籍人口");
-		entity.putValue("所属社区", EnumKeyValue.ENUM_祥符街道社区_祥符桥社区);
+		//entity.putValue("所属社区", EnumKeyValue.ENUM_祥符街道社区_勤丰社区);
 		/*entity.putValue("户籍所在地", "杭州ef1");
 		entity.putValue("户籍地门牌号", "西湖73829号fefw");*/
-		//entity.putValue("身份证号码", "343434");
+		entity.putValue("身份证号码", "110101191503070898");
 		//entity.putValue("性别", EnumKeyValue.ENUM_性别_女);
 		//entity.putValue("出生日期", "2018-11-14");
 		
@@ -85,15 +84,20 @@ public class PeopleTest {
 		//return relationentity;
 		
 		/*entity.putRelationEntity("子女信息","子女", relationentity);*/
-		/*
-		Entity relationentity1 = new Entity("人口信息");
-		relationentity1.putValue("唯一编码", "a2eede54313c1da0bfgere714843331t");
-		relationentity1.putValue("姓名", "二二"); 
+		
+		/*Entity relationentity1 = new Entity("人口信息");
+		relationentity1.putValue("唯一编码", "0effa5c786034f5388cce004595ef6e8");
+		relationentity1.putValue("姓名", "小强大女儿"); 
 		relationentity1.putValue("人口类型", "户籍人口");
 		relationentity1.putValue("所属社区", EnumKeyValue.ENUM_祥符街道社区_祥符桥社区);
 		relationentity1.putValue("身份证号码", "23231112");
 		entity.putRelationEntity("子女信息","子女", relationentity1);*/
 		
+		/*SimpleEntity sentity3 = new SimpleEntity("老人补助信息");
+		sentity3.putValue("补助类型", EnumKeyValue.ENUM_老人补助枚举_居家养老补助);
+		sentity3.putValue("补助金额", "3232");
+		entity.putMultiAttrEntity(sentity3);
+		*/
 		/*SimpleEntity sentity3 = new SimpleEntity("人口错误信息");
 		sentity3.putValue("错误类型", EnumKeyValue.ENUM_错误类型_身份证错误);
 		sentity3.putValue("描述", "身份错误4444");
@@ -104,7 +108,7 @@ public class PeopleTest {
 		sentity2.putValue("残疾等级", EnumKeyValue.ENUM_残疾等级_一级);
 		entity.putMultiAttrEntity(sentity2);*/
 		
-		SimpleEntity sentity1 = new SimpleEntity("户籍变更");
+		/*SimpleEntity sentity1 = new SimpleEntity("户籍变更");
 		sentity1.putValue("申报人姓名", "李好帅");
 		sentity1.putValue("变动前街路巷", "好帅社区1");
 		sentity1.putValue("变动前门（楼）详址", "51幢3单元504");
@@ -112,7 +116,7 @@ public class PeopleTest {
 		sentity1.putValue("变动后门（楼）详址", "41幢8单元902");
 		sentity1.putValue("更改户籍门牌号", EnumKeyValue.ENUM_是否_是);
 		sentity1.putValue("变动日期", "2018-10-14");
-		entity.putMultiAttrEntity(sentity1);
+		entity.putMultiAttrEntity(sentity1);*/
 		
 		/*SimpleEntity sentity = new SimpleEntity("户籍变更");
 		sentity.putValue("申报人姓名", "李好帅");
