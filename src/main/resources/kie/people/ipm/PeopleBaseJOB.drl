@@ -1,0 +1,89 @@
+package com.abc.rule.people.ipm
+
+import com.abc.fuse.improve.attribute.FuseAttribute;
+import com.abc.relation.RecordRelation;
+import  com.zhsq.biz.constant.people.PeopleItem;
+import  com.zhsq.biz.constant.family.FamilyItem;
+import com.abc.rrc.record.Attribute;
+import com.abc.rrc.factory.AttributeFactory;
+import com.zhsq.biz.family.algorithm.DataIntrospection;
+import com.zhsq.biz.constant.EnumKeyValue;
+import com.zhsq.biz.constant.RelationType;
+import com.abc.fuse.improve.attribute.leaf.FuseLeafAttribute;
+import com.zhsq.biz.common.CommonCalculation;
+import com.zhsq.biz.people.algorithm.IDIntrospection;
+import com.zhsq.biz.constant.DateUtils;
+import com.abc.fuse.improve.attribute.FuseLeafAttrFactory;
+import com.zhsq.biz.common.OutputDisplay;
+import com.zhsq.biz.common.AuthAlgorithm;
+
+
+global java.lang.String hostCode; 
+global java.lang.String hostType;
+
+global java.lang.String userCode;
+global java.lang.String recordCode;
+global java.lang.String recordName;
+
+global java.util.List attributeList;
+global java.util.List addedLabelList;
+global java.util.List removedLabelList;
+global java.util.List addedLabelList;
+global java.util.List putFuseLeafAttributeList;
+global java.util.List addedLeafAttrList;
+global java.util.Map removedLeafAttrMap;
+global com.abc.rrc.record.RootRecord rootRecord;
+global  com.abc.fuse.improve.ops.builder.RecordRelationOpsBuilder recordRelationOpsBuilder;
+global com.abc.complexus.RecordComplexus recordComplexus;
+
+/*
+A类=1单位招用人数							
+B类=2自谋职业+4公益性岗位人数							
+C类=3灵活就业+5其他形式就业人数							
+D类=6实际失业人数
+退休=退休	
+*/
+rule "根据就业形式给人员分类A"
+	salience 10 
+when
+	 FuseAttribute( name==PeopleItem.就业形式,sqlValue == EnumKeyValue.ENUM_就业形式_单位招用  )
+then 
+	Attribute peopleType = AttributeFactory.newInstance(PeopleItem.人员分类, EnumKeyValue.ENUM_人员分类_A类);
+	attributeList.add(peopleType);
+end 
+rule "根据就业形式给人员分类B"
+	salience 10 
+when
+	 FuseAttribute( name==PeopleItem.就业形式,sqlValue == EnumKeyValue.ENUM_就业形式_自谋职业  ) 
+	  or FuseAttribute( name==PeopleItem.就业形式,sqlValue == EnumKeyValue.ENUM_就业形式_公益性岗位  )
+then 
+	Attribute peopleType = AttributeFactory.newInstance(PeopleItem.人员分类, EnumKeyValue.ENUM_人员分类_B类);
+	attributeList.add(peopleType);
+end 
+rule "根据就业形式给人员分类C"
+	salience 10 
+when
+	 FuseAttribute( name==PeopleItem.就业形式,sqlValue == EnumKeyValue.ENUM_就业形式_灵活就业 ) 
+	  or FuseAttribute( name==PeopleItem.就业形式,sqlValue == EnumKeyValue.ENUM_就业形式_其他形式就业 )
+then 
+	Attribute peopleType = AttributeFactory.newInstance(PeopleItem.人员分类, EnumKeyValue.ENUM_人员分类_C类);
+	attributeList.add(peopleType);
+end 
+
+rule "根据就业形式给人员分类D"
+	salience 10 
+when
+	 FuseAttribute( name==PeopleItem.就业形式,sqlValue == EnumKeyValue.ENUM_就业形式_失业 ) 
+then 
+	Attribute peopleType = AttributeFactory.newInstance(PeopleItem.人员分类, EnumKeyValue.ENUM_人员分类_D类);
+	attributeList.add(peopleType);
+end 
+
+rule "根据就业形式给人员分类退休"
+	salience 10 
+when
+	 FuseAttribute( name==PeopleItem.就业形式,sqlValue == EnumKeyValue.ENUM_就业形式_退休 ) 
+then 
+	Attribute peopleType = AttributeFactory.newInstance(PeopleItem.人员分类, EnumKeyValue.ENUM_人员分类_退休);
+	attributeList.add(peopleType);
+end 

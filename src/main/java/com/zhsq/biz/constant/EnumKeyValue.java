@@ -1,7 +1,16 @@
 package com.zhsq.biz.constant;
 
+/**
+ * 改动格式： 中划线变引文下划线
+ * public static final Integer ENUM_星级评价_一星
+	public static final Integer ENUM_星级评价_二星
+	public static final Integer ENUM_星级评价_三星
+	public static final Integer ENUM_星级评价_四星
+	public static final Integer ENUM_星级评价_五星
+ * @author so-well
+ *
+ */
 public class EnumKeyValue {
-	
 	public static final Integer ENUM_可用状态_新增=2202;
 	public static final Integer ENUM_可用状态_正常使用=2203;
 	public static final Integer ENUM_可用状态_废弃=2204;
@@ -23,6 +32,8 @@ public class EnumKeyValue {
 	public static final Integer ENUM_人口标签_90以上岁老人=30158;
 	public static final Integer ENUM_人口标签_70_79老人=30159;
 	public static final Integer ENUM_人口标签_60_69老人=30160;
+	public static final Integer ENUM_人口标签_残疾补助=30348;
+	public static final Integer ENUM_人口标签_居家养老补助=30349;
 	public static final Integer ENUM_性别_男=30005;
 	public static final Integer ENUM_性别_女=30006;
 	public static final Integer ENUM_性别_其他=30007;
@@ -46,12 +57,18 @@ public class EnumKeyValue {
 	public static final Integer ENUM_和户主关系_曾外孙子=30028;
 	public static final Integer ENUM_和户主关系_母亲=30029;
 	public static final Integer ENUM_和户主关系_父亲=30030;
+	public static final Integer ENUM_和户主关系_爷爷=30336;
+	public static final Integer ENUM_和户主关系_奶奶=30337;
 	public static final Integer ENUM_是否_是=30032;
 	public static final Integer ENUM_是否_否=30033;
 	public static final Integer ENUM_户口性质_非农业户口=30035;
 	public static final Integer ENUM_户口性质_农业户口=30036;
 	public static final Integer ENUM_婚姻状况_未婚=30038;
 	public static final Integer ENUM_婚姻状况_初婚=30039;
+	public static final Integer ENUM_婚姻状况_再婚=30193;
+	public static final Integer ENUM_婚姻状况_复婚=30194;
+	public static final Integer ENUM_婚姻状况_离婚=30195;
+	public static final Integer ENUM_婚姻状况_丧偶=30196;
 	public static final Integer ENUM_文化程度_研究生教育=30050;
 	public static final Integer ENUM_文化程度_博士研究生毕业=30051;
 	public static final Integer ENUM_文化程度_博士研究生结业=30052;
@@ -135,7 +152,6 @@ public class EnumKeyValue {
 	public static final Integer ENUM_保存派发_派发=30140;
 	public static final Integer ENUM_归档废弃_归档=30142;
 	public static final Integer ENUM_归档废弃_废弃=30143;
-	public static final Integer ENUM_星级评价_一星=30147;
 	public static final Integer ENUM_星级评价_二星=30148;
 	public static final Integer ENUM_星级评价_三星=30149;
 	public static final Integer ENUM_星级评价_四星=30150;
@@ -159,11 +175,6 @@ public class EnumKeyValue {
 	public static final Integer ENUM_祥符街道社区_申悦社区=30189;
 	public static final Integer ENUM_祥符街道社区_申慧社区=30190;
 	public static final Integer ENUM_祥符街道社区_蓝孔雀社区=30191;
-	
-	public static final Integer ENUM_婚姻状况_再婚=30193;
-	public static final Integer ENUM_婚姻状况_复婚=30194;
-	public static final Integer ENUM_婚姻状况_离婚=30195;
-	public static final Integer ENUM_婚姻状况_丧偶=30196;
 	public static final Integer ENUM_孩次_一孩=30198;
 	public static final Integer ENUM_孩次_二孩=30199;
 	public static final Integer ENUM_孩次_三孩=30200;
@@ -179,8 +190,6 @@ public class EnumKeyValue {
 	public static final Integer ENUM_老人标签_70_79岁老人=30214;
 	public static final Integer ENUM_老人标签_80_89岁老人=30215;
 	public static final Integer ENUM_老人标签_90岁以上老人=30216;
-
-	
 	public static final Integer ENUM_省级行政区域_北京市=30218;
 	public static final Integer ENUM_省级行政区域_天津市=30219;
 	public static final Integer ENUM_省级行政区域_河北省=30220;
@@ -229,9 +238,6 @@ public class EnumKeyValue {
 	public static final Integer ENUM_1单元_904室=30263;
 	public static final Integer ENUM_1幢_1单元=30265;
 	public static final Integer ENUM_1单元_504室=30266;
-	
-	
-	
 	public static final Integer ENUM_人口称谓_房客=30318;
 	public static final Integer ENUM_人口称谓_房主=30319;
 	public static final Integer ENUM_人口称谓_哥哥=30320;
@@ -247,11 +253,6 @@ public class EnumKeyValue {
 	public static final Integer ENUM_人口称谓_舅舅=30330;
 	public static final Integer ENUM_人口称谓_姑姑=30331;
 	public static final Integer ENUM_人口称谓_姑父=30332;
-	
-	public static final Integer ENUM_人口标签_残疾补助=30348;
-	public static final Integer ENUM_人口标签_居家养老补助=30349;
-	public static final Integer ENUM_和户主关系_爷爷=30336;
-	public static final Integer ENUM_和户主关系_奶奶=30337;
 	public static final Integer ENUM_家庭分类_户籍家庭=30334;
 	public static final Integer ENUM_家庭分类_居住家庭=30335;
 	public static final Integer ENUM_错误类型_身份证错误=30339;
@@ -259,4 +260,16 @@ public class EnumKeyValue {
 	public static final Integer ENUM_错误类型_数据冲突=30350;
 	public static final Integer ENUM_老人补助枚举_居家养老补助=30345;
 	public static final Integer ENUM_残疾人补助枚举_残疾补助=30347;
+	public static final Integer ENUM_就业形式_单位招用=30352;
+	public static final Integer ENUM_就业形式_自谋职业=30353;
+	public static final Integer ENUM_就业形式_公益性岗位=30354;
+	public static final Integer ENUM_就业形式_灵活就业=30355;
+	public static final Integer ENUM_就业形式_其他形式就业=30356;
+	public static final Integer ENUM_就业形式_失业=30357;
+	public static final Integer ENUM_就业形式_退休=30358;
+	public static final Integer ENUM_人员分类_A类=30370;
+	public static final Integer ENUM_人员分类_B类=30371;
+	public static final Integer ENUM_人员分类_C类=30372;
+	public static final Integer ENUM_人员分类_D类=30373;
+	public static final Integer ENUM_人员分类_退休=30374;
 }
