@@ -12,7 +12,7 @@ public class AuthUtil {
 	
 	private static UserInfoService instance = ServiceFactory.getUserInfoService();
 
-	public static Collection<String> getUserAuth(String userCode, Collection<String> labels) {
+	public static Collection<String> getUserAuth(String userCode, Collection<Integer> labels) {
 
 		UserComplexus userComplexus = instance.getUserComplexus(userCode);
 		return userComplexus.findAuthHadTheseLabels(labels);
@@ -25,20 +25,20 @@ public class AuthUtil {
 		return (String) userComplexus.getUserRecord().findAttribute(UserItem.昵称).getValueStr();
 	}
 
-	public static Collection<String> getUserAuth(String userCode, String label) {
+	public static Collection<String> getUserAuth(String userCode, Integer label) {
 
 		UserComplexus userComplexus = instance.getUserComplexus(userCode);
 		return userComplexus.findAuthHadLabel(label);
 
 	}
 	
-	public static Collection<String> getUserRole(String userCode, Collection<String> labels) {
+	public static Collection<String> getUserRole(String userCode, Collection<Integer> labels) {
 		UserComplexus userComplexus = instance.getUserComplexus(userCode);
 		return userComplexus.findRoleHadTheseLabels(labels);
 
 	}
 
-	public static Collection<String> getUserRole(String userCode, String label) {
+	public static Collection<String> getUserRole(String userCode, Integer label) {
 		UserComplexus userComplexus = instance.getUserComplexus(userCode);
 		return userComplexus.findRoleHadLabel(label);
 	}
