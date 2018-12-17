@@ -62,8 +62,6 @@ when
 	FuseLeafAttribute(name==PeopleItem.老人补助信息_补助类型, $value:sqlValue, $va:value);
 	eval(String.valueOf(EnumKeyValue.ENUM_老人补助枚举_居家养老补助).equals(String.valueOf($value)))
 then 
-	OutputDisplay.showText("value:sqlValue" +  $value);
-	OutputDisplay.showText("$va:value" + $va);
 	addedLabelList.add(EnumKeyValue.ENUM_人口标签_居家养老补助);
 end
 

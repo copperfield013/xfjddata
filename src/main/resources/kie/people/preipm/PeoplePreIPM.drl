@@ -1,4 +1,4 @@
-package com.abc.rule.people.tipm
+package com.abc.rule.people.preipm
 
 import com.abc.fuse.improve.attribute.FuseAttribute;
 import com.abc.fuse.improve.attribute.OpsAttribute;

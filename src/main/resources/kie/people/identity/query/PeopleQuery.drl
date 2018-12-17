@@ -11,7 +11,7 @@ import com.zhsq.biz.constant.EnumKeyValue;
 import com.abc.rrc.query.criteria.CommonSymbol;
 
 global java.lang.String recordName;
-global com.abc.rrc.query.criteria.BizzEntityCriteriaFactory bizzEntityCriteriaFactory;
+global com.abc.rrc.query.criteria.BizzCriteriaFactory bizzCriteriaFactory;
 
 rule "姓名 and 身份证号 criteria" 
 	activation-group "people查询条件"
@@ -20,8 +20,8 @@ when
     $nameFB:FuseAttribute(name==PeopleItem.姓名,CommonCalculation.isBasicLawful(value));
     $IdFB:FuseAttribute(name==PeopleItem.身份证号码,CommonCalculation.isBasicLawful(value));
 then 
-	bizzEntityCriteriaFactory.addCriteria($nameFB.getAttribute(), CommonSymbol.EQUAL);
-	bizzEntityCriteriaFactory.addCriteria($IdFB.getAttribute(), CommonSymbol.EQUAL);
+	bizzCriteriaFactory.addCriteria($nameFB.getAttribute(), CommonSymbol.EQUAL);
+	bizzCriteriaFactory.addCriteria($IdFB.getAttribute(), CommonSymbol.EQUAL);
 end
 
 rule "姓名 and 户籍地址 criteria" 
@@ -32,7 +32,7 @@ when
     $siteFB:FuseAttribute(name == PeopleItem.户籍所在地,CommonCalculation.isBasicLawful(value));
     $siteFC:FuseAttribute(name == PeopleItem.户籍地门牌号,CommonCalculation.isBasicLawful(value));
 then      
-	bizzEntityCriteriaFactory.addCriteria($nameFA.getAttribute(), CommonSymbol.EQUAL);
-	bizzEntityCriteriaFactory.addCriteria($siteFB.getAttribute(), CommonSymbol.EQUAL);
-	bizzEntityCriteriaFactory.addCriteria($siteFC.getAttribute(), CommonSymbol.EQUAL);
+	bizzCriteriaFactory.addCriteria($nameFA.getAttribute(), CommonSymbol.EQUAL);
+	bizzCriteriaFactory.addCriteria($siteFB.getAttribute(), CommonSymbol.EQUAL);
+	bizzCriteriaFactory.addCriteria($siteFC.getAttribute(), CommonSymbol.EQUAL);
 end

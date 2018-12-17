@@ -4,7 +4,7 @@ import com.abc.rrc.query.queryrecord.criteria.Criteria;
 
 
 global java.lang.String recordName;
-global com.abc.rrc.query.criteria.BizzEntityCriteriaFactory bizzEntityCriteriaFactory;
+global com.abc.rrc.query.criteria.BizzCriteriaFactory bizzCriteriaFactory;
 
 
 

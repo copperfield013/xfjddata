@@ -1,4 +1,4 @@
-package com.abc.rule.people.tipm
+package com.abc.rule.people.preipm
 
 import com.abc.fuse.improve.attribute.FuseAttribute;
 import com.abc.fuse.improve.attribute.OpsAttribute;
@@ -21,7 +21,12 @@ import com.zhsq.biz.constant.BaseConstant;
 import com.abc.relation.RelationCorrelation;
 import com.abc.fuse.improve.attribute.FuseLeafAttrFactory;
 import com.zhsq.biz.people.algorithm.IDIntrospection;
-
+import com.zhsq.biz.constant.peoplestat.PeopleStatItem;
+import com.abc.rrc.record.RootRecord;
+import com.abc.sysdate.SystemDateTimeManager;
+import com.zhsq.biz.common.AuthAlgorithm;
+import com.abc.transfer.builder.IRootRecordBuilder;
+import com.abc.transfer.builder.RootRecordBuilderFactory;
 
 global java.lang.String hostCode; 
 global java.lang.String hostType;
@@ -30,6 +35,10 @@ global java.lang.String userCode;
 global java.lang.String recordCode;
 global java.lang.String recordName;
 
+
+
+global java.util.List recordRelationList;
+global java.util.List rootRecordList;
 global java.util.List attributeList;
 global java.util.List addedLabelList;
 global java.util.List removedLabelList;
@@ -47,7 +56,140 @@ rule "记录之前就业形式"
 		$fuseJOB: FuseAttribute( name== PeopleItem.就业形式,$fuseValue:sqlValue)
 		eval(!$opsValue.equals($fuseValue))
 	then
+	
 		Attribute jobType = AttributeFactory.newInstance(PeopleItem.之前就业形式, $fuseJOB.getValueForShow());
 		attributeList.add(jobType);
+		kcontext.getKnowledgeRuntime().getAgenda().getAgendaGroup( "人员分类" ).setFocus();
 end
+
+rule "记录之前就业形式2"
+	when
+		not FuseAttribute( name== PeopleItem.就业形式)
+	then
+		kcontext.getKnowledgeRuntime().getAgenda().getAgendaGroup( "人员分类" ).setFocus();
+end
+
+/*
+A类=1单位招用人数							
+B类=2自谋职业+4公益性岗位人数							
+C类=3灵活就业+5其他形式就业人数							
+D类=6实际失业人数
+退休=退休	
+*/
+rule "根据就业形式给人员分类A"
+	agenda-group "人员分类"
+	salience 10 
+when
+	OpsAttribute(name==PeopleItem.姓名, $nameValue:value);
+	OpsAttribute(name==PeopleItem.身份证号码, $IDValue:value);
+	OpsAttribute(name==PeopleItem.所属社区,$areaValue:sqlValue);
+	$opsAttr: OpsAttribute( name==PeopleItem.就业形式,sqlValue == EnumKeyValue.ENUM_就业形式_单位招用  )
+then 
+	Attribute peopleType = AttributeFactory.newInstance(PeopleItem.四类人员, EnumKeyValue.ENUM_四类人员_A类);
+	attributeList.add(peopleType);
+	
+	//生产统计
+	IRootRecordBuilder iRootRecordBuilder = RootRecordBuilderFactory.getPersistRootRecordBuilder(BaseConstant.TYPE_人员分类统计);
+	iRootRecordBuilder.putAttribute(PeopleStatItem.姓名, $nameValue);
+	iRootRecordBuilder.putAttribute(PeopleStatItem.身份证号, $IDValue);
+	iRootRecordBuilder.putAttribute(PeopleStatItem.所属社区, $areaValue);
+	iRootRecordBuilder.putAttribute(PeopleStatItem.四类人员, EnumKeyValue.ENUM_四类人员_A类);
+	iRootRecordBuilder.putAttribute(PeopleStatItem.更新时间, SystemDateTimeManager.getCunrrentTime());
+	
+	RootRecord record = iRootRecordBuilder.getRootRecord();
+	rootRecordList.add(record);
+	//添加关系
+	recordRelationOpsBuilder.putRelation(RelationType.RR_人口信息_关联四类人员_四类人员,record.getCode()); 
+	//所属社区的权限code： AuthAlgorithm.getAreaAuthCode((Integer)$areaValue)
+	//添加权限
+	RecordRelation recordRelation = new RecordRelation(record.getCode(), RelationType.RR_四类人员_可被访问_权限, AuthAlgorithm.getAreaAuthCode((Integer)$areaValue));
+	recordRelationList.add(recordRelation);
+end 
+rule "根据就业形式给人员分类B"
+	agenda-group "人员分类"
+	salience 10 
+when
+	OpsAttribute(name==PeopleItem.姓名, $nameValue:value);
+	OpsAttribute(name==PeopleItem.身份证号码, $IDValue:value);
+	OpsAttribute(name==PeopleItem.所属社区,$areaValue:sqlValue);
+	 OpsAttribute( name==PeopleItem.就业形式,sqlValue == EnumKeyValue.ENUM_就业形式_自谋职业  ) 
+	  or OpsAttribute( name==PeopleItem.就业形式,sqlValue == EnumKeyValue.ENUM_就业形式_公益性岗位  )
+then 
+	Attribute peopleType = AttributeFactory.newInstance(PeopleItem.四类人员, EnumKeyValue.ENUM_四类人员_B类);
+	attributeList.add(peopleType);
+	
+	//生产统计
+	IRootRecordBuilder iRootRecordBuilder = RootRecordBuilderFactory.getPersistRootRecordBuilder(BaseConstant.TYPE_人员分类统计);
+	iRootRecordBuilder.putAttribute(PeopleStatItem.姓名, $nameValue);
+	iRootRecordBuilder.putAttribute(PeopleStatItem.身份证号, $IDValue);
+	iRootRecordBuilder.putAttribute(PeopleStatItem.所属社区, $areaValue);
+	iRootRecordBuilder.putAttribute(PeopleStatItem.四类人员, EnumKeyValue.ENUM_四类人员_B类);
+	iRootRecordBuilder.putAttribute(PeopleStatItem.更新时间, SystemDateTimeManager.getCunrrentTime());
+	
+	RootRecord record = iRootRecordBuilder.getRootRecord();
+	rootRecordList.add(record);
+	//添加关系
+	recordRelationOpsBuilder.putRelation(RelationType.RR_人口信息_关联四类人员_四类人员,record.getCode()); 
+	//添加权限
+	RecordRelation recordRelation = new RecordRelation(record.getCode(), RelationType.RR_四类人员_可被访问_权限, AuthAlgorithm.getAreaAuthCode((Integer)$areaValue));
+	recordRelationList.add(recordRelation);
+end 
+rule "根据就业形式给人员分类C"
+	agenda-group "人员分类"
+	salience 10 
+when
+	OpsAttribute(name==PeopleItem.姓名, $nameValue:value);
+	OpsAttribute(name==PeopleItem.身份证号码, $IDValue:value);
+	OpsAttribute(name==PeopleItem.所属社区, $areaValue:sqlValue);
+	 OpsAttribute( name==PeopleItem.就业形式,sqlValue == EnumKeyValue.ENUM_就业形式_灵活就业 ) 
+	  or OpsAttribute( name==PeopleItem.就业形式,sqlValue == EnumKeyValue.ENUM_就业形式_其他形式就业 )
+then 
+	Attribute peopleType = AttributeFactory.newInstance(PeopleItem.四类人员, EnumKeyValue.ENUM_四类人员_C类);
+	attributeList.add(peopleType);
+	
+	//生产统计
+	IRootRecordBuilder iRootRecordBuilder = RootRecordBuilderFactory.getPersistRootRecordBuilder(BaseConstant.TYPE_人员分类统计);
+	iRootRecordBuilder.putAttribute(PeopleStatItem.姓名, $nameValue);
+	iRootRecordBuilder.putAttribute(PeopleStatItem.身份证号, $IDValue);
+	iRootRecordBuilder.putAttribute(PeopleStatItem.所属社区, $areaValue);
+	iRootRecordBuilder.putAttribute(PeopleStatItem.四类人员, EnumKeyValue.ENUM_四类人员_C类);
+	iRootRecordBuilder.putAttribute(PeopleStatItem.更新时间, SystemDateTimeManager.getCunrrentTime());
+	
+	RootRecord record = iRootRecordBuilder.getRootRecord();
+	rootRecordList.add(record);
+	//添加关系
+	recordRelationOpsBuilder.putRelation(RelationType.RR_人口信息_关联四类人员_四类人员,record.getCode()); 
+	//添加权限
+	RecordRelation recordRelation = new RecordRelation(record.getCode(), RelationType.RR_四类人员_可被访问_权限, AuthAlgorithm.getAreaAuthCode((Integer)$areaValue));
+	recordRelationList.add(recordRelation);
+end 
+
+rule "根据就业形式给人员分类D"
+	agenda-group "人员分类"
+	salience 10 
+when
+	OpsAttribute(name==PeopleItem.姓名, $nameValue:value);
+	OpsAttribute(name==PeopleItem.身份证号码, $IDValue:value);
+	OpsAttribute(name==PeopleItem.所属社区, $areaValue:sqlValue);
+	 OpsAttribute( name==PeopleItem.就业形式,sqlValue == EnumKeyValue.ENUM_就业形式_失业 ) 
+then 
+	Attribute peopleType = AttributeFactory.newInstance(PeopleItem.四类人员, EnumKeyValue.ENUM_四类人员_D类);
+	attributeList.add(peopleType);
+	
+	//生产统计
+	IRootRecordBuilder iRootRecordBuilder = RootRecordBuilderFactory.getPersistRootRecordBuilder(BaseConstant.TYPE_人员分类统计);
+	iRootRecordBuilder.putAttribute(PeopleStatItem.姓名, $nameValue);
+	iRootRecordBuilder.putAttribute(PeopleStatItem.身份证号, $IDValue);
+	iRootRecordBuilder.putAttribute(PeopleStatItem.所属社区, $areaValue);
+	iRootRecordBuilder.putAttribute(PeopleStatItem.四类人员, EnumKeyValue.ENUM_四类人员_D类);
+	iRootRecordBuilder.putAttribute(PeopleStatItem.更新时间, SystemDateTimeManager.getCunrrentTime());
+	
+	RootRecord record = iRootRecordBuilder.getRootRecord();
+	rootRecordList.add(record);
+	//添加关系
+	recordRelationOpsBuilder.putRelation(RelationType.RR_人口信息_关联四类人员_四类人员,record.getCode()); 
+	//添加权限
+	RecordRelation recordRelation = new RecordRelation(record.getCode(), RelationType.RR_四类人员_可被访问_权限, AuthAlgorithm.getAreaAuthCode((Integer)$areaValue));
+	recordRelationList.add(recordRelation);
+end 
 

@@ -116,6 +116,7 @@ then
 	putFuseLeafAttributeList.add(leafAttr2);
 end
 
+/*
 rule "居家养老补助和残疾补助同时存在"
 	salience 10 
 when
@@ -128,3 +129,4 @@ then
 	FuseLeafAttribute leafAttr2 = FuseLeafAttrFactory.newInstance($grants.getCode(), PeopleItem.人口错误信息, code, PeopleItem.人口错误信息_描述, "居家养老补助和残疾补助同时存在");
 	putFuseLeafAttributeList.add(leafAttr2);
 end
+*/
