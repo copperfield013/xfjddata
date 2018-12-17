@@ -13,7 +13,6 @@ public class AuthUtil {
 	private static UserInfoService instance = ServiceFactory.getUserInfoService();
 
 	public static Collection<String> getUserAuth(String userCode, Collection<Integer> labels) {
-
 		UserComplexus userComplexus = instance.getUserComplexus(userCode);
 		return userComplexus.findAuthHadTheseLabels(labels);
 
@@ -28,7 +27,8 @@ public class AuthUtil {
 	public static Collection<String> getUserAuth(String userCode, Integer label) {
 
 		UserComplexus userComplexus = instance.getUserComplexus(userCode);
-		return userComplexus.findAuthHadLabel(label);
+		Collection<String> findAuthHadLabel = userComplexus.findAuthHadLabel(label);
+		return findAuthHadLabel;
 
 	}
 	

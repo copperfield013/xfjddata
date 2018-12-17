@@ -18,11 +18,14 @@ import com.abc.fuse.improve.ops.builder.RecordRelationOpsBuilder;
 import com.abc.fuse.improve.ops.builder.RootRecordOpsBuilder;
 import com.abc.fuse.improve.ops.complexus.OpsComplexus;
 import com.abc.fuse.improve.transfer.BizzAttributeTransfer;
+import com.abc.relation.RecordRelation;
 import com.abc.relation.RelationCorrelation;
-import com.abc.rrc.query.criteria.BizzEntityCriteriaFactory;
+import com.abc.rrc.query.criteria.BizzCriteriaFactory;
 import com.abc.rrc.query.queryrecord.criteria.Criteria;
 import com.abc.rrc.record.RootRecord;
-
+import com.abc.transfer.builder.IRootRecordBuilder;
+import com.abc.transfer.builder.RootRecordBuilderFactory;
+import com.zhsq.biz.constant.BaseConstant;
 import com.abc.rrc.record.Attribute;
 
 public class KIEHelper {
@@ -35,10 +38,10 @@ public class KIEHelper {
 		BizzAttributeTransfer.transfer(record).forEach(fuseAttribute -> kSession.insert(fuseAttribute));
 		kSession.setGlobal("recordName", record.getName());
 		
-		BizzEntityCriteriaFactory bizzEntityCriteriaFactory =null;
+		BizzCriteriaFactory bizzCriteriaFactory =null;
 		try {
-			bizzEntityCriteriaFactory = new BizzEntityCriteriaFactory(record.getName());
-			kSession.setGlobal("bizzEntityCriteriaFactory", bizzEntityCriteriaFactory);
+			bizzCriteriaFactory = new BizzCriteriaFactory(record.getName());
+			kSession.setGlobal("bizzCriteriaFactory", bizzCriteriaFactory);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -47,7 +50,7 @@ public class KIEHelper {
 
 		kSession.fireAllRules();
 		
-		List<Criteria> criteriaList = bizzEntityCriteriaFactory.getCriterias();
+		List<Criteria> criteriaList = bizzCriteriaFactory.getCriterias();
 		
 		/*QueryResults results = kSession.getQueryResults("query criteria");
 
@@ -68,12 +71,16 @@ public class KIEHelper {
 		String hostCode = recordComplexus.getHostCode();
 		String hostType = recordComplexus.getHostType();
 		// 定义 全局变量
+		
+		List<RecordRelation> recordRelationList = new ArrayList<RecordRelation>();
+		List<RootRecord> rootRecordList = new ArrayList<RootRecord>();
 		List<Integer> addedLabelList = new ArrayList<Integer>();
 		List<Integer> removedLabelList = new ArrayList<Integer>();
 		List<Attribute> attributeList = new ArrayList<Attribute>();
 		List<FuseLeafAttribute> putFuseLeafAttributeList = new ArrayList<FuseLeafAttribute>();
 		List<FuseLeafAttribute> addedLeafAttrList = new ArrayList<FuseLeafAttribute>();
 		Map<String, String> removedLeafAttrMap = new HashMap<String, String>();
+		
 		RecordRelationOpsBuilder recordRelationOpsBuilder = RecordRelationOpsBuilder.getInstance(recordName,
 				recordCode);
 
@@ -82,6 +89,18 @@ public class KIEHelper {
 		kSession.setGlobal("recordName", rootRecord.getName());
 		kSession.setGlobal("recordComplexus", recordComplexus);
 		kSession.setGlobal("recordRelationOpsBuilder", recordRelationOpsBuilder);
+		
+		try {
+			kSession.setGlobal("recordRelationList", recordRelationList);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			kSession.setGlobal("rootRecordList", rootRecordList);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 		try {
 			kSession.setGlobal("hostCode", hostCode);
@@ -190,7 +209,8 @@ public class KIEHelper {
 		ImprveResult imprveResult = new ImprveResult();
 		imprveResult.setRootRecordOps(rootRecordOpsBuilder.getRootRecordOps());
 		imprveResult.setRecordRelationOps(recordRelationOpsBuilder.getRecordRelationOps());
-
+		imprveResult.setAddedRecords(rootRecordList);
+		imprveResult.setAddedRecordRelation(recordRelationList);
 		return imprveResult;
 	}
 

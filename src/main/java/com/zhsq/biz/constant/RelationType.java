@@ -14,10 +14,19 @@ public class RelationType {
 	public static final String RR_权限_包含于_角色="ABCBE004R022";
 
 
+	public static final String RR_权限_访问人员分类统计_四类人员="ABCBE004R1034";
 	public static final String RR_权限_访问_工作任务="ABCBE004R421";
 	public static final String RR_权限_访问人口信息_人口信息="ABCBE004R444";
 	public static final String RR_人口信息_监护人_人口信息="XFJDE001R068";
-	public static final String RR_人口信息_被监护_人口信息="XFJDE001R069";
+	public static final String RR_人口信息_被监护人_人口信息="XFJDE001R069";
+	public static final String RR_人口信息_关联四类人员_四类人员="XFJDE001R1036";
+	public static final String RR_人口信息_继承人_人口信息="XFJDE001R1110";
+	public static final String RR_人口信息_被继承人_人口信息="XFJDE001R1111";
+	public static final String RR_人口信息_供养人_人口信息="XFJDE001R1123";
+	public static final String RR_人口信息_被供养人_人口信息="XFJDE001R1124";
+	public static final String RR_人口信息_叔侄_人口信息="XFJDE001R1125";
+	public static final String RR_人口信息_赡扶抚养人_人口信息="XFJDE001R1148";
+	public static final String RR_人口信息_被赡扶抚养人_人口信息="XFJDE001R1149";
 	public static final String RR_人口信息_归属家庭_家庭信息="XFJDE001R314";
 	public static final String RR_人口信息_户主家庭_家庭信息="XFJDE001R356";
 	public static final String RR_人口信息_夫妻_人口信息="XFJDE001R367";
@@ -29,6 +38,8 @@ public class RelationType {
 	public static final String RR_人口信息_关联用户_用户="XFJDE001R738";
 	public static final String RR_人口信息_c2_测试一会删除="XFJDE001R990";
 	public static final String RR_人口信息_c7_测试一会删除="XFJDE001R996";
+	public static final String RR_四类人员_可被访问_权限="XFJDE1015R1033";
+	public static final String RR_四类人员_关联人口_人口信息="XFJDE1015R1035";
 	public static final String RR_家庭信息_成员_人口信息="XFJDE305R313";
 	public static final String RR_家庭信息_户主_人口信息="XFJDE305R355";
 	public static final String RR_工作任务_创建人_用户="XFJDE379R413";
@@ -37,4 +48,5 @@ public class RelationType {
 	public static final String RR_测试一会删除_c1_人口信息="XFJDE459R989";
 	public static final String RR_测试一会删除_c6_人口信息="XFJDE459R995";
 	public static final String RR_测试一会删除_角色_角色="XFJDE459R997";
+	
 }

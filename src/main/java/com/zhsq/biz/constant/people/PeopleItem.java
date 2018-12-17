@@ -37,7 +37,7 @@ public class PeopleItem {
 	public static final String 婚姻变动="XFJD1001";
 	public static final String 就业信息="XFJD1008";
 	public static final String 就业形式="XFJD1009";
-	public static final String 人员分类="XFJD1010";
+	public static final String 四类人员="XFJD1010";
 	public static final String 之前就业形式="XFJD1011";
 	public static final String 就业时间="XFJD1012";
 	public static final String 初婚日期="XFJD369";

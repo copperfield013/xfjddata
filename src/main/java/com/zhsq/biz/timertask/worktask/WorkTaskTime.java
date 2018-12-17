@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.context.annotation.Lazy;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import com.abc.rrc.query.queryrecord.criteria.Criteria;
@@ -17,7 +18,7 @@ public class WorkTaskTime {
 /*	
 	private String entityType = BaseConstant.TYPE_工作任务;*/
 	 //@Scheduled(cron = "0 0/5 * * * ?")//每5分钟执行一次
-	// @Scheduled(cron = "0 0 1 * * ?")
+	@Scheduled(cron = "0 0 1 * * ?")
 	public void doSomething() {
 		 
 				 List<Criteria> buildCriteria = buildCriteria();

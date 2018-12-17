@@ -7,6 +7,13 @@ package com.zhsq.biz.constant;
 	public static final Integer ENUM_星级评价_三星
 	public static final Integer ENUM_星级评价_四星
 	public static final Integer ENUM_星级评价_五星
+	
+	
+	public static final Integer ENUM_与赡扶抚养人关系_子/婿=30455; 斜杠变为英文下划线
+	public static final Integer ENUM_与赡扶抚养人关系_女/媳=30456;
+	public static final Integer ENUM_与赡扶抚养人关系_孙子、孙女或外孙子、外孙女=30457;变为英文下划线
+	
+	
  * @author so-well
  *
  */
@@ -24,8 +31,6 @@ public class EnumKeyValue {
 	public static final Integer ENUM_角色标签_基础角色=308;
 	public static final Integer ENUM_角色标签_系统配置角色=309;
 	public static final Integer ENUM_用户标签_系统用户=310;
-	public static final Integer ENUM_人口标签_户籍人口=30000;
-	public static final Integer ENUM_人口标签_流动人口=30001;
 	public static final Integer ENUM_人口标签_家庭人口=30002;
 	public static final Integer ENUM_人口标签_集体人口=30003;
 	public static final Integer ENUM_人口标签_80_89岁老人=30157;
@@ -34,6 +39,16 @@ public class EnumKeyValue {
 	public static final Integer ENUM_人口标签_60_69老人=30160;
 	public static final Integer ENUM_人口标签_残疾补助=30348;
 	public static final Integer ENUM_人口标签_居家养老补助=30349;
+	public static final Integer ENUM_人口标签_高龄=30422;
+	public static final Integer ENUM_人口标签_特困=30423;
+	public static final Integer ENUM_人口标签_伤残=30424;
+	public static final Integer ENUM_人口标签_孤老=30425;
+	public static final Integer ENUM_人口标签_独居=30426;
+	public static final Integer ENUM_人口标签_建国前老工人=30427;
+	public static final Integer ENUM_人口标签_军转干部=30428;
+	public static final Integer ENUM_人口标签_厂级领导=30429;
+	public static final Integer ENUM_人口标签_高级职称=30430;
+	public static final Integer ENUM_人口标签_市级以上优秀党员=30431;
 	public static final Integer ENUM_性别_男=30005;
 	public static final Integer ENUM_性别_女=30006;
 	public static final Integer ENUM_性别_其他=30007;
@@ -267,9 +282,72 @@ public class EnumKeyValue {
 	public static final Integer ENUM_就业形式_其他形式就业=30356;
 	public static final Integer ENUM_就业形式_失业=30357;
 	public static final Integer ENUM_就业形式_退休=30358;
-	public static final Integer ENUM_人员分类_A类=30370;
-	public static final Integer ENUM_人员分类_B类=30371;
-	public static final Integer ENUM_人员分类_C类=30372;
-	public static final Integer ENUM_人员分类_D类=30373;
-	public static final Integer ENUM_人员分类_退休=30374;
+	public static final Integer ENUM_就业形式_退职=30403;
+	public static final Integer ENUM_就业形式_保养=30404;
+	public static final Integer ENUM_四类人员_A类=30370;
+	public static final Integer ENUM_四类人员_B类=30371;
+	public static final Integer ENUM_四类人员_C类=30372;
+	public static final Integer ENUM_四类人员_D类=30373;
+	public static final Integer ENUM_测试_c1=30376;
+	public static final Integer ENUM_c1_d1=30379;
+	public static final Integer ENUM_四类人员标签_标签=30383;
+	public static final Integer ENUM_人口类型_户籍人口=30385;
+	public static final Integer ENUM_人口类型_流动人口=30386;
+	public static final Integer ENUM_护理等级_特级护理=30388;
+	public static final Integer ENUM_护理等级_一级护理=30389;
+	public static final Integer ENUM_护理等级_二级护理=30390;
+	public static final Integer ENUM_护理等级_三级护理=30391;
+	public static final Integer ENUM_工伤等级_一级=30393;
+	public static final Integer ENUM_工伤等级_二级=30394;
+	public static final Integer ENUM_工伤等级_三级=30395;
+	public static final Integer ENUM_工伤等级_四级=30396;
+	public static final Integer ENUM_工伤等级_五级=30397;
+	public static final Integer ENUM_工伤等级_六级=30398;
+	public static final Integer ENUM_工伤等级_七级=30399;
+	public static final Integer ENUM_工伤等级_八级=30400;
+	public static final Integer ENUM_工伤等级_九级=30401;
+	public static final Integer ENUM_工伤等级_十级=30402;
+	public static final Integer ENUM_劳模级别_国家级=30406;
+	public static final Integer ENUM_劳模级别_省级=30407;
+	public static final Integer ENUM_劳模级别_市级=30408;
+	public static final Integer ENUM_政治面貌_中共党员=30410;
+	public static final Integer ENUM_政治面貌_中共预备党员=30411;
+	public static final Integer ENUM_政治面貌_共青团员=30412;
+	public static final Integer ENUM_政治面貌_民革党员=30413;
+	public static final Integer ENUM_政治面貌_民盟盟员=30414;
+	public static final Integer ENUM_政治面貌_民建会员=30415;
+	public static final Integer ENUM_政治面貌_民进会员=30416;
+	public static final Integer ENUM_政治面貌_农工党党员=30417;
+	public static final Integer ENUM_政治面貌_致公党党员=30418;
+	public static final Integer ENUM_政治面貌_九三学社社员=30419;
+	public static final Integer ENUM_政治面貌_无党派人士=30420;
+	public static final Integer ENUM_政治面貌_普通居民=30421;
+	public static final Integer ENUM_救助内容_最低生活保障=30433;
+	public static final Integer ENUM_救助内容_最低生活保障边缘家庭=30434;
+	public static final Integer ENUM_救助内容_特困人员供养=30435;
+	public static final Integer ENUM_救助内容_临时救助=30436;
+	public static final Integer ENUM_救助内容_医疗救助=30437;
+	public static final Integer ENUM_救助内容_其他=30438;
+	public static final Integer ENUM_民政健康状况_健康=30440;
+	public static final Integer ENUM_民政健康状况_一般长病=30441;
+	public static final Integer ENUM_民政健康状况_一般残疾=30442;
+	public static final Integer ENUM_民政健康状况_重度残疾=30443;
+	public static final Integer ENUM_民政健康状况_其他=30444;
+	public static final Integer ENUM_民政职业状况_老年人60周岁及以上=30446;
+	public static final Integer ENUM_民政职业状况_在职职工=30447;
+	public static final Integer ENUM_民政职业状况_灵活就业人员=30448;
+	public static final Integer ENUM_民政职业状况_登记失业人员=30449;
+	public static final Integer ENUM_民政职业状况_未登记失业人员=30450;
+	public static final Integer ENUM_民政职业状况_在校生18周岁以下=30451;
+	public static final Integer ENUM_民政职业状况_其他人员18周岁以下=30452;
+	public static final Integer ENUM_与赡扶抚养人关系_配偶=30454;
+	public static final Integer ENUM_与赡扶抚养人关系_子_婿=30455;
+	public static final Integer ENUM_与赡扶抚养人关系_女_媳=30456;
+	public static final Integer ENUM_与赡扶抚养人关系_孙子_孙女或外孙子_外孙女=30457;
+	public static final Integer ENUM_与赡扶抚养人关系_父母=30458;
+	public static final Integer ENUM_与赡扶抚养人关系_祖父母或外祖父母=30459;
+	public static final Integer ENUM_与赡扶抚养人关系_兄弟姐妹=30460;
+	public static final Integer ENUM_与赡扶抚养人关系_其他=30461;
+	public static final Integer ENUM_有无_有=30463;
+	public static final Integer ENUM_有无_无=30464;
 }

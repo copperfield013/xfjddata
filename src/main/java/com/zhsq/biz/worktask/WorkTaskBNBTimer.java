@@ -2,23 +2,27 @@ package com.zhsq.biz.worktask;
 
 import com.abc.application.BizFusionContext;
 import com.abc.complexus.RecordComplexus;
+import com.abc.fuse.improve.ImprveResult;
+import com.abc.fuse.improve.ops.complexus.OpsComplexus;
 import com.zhsq.biz.common.KIEHelper;
 import com.zhsq.biz.common.SessionFactory;
 
 public class WorkTaskBNBTimer extends WorkTaskBNB {
 
-	/*@Override
-	public RecordCompoundOps improveFirst(RecordCompound arg0) {
+	@Override
+	public ImprveResult preImprove(BizFusionContext context, String recordCode, OpsComplexus opsComplexus,
+			RecordComplexus recordComplexus) {
 		return null;
 	}
 
 	@Override
-	public RecordRelationOps improveSecond(BizFusionContext bizFusionContext, String recordCode, RecordComplexus recordComplexus) {
-		return 	null;
-	}
+	public ImprveResult improve(BizFusionContext context, String recordCode, RecordComplexus recordComplexus) {
+		return KIEHelper.getImproveResultFromKIE(context, recordCode, recordComplexus,
+				SessionFactory.findSessionKeepContainer("ks-worktask-ipm-ipmTimer"));
+	} 
 
 	@Override
-	public RecordCROpsPair improveThird(BizFusionContext bizFusionContext, String recordCode, RecordComplexus recordComplexus) {
-		return  KIEHelper.getRecordCROpsPairFromKIE(bizFusionContext,recordCode,recordComplexus,SessionFactory.findSessionKeepContainer("ks-worktask-tipm-timer"));
-	}*/
+	public ImprveResult postImprove(BizFusionContext context, String recordCode, RecordComplexus recordComplexus) {
+		return null;
+	}
 }

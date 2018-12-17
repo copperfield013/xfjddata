@@ -17,7 +17,7 @@ import com.zhsq.biz.common.AbstractIdentityQuery;
 import com.zhsq.biz.common.KIEHelper;
 import com.zhsq.biz.common.SessionFactory;
 
-//@Repository(value = "XFJDE379")
+@Repository(value = "XFJDE379")
 public class WorkTaskBNB implements BizNoBusy, IdentityQuery, Improvement, IFusitionCallBack {
 	
 	@Override
@@ -47,9 +47,9 @@ public class WorkTaskBNB implements BizNoBusy, IdentityQuery, Improvement, IFusi
 	}
 
 	@Override
-	public ImprveResult postImprove(BizFusionContext arg0, String arg1, RecordComplexus arg2) {
-		// TODO Auto-generated method stub
-		return null;
+	public ImprveResult postImprove(BizFusionContext context, String recordCode, RecordComplexus recordComplexus) {
+		return KIEHelper.getImproveResultFromKIE(context, recordCode, recordComplexus,
+				SessionFactory.findSessionKeepContainer("ks-worktask-postipm"));
 	}
 
 }

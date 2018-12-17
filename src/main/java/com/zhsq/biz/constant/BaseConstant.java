@@ -5,11 +5,13 @@ import java.util.Map;
 
 public class BaseConstant {
 
-	public static final String LABEL_AUTH_工作任务管理类="30153";//权限标签之工作任务管理类
+	public static final Integer LABEL_AUTH_工作任务管理类=30153;//权限标签之工作任务管理类
 	
 	public static final String TYPE_工作任务="XFJDE379";//工作任务类型
 	public static final String TYPE_人口信息="XFJDE001";//人口信息类型
 	public static final String TYPE_家庭信息="XFJDE305";//人口信息类型
+	public static final String TYPE_人员分类统计="XFJDE1015";//人员分类统计
+	
 	
 	/**
 	 * 根据枚举和户主关系获取人与人之间的家庭成员的关系
