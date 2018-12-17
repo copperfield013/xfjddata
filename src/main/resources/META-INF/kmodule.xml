@@ -43,5 +43,12 @@
 	<kbase name="worktaskpreipm" packages="kie.worktask.preipm.*">
 		<ksession name="ks-worktask-preipm" />
 	</kbase>
+	<kbase name="worktaskipmtimer" packages="kie.worktask.ipm.ipmTimer">
+		<ksession name="ks-worktask-ipm-ipmTimer" />
+	</kbase>
+	
+	<kbase name="worktaskpostipm" packages="kie.worktask.postipm.*">
+		<ksession name="ks-worktask-postipm" />
+	</kbase>
 	
 </kmodule>

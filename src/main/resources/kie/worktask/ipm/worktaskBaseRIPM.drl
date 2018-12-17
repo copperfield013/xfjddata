@@ -1,8 +1,9 @@
-package com.abc.rule.worktask.ripm
+package com.abc.rule.worktask.ipm
 
 import com.abc.fuse.improve.attribute.FuseAttribute;
 import com.abc.relation.RecordRelation;
-import com.zhsq.biz.constant.worktask.WorkTaskItem;
+import  com.zhsq.biz.constant.people.PeopleItem;
+import  com.zhsq.biz.constant.family.FamilyItem;
 import com.abc.rrc.record.Attribute;
 import com.abc.rrc.factory.AttributeFactory;
 import com.zhsq.biz.family.algorithm.DataIntrospection;
@@ -13,12 +14,14 @@ import com.zhsq.biz.common.CommonCalculation;
 import com.zhsq.biz.people.algorithm.IDIntrospection;
 import com.zhsq.biz.constant.DateUtils;
 import com.abc.fuse.improve.attribute.FuseLeafAttrFactory;
-import com.zhsq.biz.people.algorithm.BirthdayIntrospection;
-import java.util.Date;
+import com.zhsq.biz.common.OutputDisplay;
+import com.zhsq.biz.common.AuthAlgorithm;
 import com.zhsq.biz.common.AuthUtil;
-import java.util.Collection;
 import com.zhsq.biz.constant.BaseConstant;
-
+import java.util.Collection;
+import com.zhsq.biz.constant.worktask.WorkTaskItem;
+import java.util.Collection;
+import java.util.ArrayList;
 
 global java.lang.String hostCode; 
 global java.lang.String hostType;
@@ -41,26 +44,15 @@ global com.abc.complexus.RecordComplexus recordComplexus;
 rule "设置创建人及数据的基本权限"
 	salience 10 
 when
-    not RecordRelation( type==RelationType.RR_工作任务_创建人_用户);
+    not RecordRelation( type==RelationType.RR_工作任务_创建人_用户) ;
 then
-
 	recordRelationOpsBuilder.putRelation(RelationType.RR_工作任务_创建人_用户,userCode);
-	Collection<String> auths=AuthUtil.getUserAuth((String)userCode,(String)BaseConstant.LABEL_AUTH_工作任务管理类);
+	Collection<String> auths=AuthUtil.getUserAuth((String)userCode, BaseConstant.LABEL_AUTH_工作任务管理类);
 	if(auths!=null){
 		for(String auth:auths){
 			recordRelationOpsBuilder.putRelation(RelationType.RR_工作任务_访问_权限,auth);
 		}
 	}
-	
-end
-
-rule "认领任务设置任务执行人"
-	salience 10 
-when
-    not RecordRelation( type==RelationType.RR_工作任务_任务执行人_用户);
-    FuseAttribute( name==WorkTaskItem.是否认领任务, CommonCalculation.isBasicLawful(value), value==EnumKeyValue.ENUM_是否_是)
-then
-	recordRelationOpsBuilder.putRelation(RelationType.RR_工作任务_任务执行人_用户,userCode);
 end
 
  
