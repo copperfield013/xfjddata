@@ -105,4 +105,14 @@ public class PeopleItem {
 	public static final String 残疾人补助信息_补助金额="XFJD744";
 	public static final String 残疾人补助信息_描述="XFJD745";
 	public static final String 残疾人补助信息_补助类型="XFJD746";
+	
+	public static final String 证件信息_有效期开始="XFJD1184";
+	public static final String 证件信息_有效期结束="XFJD1185";
+	public static final String 残疾信息_护理等级="XFJD1106";
+	public static final String 残疾信息_工伤等级="XFJD1108";
+	public static final String 残疾信息_备注="XFJD1189";
+	public static final String 银行卡信息_开户人="XFJD1141";
+	public static final String 银行卡信息_开户银行="XFJD1142";
+	public static final String 银行卡信息_银行账号="XFJD1143";
+	public static final String 银行卡信息_描述="XFJD1178";
 }

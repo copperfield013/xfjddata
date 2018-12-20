@@ -37,6 +37,7 @@ global com.abc.rrc.record.RootRecord rootRecord;
 global  com.abc.fuse.improve.ops.builder.RecordRelationOpsBuilder recordRelationOpsBuilder;
 global com.abc.complexus.RecordComplexus recordComplexus;
 
+/*
 rule "删除居家养老补助标签"
 	salience 15
 when
@@ -74,3 +75,5 @@ when
 then 
 	addedLabelList.add(EnumKeyValue.ENUM_人口标签_残疾补助);
 end
+
+*/

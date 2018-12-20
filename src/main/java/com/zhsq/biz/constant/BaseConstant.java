@@ -10,7 +10,7 @@ public class BaseConstant {
 	public static final String TYPE_工作任务="XFJDE379";//工作任务类型
 	public static final String TYPE_人口信息="XFJDE001";//人口信息类型
 	public static final String TYPE_家庭信息="XFJDE305";//人口信息类型
-	public static final String TYPE_人员分类统计="XFJDE1015";//人员分类统计
+	public static final String TYPE_四类人员="XFJDE1015";//人员分类统计
 	
 	
 	/**
@@ -27,6 +27,10 @@ public class BaseConstant {
 		map.put(EnumKeyValue.ENUM_和户主关系_孙子, RelationType.RR_人口信息_爷爷奶奶_人口信息);
 		map.put(EnumKeyValue.ENUM_和户主关系_奶奶, RelationType.RR_人口信息_孙子孙女_人口信息);
 		map.put(EnumKeyValue.ENUM_和户主关系_爷爷, RelationType.RR_人口信息_孙子孙女_人口信息);
+		map.put(EnumKeyValue.ENUM_和户主关系_外公, RelationType.RR_人口信息_外孙子和外孙女_人口信息);
+		map.put(EnumKeyValue.ENUM_和户主关系_外婆, RelationType.RR_人口信息_外孙子和外孙女_人口信息);
+		map.put(EnumKeyValue.ENUM_和户主关系_外孙女, RelationType.RR_人口信息_外公和外婆_人口信息);
+		map.put(EnumKeyValue.ENUM_和户主关系_外孙子, RelationType.RR_人口信息_外公和外婆_人口信息);
 		
 		/*map.put(EnumKeyValue.ENUM_和户主关系_户主, RelationType.RR_人口);
 		 * map.put(EnumKeyValue.ENUM_和户主关系_孙女, RelationType.RR_人口信息_);

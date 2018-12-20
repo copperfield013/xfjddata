@@ -1,5 +1,10 @@
 package com.zhsq.biz.constant;
 
+/**
+ * public static final String RR_人口信息_外公/外婆_人口信息="XFJDE001R1191";
+	public static final String RR_人口信息_外孙子/外孙女_人口信息="XFJDE001R1192";
+	斜杠改成  和  
+ */
 public class RelationType {
 	public static final String RR_用户_拥有_角色="ABCBE002R016";
 	public static final String RR_用户_创建的任务_工作任务="ABCBE002R414";
@@ -27,6 +32,8 @@ public class RelationType {
 	public static final String RR_人口信息_叔侄_人口信息="XFJDE001R1125";
 	public static final String RR_人口信息_赡扶抚养人_人口信息="XFJDE001R1148";
 	public static final String RR_人口信息_被赡扶抚养人_人口信息="XFJDE001R1149";
+	public static final String RR_人口信息_外公和外婆_人口信息="XFJDE001R1191";
+	public static final String RR_人口信息_外孙子和外孙女_人口信息="XFJDE001R1192";
 	public static final String RR_人口信息_归属家庭_家庭信息="XFJDE001R314";
 	public static final String RR_人口信息_户主家庭_家庭信息="XFJDE001R356";
 	public static final String RR_人口信息_夫妻_人口信息="XFJDE001R367";

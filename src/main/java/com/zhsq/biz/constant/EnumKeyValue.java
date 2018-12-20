@@ -49,12 +49,19 @@ public class EnumKeyValue {
 	public static final Integer ENUM_人口标签_厂级领导=30429;
 	public static final Integer ENUM_人口标签_高级职称=30430;
 	public static final Integer ENUM_人口标签_市级以上优秀党员=30431;
+	public static final Integer ENUM_人口标签_育龄妇女=30467;
 	public static final Integer ENUM_性别_男=30005;
 	public static final Integer ENUM_性别_女=30006;
 	public static final Integer ENUM_性别_其他=30007;
 	public static final Integer ENUM_性别_未知=30008;
 	public static final Integer ENUM_证件类型_身份证=30010;
 	public static final Integer ENUM_证件类型_残疾证=30046;
+	public static final Integer ENUM_证件类型_救助证=30465;
+	public static final Integer ENUM_证件类型_就业创业证=30466;
+	public static final Integer ENUM_证件类型_准生证=30468;
+	public static final Integer ENUM_证件类型_独生子女证=30469;
+	public static final Integer ENUM_证件类型_退休证=30470;
+	public static final Integer ENUM_证件类型_困难证=30471;
 	public static final Integer ENUM_管理类型_人在户在=30012;
 	public static final Integer ENUM_管理类型_人在户不在=30013;
 	public static final Integer ENUM_管理类型_户在人不在=30014;
@@ -68,12 +75,12 @@ public class EnumKeyValue {
 	public static final Integer ENUM_和户主关系_孙子=30024;
 	public static final Integer ENUM_和户主关系_外孙女=30025;
 	public static final Integer ENUM_和户主关系_外孙子=30026;
-	public static final Integer ENUM_和户主关系_曾外孙女=30027;
-	public static final Integer ENUM_和户主关系_曾外孙子=30028;
 	public static final Integer ENUM_和户主关系_母亲=30029;
 	public static final Integer ENUM_和户主关系_父亲=30030;
 	public static final Integer ENUM_和户主关系_爷爷=30336;
 	public static final Integer ENUM_和户主关系_奶奶=30337;
+	public static final Integer ENUM_和户主关系_外公=30478;
+	public static final Integer ENUM_和户主关系_外婆=30479;
 	public static final Integer ENUM_是否_是=30032;
 	public static final Integer ENUM_是否_否=30033;
 	public static final Integer ENUM_户口性质_非农业户口=30035;
@@ -148,6 +155,11 @@ public class EnumKeyValue {
 	public static final Integer ENUM_家庭标签_低保户=30112;
 	public static final Integer ENUM_家庭标签_户籍家庭=30113;
 	public static final Integer ENUM_家庭标签_集体户=30117;
+	public static final Integer ENUM_家庭标签_最低生活保障=30473;
+	public static final Integer ENUM_家庭标签_特困人员供养=30474;
+	public static final Integer ENUM_家庭标签_临时救助=30475;
+	public static final Integer ENUM_家庭标签_医疗救助=30476;
+	public static final Integer ENUM_家庭标签_其他=30477;
 	public static final Integer ENUM_生育计划_内=30115;
 	public static final Integer ENUM_生育计划_外=30116;
 	public static final Integer ENUM_任务来源_事件记录=30120;
@@ -349,5 +361,5 @@ public class EnumKeyValue {
 	public static final Integer ENUM_与赡扶抚养人关系_兄弟姐妹=30460;
 	public static final Integer ENUM_与赡扶抚养人关系_其他=30461;
 	public static final Integer ENUM_有无_有=30463;
-	public static final Integer ENUM_有无_无=30464;
+	public static final Integer ENUM_有无_无=30464;	
 }

@@ -56,7 +56,6 @@ then
 	kcontext.getKnowledgeRuntime().getAgenda().getAgendaGroup( "a_家庭与人的关系" ).setFocus();
 end
 
-
 rule "编辑家庭成员与户主的关系"//编辑户主与成员的关系
 	agenda-group "a_家庭与人的关系"
 	salience 10 
