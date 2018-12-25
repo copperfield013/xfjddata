@@ -13,6 +13,7 @@ import org.kie.api.runtime.rule.QueryResultsRow;
 import com.abc.application.BizFusionContext;
 import com.abc.complexus.RecordComplexus;
 import com.abc.fuse.improve.ImprveResult;
+import com.abc.fuse.improve.attribute.FuseAttribute;
 import com.abc.fuse.improve.attribute.leaf.FuseLeafAttribute;
 import com.abc.fuse.improve.ops.builder.RecordRelationOpsBuilder;
 import com.abc.fuse.improve.ops.builder.RootRecordOpsBuilder;
@@ -32,9 +33,11 @@ public class KIEHelper {
 	
 	public static List<Criteria> getBizCriteriaListFromKIE(String recordCode, RecordComplexus complexus,
 			KieSession kSession) {
-		RootRecord record = complexus.getHostRootRecord();
+		RootRecord record = complexus.getRootRecord(recordCode);
 		//List<Criteria> criteriaList = new ArrayList<Criteria>();
-
+		
+		List<FuseAttribute> transfer = BizzAttributeTransfer.transfer(record);
+		
 		BizzAttributeTransfer.transfer(record).forEach(fuseAttribute -> kSession.insert(fuseAttribute));
 		kSession.setGlobal("recordName", record.getName());
 		
@@ -169,6 +172,7 @@ public class KIEHelper {
 		// insert object
 		BizzAttributeTransfer.transfer(rootRecord).forEach(fuseAttribute -> kSession.insert(fuseAttribute));
 		RelationCorrelation relationCorrelation = recordComplexus.getRelationCorrelation(recordCode);
+	
 		if (relationCorrelation != null) {
 			relationCorrelation.getRecordRelation().forEach(recordRelation -> kSession.insert(recordRelation));
 		}

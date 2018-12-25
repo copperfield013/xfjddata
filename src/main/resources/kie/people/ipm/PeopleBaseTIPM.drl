@@ -59,9 +59,12 @@ when
 then 
 	//添加关系
 	String relationName = BaseConstant.getRelationName(String.valueOf($value));
-	recordRelationOpsBuilder.putRelation(relationName,$huzCode); 
+	if (relationName!=null) {
+		recordRelationOpsBuilder.putRelation(relationName,$huzCode); 
+	}
 end
 
+/*
 rule "不存在归属家庭关系置空和户主关系1"
 	salience 10 
 when
@@ -72,5 +75,5 @@ then
  	Attribute attr = AttributeFactory.newInstance(PeopleItem.和户主关系, null);
 	attributeList.add(attr);
 end
-
+*/
 

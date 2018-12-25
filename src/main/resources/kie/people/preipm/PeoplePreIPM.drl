@@ -66,12 +66,19 @@ when
  OpsAttribute( name==PeopleItem.和户主关系 , sqlValue!=null, $opsValue:sqlValue)
  eval(!$fa.equals($opsValue))
 then    
+
 	//移除关系
 	String relationNameHis =BaseConstant.getRelationName(String.valueOf($fa));
+	if (relationNameHis != null) {
 	recordRelationOpsBuilder.removeRelation(relationNameHis,$huzCode);
+	}
+	
 	//添加关系
 	String relationName = BaseConstant.getRelationName(String.valueOf($opsValue));
+	if (relationName != null) {
 	recordRelationOpsBuilder.putRelation(relationName,$huzCode); 
+	}
+	
 end
 
 rule "把身份证号从15位改为18位"

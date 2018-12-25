@@ -7,6 +7,7 @@ import com.abc.relation.RecordRelation;
 import com.abc.relation.RelationCorrelation;
 import com.abc.rrc.record.RootRecord;
 import com.zhsq.biz.constant.RelationType;
+import com.zhsq.biz.people.algorithm.IDIntrospection;
 
 public class DataIntrospection {
 	
@@ -17,9 +18,9 @@ public class DataIntrospection {
 	 * @param recordCode
 	 * @return
 	 */
-	public static Integer getFamilyPeoCount(RecordComplexus recordComplexus, String recordCode) {
+	public static Integer getFamilyPeoCount(RecordComplexus recordComplexus, String recordName, String recordCode) {
 			Integer count = 0;
-			Collection<RecordRelation> recordRelation = getRecordRelation(recordComplexus, recordCode);
+			Collection<RecordRelation> recordRelation = getRecordRelation(recordComplexus,recordName, recordCode);
 			for (RecordRelation recordRelation2 : recordRelation) {
 					count++;
 			}
@@ -32,9 +33,9 @@ public class DataIntrospection {
 	 * @param recordCode
 	 * @return
 	 */
-	public static Integer getHzCount(RecordComplexus recordComplexus, String recordCode) {
+	public static Integer getHzCount(RecordComplexus recordComplexus, String recordName, String recordCode) {
 			Integer count = 0;
-			Collection<RecordRelation> recordRelation = getRecordRelation(recordComplexus, recordCode);
+			Collection<RecordRelation> recordRelation = getRecordRelation(recordComplexus, recordName, recordCode);
 			
 			if (!recordRelation.isEmpty()) {
 				for (RecordRelation recordRelation2 : recordRelation) {
@@ -46,9 +47,8 @@ public class DataIntrospection {
 		return count;
 	}
 	
-	private static Collection<RecordRelation> getRecordRelation(RecordComplexus recordComplexus, String recordCode) {
-		RootRecord recordCompound=recordComplexus.getHostRootRecord();
-		RelationCorrelation relationCorrelation = recordComplexus.getRelationCorrelation(recordCode);
+	private static Collection<RecordRelation> getRecordRelation(RecordComplexus recordComplexus, String recordName, String recordCode) {
+		RelationCorrelation relationCorrelation = IDIntrospection.getRelationCorrelation(recordComplexus, recordName, recordCode);
 		if (relationCorrelation != null) {
 			return relationCorrelation.getRecordRelation();
 		}

@@ -31,7 +31,6 @@ public class BaseConstant {
 		map.put(EnumKeyValue.ENUM_和户主关系_外婆, RelationType.RR_人口信息_外孙子和外孙女_人口信息);
 		map.put(EnumKeyValue.ENUM_和户主关系_外孙女, RelationType.RR_人口信息_外公和外婆_人口信息);
 		map.put(EnumKeyValue.ENUM_和户主关系_外孙子, RelationType.RR_人口信息_外公和外婆_人口信息);
-		
 		/*map.put(EnumKeyValue.ENUM_和户主关系_户主, RelationType.RR_人口);
 		 * map.put(EnumKeyValue.ENUM_和户主关系_孙女, RelationType.RR_人口信息_);
 		map.put(EnumKeyValue.ENUM_和户主关系_孙子, value);
@@ -46,7 +45,15 @@ public class BaseConstant {
 		if (enumRelationName== null || "".equals(enumRelationName)) {
 			return null;
 		}
-		String relationName = (String)map.get(Integer.parseInt(enumRelationName));
+		
+		int parseInt;
+		try {
+			parseInt = Integer.parseInt(enumRelationName);
+		} catch (NumberFormatException e) {
+			return null;
+		}
+		
+		String relationName = (String)map.get(parseInt);
 		return relationName;
 	} 
 }

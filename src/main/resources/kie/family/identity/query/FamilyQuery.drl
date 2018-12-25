@@ -1,12 +1,24 @@
 package com.abc.rule.family.identity.query
 
-import com.abc.rrc.query.queryrecord.criteria.Criteria;
+
+import com.zhsq.biz.constant.family.FamilyItem;
+import com.abc.fuse.improve.attribute.FuseAttribute;
+import com.abc.fuse.improve.attribute.leaf.FuseLeafAttribute;
+import com.abc.rrc.query.queryrecord.criteria.CriteriaFactory;
+import com.zhsq.biz.common.CommonCalculation;
+import com.zhsq.biz.constant.people.PeopleItem;
+import com.zhsq.biz.constant.EnumKeyValue;
+import com.abc.rrc.query.criteria.CommonSymbol;
 
 global java.lang.String recordName;
 global com.abc.rrc.query.criteria.BizzCriteriaFactory bizzCriteriaFactory;
 
-
-
-
+rule "户籍地址 criteria" 
+	salience 9  
+when
+    $nameFB:FuseAttribute(name==FamilyItem.户籍地址,CommonCalculation.isBasicLawful(value));
+then 
+	bizzCriteriaFactory.addCriteria($nameFB.getAttribute(), CommonSymbol.EQUAL);
+end
 
 

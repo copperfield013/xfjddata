@@ -2,6 +2,8 @@ package com.zhsq.biz.common;
 
 import org.apache.log4j.Logger;
 import org.kie.api.KieServices;
+import org.kie.api.builder.KieScanner;
+import org.kie.api.builder.ReleaseId;
 import org.kie.api.event.rule.AfterMatchFiredEvent;
 import org.kie.api.event.rule.AgendaEventListener;
 import org.kie.api.event.rule.AgendaGroupPoppedEvent;
@@ -83,6 +85,28 @@ public class SessionFactory {
             public void afterRuleFlowGroupDeactivated(RuleFlowGroupDeactivatedEvent event) {
             }
         });*/
+		
+		return kSession;
+	}
+	
+	public static KieSession  findScannerSession(String sessionName){
+		KieServices kieServices = KieServices.Factory.get();
+		
+		ReleaseId releaseId = kieServices.newReleaseId( "com.zhsq.biz", "xfjd", "0.3.65" );
+		KieContainer kieContainer = kieServices.newKieContainer(releaseId);
+		KieScanner kieScanner = kieServices.newKieScanner(kieContainer);
+		
+		kieScanner.start(10000L);//10秒
+		KieSession kSession = kieContainer
+				.newKieSession(sessionName);
+//		kSession.addEventListener( new DebugRuleRuntimeEventListener() );
+		
+		kSession.addEventListener( new DefaultAgendaEventListener() {
+			public void afterMatchFired(AfterMatchFiredEvent event) {
+			super.afterMatchFired( event );
+			logger.debug( event.getMatch().getRule().getName()+" is fired" );
+			}
+			});
 		
 		return kSession;
 	}

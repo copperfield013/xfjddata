@@ -52,9 +52,6 @@ when
  	eval( recordComplexus.getRootRecord($peopleCode).findAttribute(PeopleItem.身份证号码) !=null )
  	eval(recordComplexus.getRootRecord($peopleCode).findAttribute(PeopleItem.身份证号码).getValueStr() !=null)
 then 
-	OutputDisplay.showText(recordComplexus.getRootRecord($peopleCode));
-	OutputDisplay.showText( recordComplexus.getRootRecord($peopleCode).findAttribute(PeopleItem.身份证号码));
-	OutputDisplay.showText(recordComplexus.getRootRecord($peopleCode).findAttribute(PeopleItem.身份证号码).getValueStr());
 	//设置户主身份证号
 	Attribute idCode=AttributeFactory.newInstance(FamilyItem.户主身份证号, recordComplexus.getRootRecord($peopleCode).findAttribute(PeopleItem.身份证号码).getValueStr());
 	attributeList.add(idCode);
@@ -79,7 +76,7 @@ rule "设置家庭人口数"
 when
  	exists RecordRelation();
 then 
-	Integer count = DataIntrospection.getFamilyPeoCount(recordComplexus, hostCode);
+	Integer count = DataIntrospection.getFamilyPeoCount(recordComplexus,recordName, hostCode);
 	//设置家庭人口数量
 	Attribute attr=AttributeFactory.newInstance(FamilyItem.家庭总人数, count);
 	attributeList.add(attr);

@@ -18,6 +18,7 @@ import com.abc.panel.Discoverer;
 import com.abc.panel.Integration;
 import com.abc.panel.IntegrationMsg;
 import com.abc.panel.PanelFactory;
+import com.zhsq.biz.constant.BaseConstant;
 import com.zhsq.biz.constant.EnumKeyValue;
 import com.zhsq.biz.constant.family.FamilyItem;
 import com.zhsq.biz.constant.people.PeopleItem;
@@ -29,11 +30,11 @@ import com.zhsq.biz.timertask.people.PeopleTimeTask;
 public class FamilyTest2 {
 	
 	private static Logger logger = Logger.getLogger(FamilyTest2.class);
-	protected String mapperName = "家庭信息";
+	protected String mapperName = "导入家庭信息";
 	
 	@Test
 	public void readData() {
-
+		
 		long startTime = System.currentTimeMillis();
 		BizFusionContext context=new BizFusionContext();
 		context.setSource(FusionContext.SOURCE_COMMON);
@@ -54,27 +55,36 @@ public class FamilyTest2 {
 
 	private Entity createEntity(String mappingName) {
 		Entity entity = new Entity(mappingName);
-		entity.putValue("唯一编码", "d0994ca1a012487aa625b2c36e8cf18b");
-		entity.putValue("户籍地址", "家庭1"); 
+		entity.putValue("唯一编码", "8d4a82f356414e6a8d6273fd4ab38b1d");
+		entity.putValue("户籍地址", "西湖区"); 
 		//entity.putValue("家庭总人数", "2");
 		entity.putValue("家庭分类", EnumKeyValue.ENUM_家庭分类_户籍家庭);
 		
-		Entity relationentity = new Entity("家庭人口");
-		relationentity.putValue("唯一编码", "5ef7333cbf6742cb88a81580e9da2023");
-		relationentity.putValue("姓名", "韩立212d13"); 
+		Entity relationentity = new Entity("户籍人口");
+		relationentity.putValue("唯一编码", "2d1b129c06404565a82d13ec0e3c5c23");
+		relationentity.putValue("姓名", "张三"); 
 		relationentity.putValue("人口类型", "户籍人口");
+		relationentity.putValue("户籍所在地", "滨江圣123"); 
 		relationentity.putValue("和户主关系", EnumKeyValue.ENUM_和户主关系_户主);
 		relationentity.putValue("所属社区", EnumKeyValue.ENUM_祥符街道社区_祥符桥社区);
-		relationentity.putValue("身份证号码", "23423423");
-		entity.putRelationEntity("家庭人口","户主", relationentity);
+		//relationentity.putValue("身份证号码", "23423423");
 		
-		/*Entity relationentity1 = new Entity("家庭人口");
-		relationentity1.putValue("唯一编码", "5884a966797640079de24a552fdebe7c");
-		relationentity1.putValue("姓名", "金童3"); 
-		relationentity1.putValue("和户主关系", EnumKeyValue.ENUM_和户主关系_户主);
+		SimpleEntity sentity2 = new SimpleEntity("证件信息");
+		sentity2.putValue("证件类型", EnumKeyValue.ENUM_证件类型_身份证);
+		sentity2.putValue("证件号码", "928637423402");
+		sentity2.putValue("有效期结束", "2015-10-12");
+		relationentity.putMultiAttrEntity(sentity2);
+		
+		entity.putRelationEntity("户籍人口","户主", relationentity);
+		
+		Entity relationentity1 = new Entity("户籍人口");
+		relationentity1.putValue("唯一编码", "75b04c87d59146ca9507c4c2e28f9863");
+		relationentity1.putValue("姓名", "王五"); 
+		relationentity1.putValue("和户主关系", EnumKeyValue.ENUM_和户主关系_配偶);
 		relationentity1.putValue("人口类型", "户籍人口");
+		relationentity1.putValue("身份证号码", "45645645");
 		relationentity1.putValue("所属社区", EnumKeyValue.ENUM_祥符街道社区_祥符桥社区);
-		entity.putRelationEntity("家庭人口","户主",relationentity1);*/
+		entity.putRelationEntity("户籍人口","成员",relationentity1);
 		
 		
 		

@@ -1,8 +1,6 @@
 package com.zhsq.test.biz;
 
 
-import java.util.ArrayList;
-import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.junit.Test;
@@ -11,20 +9,12 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.abc.application.BizFusionContext;
-import com.abc.application.BizNoBusy;
 import com.abc.application.FusionContext;
-import com.abc.complexus.RecordComplexus;
-import com.abc.fuse.improve.Improvement;
-import com.abc.fuse.improve.ImprveResult;
-import com.abc.fuse.improve.ops.builder.RootRecordOpsBuilder;
-import com.abc.fuse.improve.ops.complexus.OpsComplexus;
 import com.abc.mapping.entity.Entity;
-import com.abc.mapping.entity.SimpleEntity;
 import com.abc.panel.Discoverer;
 import com.abc.panel.Integration;
 import com.abc.panel.IntegrationMsg;
 import com.abc.panel.PanelFactory;
-import com.abc.rrc.record.RootRecord;
 import com.zhsq.biz.constant.EnumKeyValue;
 import com.zhsq.biz.timertask.people.PeopleTimeTask;
 @ContextConfiguration(locations = "classpath*:spring-core.xml")
@@ -40,7 +30,6 @@ public class PeopleTest {
 		long startTime = System.currentTimeMillis();
 		BizFusionContext context=new BizFusionContext();
 		context.setSource(FusionContext.SOURCE_COMMON);
-//		context.putBizMap("XFJDE001", new PeopleBNB());
 //		context.setToEntityRange(BizFusionContext.ENTITY_CONTENT_RANGE_ABCNODE_CONTAIN);
 		context.setUserCode("e10adc3949ba59abbe56e057f28888u5");
 		Integration integration=PanelFactory.getIntegration();
@@ -58,15 +47,34 @@ public class PeopleTest {
 	
 	private Entity createEntity(String mappingName) {
 		Entity entity = new Entity(mappingName);
-		entity.putValue("唯一编码", "fd1fe04845894d0f97bae06ef9b9fbfa");
-		entity.putValue("姓名", "乐乐1"); 
+		//entity.putValue("唯一编码", "ff87b23aaf884d3dbe6d6d29a120dd52");
+		entity.putValue("姓名", "是foe"); 
 		entity.putValue("人口类型", "户籍人口");
-		//entity.putValue("所属社区", EnumKeyValue.ENUM_祥符街道社区_勤丰社区);
+		entity.putValue("所属社区", EnumKeyValue.ENUM_祥符街道社区_祥符桥社区);
 		/*entity.putValue("户籍所在地", "杭州ef1");
 		entity.putValue("户籍地门牌号", "西湖73829号fefw");*/
-		entity.putValue("身份证号码", "110101191503070898");
-		//entity.putValue("性别", EnumKeyValue.ENUM_性别_女);
-		//entity.putValue("出生日期", "2018-11-14");
+		entity.putValue("身份证号码", "34532");
+		entity.putValue("性别", EnumKeyValue.ENUM_性别_女);
+		entity.putValue("出生日期", "2000-11-14");
+		entity.putValue("和户主关系", "配偶");
+		//entity.putValue("就业形式", EnumKeyValue.ENUM_就业形式_退职);
+		
+		
+		Entity relationentity = new Entity("家庭关系");
+		
+		
+		relationentity.putValue("唯一编码", "3632988265df4fa8bc8dbfa51f257bc4");
+		relationentity.putValue("户籍地址", "西湖区");
+		relationentity.putValue("家庭分类", EnumKeyValue.ENUM_家庭分类_户籍家庭);
+		entity.putRelationEntity("家庭关系", "归属家庭", relationentity);
+		
+		
+		/*SimpleEntity sentity2 = new SimpleEntity("证件信息");
+		sentity2.putValue("证件类型", EnumKeyValue.ENUM_证件类型_就业创业证);
+		sentity2.putValue("证件号码", "928637423402");
+		sentity2.putValue("有效期结束", "2015-10-12");
+		entity.putMultiAttrEntity(sentity2);*/
+		
 		
 		/*SimpleEntity sentity = new SimpleEntity("居住信息");
 		sentity.putValue("居住地址", "祥符桥社区->红郡公寓->４幢->１单元->９０４室");
@@ -93,10 +101,10 @@ public class PeopleTest {
 		relationentity1.putValue("身份证号码", "23231112");
 		entity.putRelationEntity("子女信息","子女", relationentity1);*/
 		
-		SimpleEntity sentity3 = new SimpleEntity("老人补助信息");
+		/*SimpleEntity sentity3 = new SimpleEntity("老人补助信息");
 		sentity3.putValue("补助类型", EnumKeyValue.ENUM_老人补助枚举_居家养老补助);
 		sentity3.putValue("补助金额", "3232");
-		entity.putMultiAttrEntity(sentity3);
+		entity.putMultiAttrEntity(sentity3);*/
 		
 		/*SimpleEntity sentity3 = new SimpleEntity("人口错误信息");
 		sentity3.putValue("错误类型", EnumKeyValue.ENUM_错误类型_身份证错误);
@@ -139,46 +147,6 @@ public class PeopleTest {
 	public void fun() {
 		new PeopleTimeTask().doSomething();
 	}
-	
-	protected class PeopleBNB implements BizNoBusy, Improvement {
-
-		@Override
-		public ImprveResult preImprove(BizFusionContext context, String recordCode, OpsComplexus opsComplexus,
-				RecordComplexus recordComplexus) {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public ImprveResult improve(BizFusionContext context, String recordCode, RecordComplexus recordComplexus) {
-			RootRecord rootRecord = recordComplexus.getRootRecord(recordCode);
-			String recordName = rootRecord.getName();
-			List<Integer> addedLabelList = new ArrayList<Integer>();
-			List<Integer> removedLabelList = new ArrayList<Integer>();
-			removedLabelList.add(EnumKeyValue.ENUM_人口标签_户籍人口);
-			addedLabelList.add(EnumKeyValue.ENUM_人口标签_80_89岁老人);
-//			
-//			removedLabelList.add(EnumKeyValue.ENUM_人口标签_80_89岁老人);
-//			addedLabelList.add(EnumKeyValue.ENUM_人口标签_90以上岁老人);
-			
-			RootRecordOpsBuilder rootRecordOpsBuilder = RootRecordOpsBuilder.getInstance(recordName, recordCode);
-			rootRecordOpsBuilder.setRemoveLabel(removedLabelList);
-			rootRecordOpsBuilder.setAddLabel(addedLabelList);
-			ImprveResult imprveResult = new ImprveResult();
-			imprveResult.setRootRecordOps(rootRecordOpsBuilder.getRootRecordOps());
-//			imprveResult.setRecordRelationOps(recordRelationOpsBuilder.getRecordRelationOps());
-
-			return imprveResult;
-		}
-
-		@Override
-		public ImprveResult postImprove(BizFusionContext context, String recordCode, RecordComplexus recordComplexus) {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-	}
-	
 	
 	
 }
