@@ -16,9 +16,17 @@ global com.abc.rrc.query.criteria.BizzCriteriaFactory bizzCriteriaFactory;
 rule "户籍地址 criteria" 
 	salience 9  
 when
+	FuseAttribute(name == FamilyItem.家庭分类, sqlValue == EnumKeyValue.ENUM_家庭分类_户籍家庭)
     $nameFB:FuseAttribute(name==FamilyItem.户籍地址,CommonCalculation.isBasicLawful(value));
 then 
 	bizzCriteriaFactory.addCriteria($nameFB.getAttribute(), CommonSymbol.EQUAL);
 end
 
-
+rule "居住地址 criteria" 
+	salience 9  
+when
+	FuseAttribute(name == FamilyItem.家庭分类, sqlValue == EnumKeyValue.ENUM_家庭分类_居住家庭)
+    $nameFB:FuseAttribute(name==FamilyItem.居住地址,CommonCalculation.isBasicLawful(value));
+then 
+	bizzCriteriaFactory.addCriteria($nameFB.getAttribute(), CommonSymbol.EQUAL);
+end
