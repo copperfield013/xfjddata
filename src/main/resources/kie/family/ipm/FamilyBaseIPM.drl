@@ -10,6 +10,7 @@ import com.zhsq.biz.family.algorithm.DataIntrospection;
 import com.zhsq.biz.constant.EnumKeyValue;
 import com.zhsq.biz.constant.RelationType;
 import com.zhsq.biz.common.OutputDisplay;
+import com.zhsq.biz.constant.BaseConstant;
 
 global java.lang.String hostCode; 
 global java.lang.String hostType;
@@ -29,6 +30,7 @@ global com.abc.rrc.record.RootRecord rootRecord;
 global  com.abc.fuse.improve.ops.builder.RecordRelationOpsBuilder recordRelationOpsBuilder;
 global com.abc.complexus.RecordComplexus recordComplexus;
 
+/*
 rule "家庭与人存在户主关系设置户主姓名"
 	salience 10 
 when
@@ -70,13 +72,14 @@ then
 	Attribute idCode=AttributeFactory.newInstance(FamilyItem.户主身份证号, null);
 	attributeList.add(idCode);
 end
-
+*/
 rule "设置家庭人口数"
 	salience 10 
 when
+	eval(BaseConstant.TYPE_家庭信息.equals(recordName));
  	exists RecordRelation();
 then 
-	Integer count = DataIntrospection.getFamilyPeoCount(recordComplexus,recordName, hostCode);
+	Integer count = DataIntrospection.getFamilyPeoCount(recordComplexus,recordName, recordCode);
 	//设置家庭人口数量
 	Attribute attr=AttributeFactory.newInstance(FamilyItem.家庭总人数, count);
 	attributeList.add(attr);
