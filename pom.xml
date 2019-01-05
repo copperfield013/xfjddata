@@ -4,7 +4,7 @@
 
 	<groupId>com.zhsq.biz</groupId>
 	<artifactId>xfjd</artifactId>
-	<version>0.3.85</version>
+	<version>0.3.97</version>
 	<packaging>jar</packaging>
 	
 	<url>http://maven.apache.org</url>
@@ -18,7 +18,7 @@
 		<version.proxool>0.9.1</version.proxool>
 		<version.kie>7.10.0.Final</version.kie>
 		<version.kie.ci>7.10.0.Final</version.kie.ci>
-		<version.item>4.1.38.alphal</version.item>
+		<version.item>4.1.42.alphal</version.item>
 		
 		<project.builder.sourcesEncoding>UTF-8</project.builder.sourcesEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
