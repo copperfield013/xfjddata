@@ -94,7 +94,7 @@ end
 rule "根据身份证号自动填写性别和生日"
 	salience 15
 when
-	$idtype:OpsLeafAttribute(name==PeopleItem.证件信息_证件类型,value==EnumKeyValue.ENUM_证件类型_身份证,$leafCode:leafCode);
+	$idtype:OpsLeafAttribute(name==PeopleItem.证件信息_证件类型,sqlValue==EnumKeyValue.ENUM_证件类型_身份证,$leafCode:leafCode);
     $idValue:OpsLeafAttribute(name==PeopleItem.证件信息_证件号码,leafCode==$leafCode,CommonCalculation.isBasicLawful(value));
 	 eval(IDIntrospection.inspectId($idValue.getValueForShow()));
 then 
