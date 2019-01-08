@@ -74,7 +74,7 @@ end
 rule "身份证校验错误"
 	salience 6
 when
-    $idtype:FuseLeafAttribute(name==PeopleItem.证件信息_证件类型,value==EnumKeyValue.ENUM_证件类型_身份证,$leafCode:leafCode);
+    $idtype:FuseLeafAttribute(name==PeopleItem.证件信息_证件类型,sqlValue==EnumKeyValue.ENUM_证件类型_身份证,$leafCode:leafCode);
     $idValue:FuseLeafAttribute(name==PeopleItem.证件信息_证件号码,leafCode==$leafCode,CommonCalculation.isBasicLawful(value));
     eval(!IDIntrospection.inspectId($idValue.getValueForShow()));
 then 
@@ -89,7 +89,7 @@ end
 rule "身份证号出生日期与出生日期属性是否一致"
 	salience 5
 when 
-    $idtype1:FuseLeafAttribute(name==PeopleItem.证件信息_证件类型,value==EnumKeyValue.ENUM_证件类型_身份证,$leafCode:leafCode);
+    $idtype1:FuseLeafAttribute(name==PeopleItem.证件信息_证件类型,sqlValue==EnumKeyValue.ENUM_证件类型_身份证,$leafCode:leafCode);
     $idValue1:FuseLeafAttribute(name==PeopleItem.证件信息_证件号码,leafCode==$leafCode,CommonCalculation.isBasicLawful(value));
    	$birthday: FuseAttribute(name==PeopleItem.出生日期 ,CommonCalculation.isBasicLawful(value))
     eval(!IDIntrospection.inspectBirthday($idValue1.getValueForShow(), $birthday.getValueForShow()));
@@ -104,7 +104,7 @@ end
 rule "身份证号性别与性别属性是否一致"
 	salience 5
 when
-    $idtype2:FuseLeafAttribute(name==PeopleItem.证件信息_证件类型,value==EnumKeyValue.ENUM_证件类型_身份证,$leafCode:leafCode);
+    $idtype2:FuseLeafAttribute(name==PeopleItem.证件信息_证件类型,sqlValue==EnumKeyValue.ENUM_证件类型_身份证,$leafCode:leafCode);
     $idValue2:FuseLeafAttribute(name==PeopleItem.证件信息_证件号码,leafCode==$leafCode,CommonCalculation.isBasicLawful(value));
    	$sex: FuseAttribute(name==PeopleItem.性别 ,CommonCalculation.isBasicLawful(value))
     eval(!IDIntrospection.inspectSex($idValue2.getValueForShow(), String.valueOf($sex.getAttribute().getSqlValue())));
