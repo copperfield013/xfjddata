@@ -115,4 +115,7 @@ public class PeopleItem {
 	public static final String 银行卡信息_开户银行="XFJD1142";
 	public static final String 银行卡信息_银行账号="XFJD1143";
 	public static final String 银行卡信息_描述="XFJD1178";
+	
+	public static final String 老人补助信息_文本补助类型="XFJD1186";
+	public static final String 残疾人补助信息_文本补助类型="XFJD1188";
 }

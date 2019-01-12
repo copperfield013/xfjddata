@@ -51,7 +51,7 @@ public class SessionFactory {
 				}
 			});
 		
-		/*kSession.addEventListener(new AgendaEventListener() {
+		kSession.addEventListener(new AgendaEventListener() {
             public void matchCreated(MatchCreatedEvent event) {
                 System.out.println("The rule "
                         + event.getMatch().getRule().getName()
@@ -84,7 +84,7 @@ public class SessionFactory {
             }
             public void afterRuleFlowGroupDeactivated(RuleFlowGroupDeactivatedEvent event) {
             }
-        });*/
+        });
 		
 		return kSession;
 	}

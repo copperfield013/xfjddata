@@ -55,5 +55,4 @@ public class RelationType {
 	public static final String RR_测试一会删除_c1_人口信息="XFJDE459R989";
 	public static final String RR_测试一会删除_c6_人口信息="XFJDE459R995";
 	public static final String RR_测试一会删除_角色_角色="XFJDE459R997";
-	
 }

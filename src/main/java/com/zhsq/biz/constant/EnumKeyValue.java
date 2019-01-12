@@ -362,4 +362,6 @@ public class EnumKeyValue {
 	public static final Integer ENUM_与赡扶抚养人关系_其他=30461;
 	public static final Integer ENUM_有无_有=30463;
 	public static final Integer ENUM_有无_无=30464;	
+	
+	public static final Integer ENUM_四类人员_正常=30481;
 }

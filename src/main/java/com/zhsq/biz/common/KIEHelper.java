@@ -12,7 +12,7 @@ import org.kie.api.runtime.rule.QueryResultsRow;
 
 import com.abc.application.BizFusionContext;
 import com.abc.complexus.RecordComplexus;
-import com.abc.fuse.improve.ImprveResult;
+import com.abc.fuse.improve.ImproveResult;
 import com.abc.fuse.improve.attribute.FuseAttribute;
 import com.abc.fuse.improve.attribute.leaf.FuseLeafAttribute;
 import com.abc.fuse.improve.ops.builder.RecordRelationOpsBuilder;
@@ -65,7 +65,7 @@ public class KIEHelper {
 		return criteriaList;
 	}
 
-	public static ImprveResult getImproveResultFromKIE(BizFusionContext bizFusionContext, String recordCode,
+	public static ImproveResult getImproveResultFromKIE(BizFusionContext bizFusionContext, String recordCode,
 			OpsComplexus opsComplexus, RecordComplexus recordComplexus, KieSession kSession) {
 		String userCode = bizFusionContext.getUserCode();
 		
@@ -210,7 +210,7 @@ public class KIEHelper {
 		// 添加更新的多值属性
 		rootRecordOpsBuilder.setUpdateLeafAttribute(putFuseLeafAttributeList);
 		
-		ImprveResult imprveResult = new ImprveResult();
+		ImproveResult imprveResult = new ImproveResult();
 		imprveResult.setRootRecordOps(rootRecordOpsBuilder.getRootRecordOps());
 		imprveResult.setRecordRelationOps(recordRelationOpsBuilder.getRecordRelationOps());
 		imprveResult.setAddedRecords(rootRecordList);
@@ -218,7 +218,7 @@ public class KIEHelper {
 		return imprveResult;
 	}
 
-	public static ImprveResult getImproveResultFromKIE(BizFusionContext bizFusionContext, String recordCode,
+	public static ImproveResult getImproveResultFromKIE(BizFusionContext bizFusionContext, String recordCode,
 			RecordComplexus recordComplexus, KieSession kSession) {
 		return getImproveResultFromKIE(bizFusionContext, recordCode, null, recordComplexus, kSession);
 	}

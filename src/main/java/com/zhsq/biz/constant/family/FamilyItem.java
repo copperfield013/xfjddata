@@ -62,5 +62,13 @@ public class FamilyItem {
 	public static final String 家庭错误信息_错误类型="XFJD718";
 	public static final String 家庭错误信息_描述="XFJD719";
 	
+	public static final String 家庭财产情况_品名="XFJD1257";
+	public static final String 家庭财产情况_数量="XFJD1258";
+	public static final String 家庭财产情况_型号="XFJD1259";
+	public static final String 家庭财产情况_购买日期="XFJD1260";
+	public static final String 家庭财产情况_备注="XFJD1261";
 	
+	public static final String 家庭总收入="XFJD1254";
+	public static final String 家庭财产情况="XFJD1255";
+	public static final String 住房面积="XFJD1256";
 }
