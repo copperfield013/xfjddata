@@ -30,7 +30,7 @@ public class CommIntrospection {
 			case 30357:
 				return EnumKeyValue.ENUM_四类人员_D类;
 		}
-		return null;
+		return EnumKeyValue.ENUM_四类人员_正常;
 	}
 	
 	public static String get4TypePeopleStr(Integer fouTypePeople) {
@@ -45,6 +45,6 @@ public class CommIntrospection {
 		case 30373:
 			return "D";
 	}
-		return null;
+		return "正常";
 	}
 }
