@@ -11,6 +11,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.abc.application.BizFusionContext;
 import com.abc.application.FusionContext;
 import com.abc.mapping.entity.Entity;
+import com.abc.mapping.entity.SimpleEntity;
 import com.abc.panel.Discoverer;
 import com.abc.panel.Integration;
 import com.abc.panel.IntegrationMsg;
@@ -47,31 +48,31 @@ public class PeopleTest {
 	
 	private Entity createEntity(String mappingName) {
 		Entity entity = new Entity(mappingName);
-		//entity.putValue("唯一编码", "ff87b23aaf884d3dbe6d6d29a120dd52");
-		entity.putValue("姓名", "是foe"); 
+		//entity.putValue("唯一编码", "fe57c5a48c4247078668dc34a601385b");
+		entity.putValue("姓名", "设计费我"); 
 		entity.putValue("人口类型", "户籍人口");
 		entity.putValue("所属社区", EnumKeyValue.ENUM_祥符街道社区_祥符桥社区);
 		/*entity.putValue("户籍所在地", "杭州ef1");
 		entity.putValue("户籍地门牌号", "西湖73829号fefw");*/
-		entity.putValue("身份证号码", "34532");
-		entity.putValue("性别", EnumKeyValue.ENUM_性别_女);
-		entity.putValue("出生日期", "2000-11-14");
-		entity.putValue("和户主关系", "配偶");
-		//entity.putValue("就业形式", EnumKeyValue.ENUM_就业形式_退职);
+		entity.putValue("身份证号码", "11010119900307619X");
+		//entity.putValue("性别", EnumKeyValue.ENUM_性别_女);
+		//entity.putValue("出生日期", "2000-11-14");
+		/*entity.putValue("和户主关系", "配偶");*/
+		entity.putValue("就业形式", EnumKeyValue.ENUM_就业形式_公益性岗位);
 		
 		
-		Entity relationentity = new Entity("家庭关系");
+		/*Entity relationentity = new Entity("户籍家庭");
 		
 		
-		relationentity.putValue("唯一编码", "3632988265df4fa8bc8dbfa51f257bc4");
+		relationentity.putValue("唯一编码", "687fafa97c0f491aaa3dd86e94220618");
 		relationentity.putValue("户籍地址", "西湖区");
 		relationentity.putValue("家庭分类", EnumKeyValue.ENUM_家庭分类_户籍家庭);
-		entity.putRelationEntity("家庭关系", "归属家庭", relationentity);
-		
+		entity.putRelationEntity("户籍家庭", "归属家庭", relationentity);
+	*/
 		
 		/*SimpleEntity sentity2 = new SimpleEntity("证件信息");
-		sentity2.putValue("证件类型", EnumKeyValue.ENUM_证件类型_就业创业证);
-		sentity2.putValue("证件号码", "928637423402");
+		sentity2.putValue("证件类型", EnumKeyValue.ENUM_证件类型_身份证);
+		sentity2.putValue("证件号码", "23423");
 		sentity2.putValue("有效期结束", "2015-10-12");
 		entity.putMultiAttrEntity(sentity2);*/
 		
