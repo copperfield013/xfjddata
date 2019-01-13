@@ -50,5 +50,9 @@
 	<kbase name="worktaskpostipm" packages="kie.worktask.postipm.*">
 		<ksession name="ks-worktask-postipm" />
 	</kbase>
+	<!-- 四类人员 -->
+	<kbase name="FourTypePeopleipm" packages="kie.FourTypePeople.ipm.*">
+		<ksession name="ks-FourTypePeople-ipm" />
+	</kbase>
 	
 </kmodule>
