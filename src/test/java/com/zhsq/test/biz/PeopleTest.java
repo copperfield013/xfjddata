@@ -2,6 +2,15 @@ package com.zhsq.test.biz;
 
 
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
+
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,7 +26,11 @@ import com.abc.panel.Integration;
 import com.abc.panel.IntegrationMsg;
 import com.abc.panel.PanelFactory;
 import com.zhsq.biz.constant.EnumKeyValue;
+import com.zhsq.biz.people.algorithm.BirthdayIntrospection;
+import com.zhsq.biz.people.algorithm.IDIntrospection;
 import com.zhsq.biz.timertask.people.PeopleTimeTask;
+
+import antlr.collections.List;
 @ContextConfiguration(locations = "classpath*:spring-core.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
 public class PeopleTest {
@@ -28,37 +41,38 @@ public class PeopleTest {
 	@Test
 	public void readData() {
 		
-		long startTime = System.currentTimeMillis();
-		BizFusionContext context=new BizFusionContext();
-		context.setSource(FusionContext.SOURCE_COMMON);
-//		context.setToEntityRange(BizFusionContext.ENTITY_CONTENT_RANGE_ABCNODE_CONTAIN);
-		context.setUserCode("e10adc3949ba59abbe56e057f28888u5");
-		Integration integration=PanelFactory.getIntegration();
-		Entity entity=createEntity(mapperName);
-		logger.debug(entity.toJson());
-		IntegrationMsg imsg=integration.integrate(context,entity);
-		String code=imsg.getCode();
-		Discoverer discoverer=PanelFactory.getDiscoverer(context);
-		Entity result=discoverer.discover(code);
-		logger.debug(code + " : "+ result.toJson());
-		
-		long endTime = System.currentTimeMillis();// 记录结束时间
-		logger.debug((float) (endTime - startTime) / 1000);
+			long startTime = System.currentTimeMillis();
+			BizFusionContext context=new BizFusionContext();
+			context.setSource(FusionContext.SOURCE_COMMON);
+//			context.setToEntityRange(BizFusionContext.ENTITY_CONTENT_RANGE_ABCNODE_CONTAIN);
+			context.setUserCode("e10adc3949ba59abbe56e057f28888u5");
+			Integration integration=PanelFactory.getIntegration();
+			Entity entity=createEntity(mapperName);
+			logger.debug(entity.toJson());
+			IntegrationMsg imsg=integration.integrate(context,entity);
+			String code=imsg.getCode();
+			Discoverer discoverer=PanelFactory.getDiscoverer(context);
+			Entity result=discoverer.discover(code);
+			logger.debug(code + " : "+ result.toJson());
+			
+			long endTime = System.currentTimeMillis();// 记录结束时间
+			logger.debug((float) (endTime - startTime) / 1000);
 	}
 	
 	private Entity createEntity(String mappingName) {
+		
 		Entity entity = new Entity(mappingName);
-		//entity.putValue("唯一编码", "fe57c5a48c4247078668dc34a601385b");
-		entity.putValue("姓名", "设计费我"); 
+		entity.putValue("唯一编码", "578ed545c48946ffad3f830726cef376");
+		entity.putValue("姓名", "1959-1-23"); 
 		entity.putValue("人口类型", "户籍人口");
-		entity.putValue("所属社区", EnumKeyValue.ENUM_祥符街道社区_祥符桥社区);
+	//	entity.putValue("所属社区", EnumKeyValue.ENUM_祥符街道社区_祥符桥社区);
 		/*entity.putValue("户籍所在地", "杭州ef1");
 		entity.putValue("户籍地门牌号", "西湖73829号fefw");*/
-		entity.putValue("身份证号码", "11010119900307619X");
+		entity.putValue("身份证号码", "110101195901237997");
 		//entity.putValue("性别", EnumKeyValue.ENUM_性别_女);
 		//entity.putValue("出生日期", "2000-11-14");
 		/*entity.putValue("和户主关系", "配偶");*/
-		entity.putValue("就业形式", EnumKeyValue.ENUM_就业形式_公益性岗位);
+		//entity.putValue("就业形式", EnumKeyValue.ENUM_就业形式_失业);
 		
 		
 		/*Entity relationentity = new Entity("户籍家庭");
@@ -146,8 +160,41 @@ public class PeopleTest {
 	
 	@Test
 	public void fun() {
-		new PeopleTimeTask().doSomething();
+	new PeopleTimeTask().doSomething();
 	}
+	
+	
+	@Test 
+	public void fun1() {
+		
+		String convertIdTo18 = IDIntrospection.convertIdTo18("330105270101135");
+	
+		System.out.println(convertIdTo18);
+	
+	}
+	
+	@Test
+	public void fun2() {
+		LocalDate localDate = LocalDate.now();
+		
+		LocalDate oldDate = localDate.plusYears(-59);
+		LocalDate newDate = localDate.plusYears(-5);
+		
+		
+		System.out.println(localDate);
+		System.out.println(oldDate);
+		System.out.println(newDate);
+	}
+	
+	
+	@Test
+	public void fun3() {
+		Integer extractAge = BirthdayIntrospection.extractAge("2016-12-24");
+		
+		System.out.println(extractAge);
+	}
+	
+	
 	
 	
 }
