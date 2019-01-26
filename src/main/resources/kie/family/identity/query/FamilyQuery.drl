@@ -1,6 +1,5 @@
 package com.abc.rule.family.identity.query
 
-
 import com.zhsq.biz.constant.family.FamilyItem;
 import com.abc.fuse.improve.attribute.FuseAttribute;
 import com.abc.fuse.improve.attribute.leaf.FuseLeafAttribute;

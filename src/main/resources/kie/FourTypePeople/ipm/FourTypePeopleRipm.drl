@@ -14,7 +14,7 @@ import com.zhsq.biz.constant.DateUtils;
 import com.zhsq.biz.common.AuthAlgorithm;
 import com.abc.auth.AuthHelper;
 import com.zhsq.biz.common.OutputDisplay;
-import com.zhsq.biz.constant.peoplestat.FourTypePeopleItem;
+import com.zhsq.biz.constant.FourTypePeople.FourTypePeopleItem;
 global java.lang.String hostCode; 
 global java.lang.String hostType;
 
@@ -30,7 +30,7 @@ global java.util.List putFuseLeafAttributeList;
 global java.util.List addedLeafAttrList;
 global java.util.Map removedLeafAttrMap;
 global com.abc.rrc.record.RootRecord rootRecord;
-global  com.abc.fuse.improve.ops.builder.RecordRelationOpsBuilder recordRelationOpsBuilder;
+global  com.abc.ops.builder.RecordRelationOpsBuilder recordRelationOpsBuilder;
 global com.abc.complexus.RecordComplexus recordComplexus;
 
 rule "四类人员添加社区数据访问"

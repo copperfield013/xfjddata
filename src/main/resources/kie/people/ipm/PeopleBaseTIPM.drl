@@ -31,7 +31,7 @@ global java.util.List putFuseLeafAttributeList;
 global java.util.List addedLeafAttrList;
 global java.util.Map removedLeafAttrMap;
 global com.abc.rrc.record.RootRecord rootRecord;
-global  com.abc.fuse.improve.ops.builder.RecordRelationOpsBuilder recordRelationOpsBuilder;
+global  com.abc.ops.builder.RecordRelationOpsBuilder recordRelationOpsBuilder;
 global com.abc.complexus.RecordComplexus recordComplexus;
 
 rule "人和家庭的关系放进空间2"
@@ -62,18 +62,11 @@ then
 	if (relationName!=null) {
 		recordRelationOpsBuilder.putRelation(relationName,$huzCode); 
 	}
-end
-
-/*
-rule "不存在归属家庭关系置空和户主关系1"
-	salience 10 
-when
-	not RecordRelation(type==RelationType.RR_人口信息_归属家庭_家庭信息);
-	not RecordRelation(type==RelationType.RR_人口信息_户主家庭_家庭信息);
-	$FA: FuseAttribute(name==PeopleItem.和户主关系, attribute.sqlValue!=null  )
-then
- 	Attribute attr = AttributeFactory.newInstance(PeopleItem.和户主关系, null);
+	
+	Attribute attr = AttributeFactory.newInstance(PeopleItem.户主姓名, IDIntrospection.getPeopleName(recordComplexus, $huzCode));
 	attributeList.add(attr);
+	
+	com.zhsq.biz.common.OutputDisplay.showText("户主姓名：" + IDIntrospection.getPeopleName(recordComplexus, $huzCode));
+	
 end
-*/
 
