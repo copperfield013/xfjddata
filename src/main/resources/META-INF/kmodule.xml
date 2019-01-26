@@ -22,7 +22,6 @@
 	<kbase name="peopleipmtimer" packages="kie.people.ipm.ipmTimer">
 		<ksession name="ks-people-ipm-ipmTimer" />
 	</kbase>
-	
 	<kbase name="peoplepreipm" packages="kie.people.preipm.*">
 		<ksession name="ks-people-preipm" />
 	</kbase>

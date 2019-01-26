@@ -38,7 +38,7 @@ global java.util.List putFuseLeafAttributeList;
 global java.util.List addedLeafAttrList;
 global java.util.Map removedLeafAttrMap;
 global com.abc.rrc.record.RootRecord rootRecord;
-global  com.abc.fuse.improve.ops.builder.RecordRelationOpsBuilder recordRelationOpsBuilder;
+global  com.abc.ops.builder.RecordRelationOpsBuilder recordRelationOpsBuilder;
 global com.abc.complexus.RecordComplexus recordComplexus;
 
 rule "设置创建人及数据的基本权限"

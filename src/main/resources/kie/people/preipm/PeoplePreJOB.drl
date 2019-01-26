@@ -21,7 +21,7 @@ import com.zhsq.biz.constant.BaseConstant;
 import com.abc.relation.RelationCorrelation;
 import com.abc.fuse.improve.attribute.FuseLeafAttrFactory;
 import com.zhsq.biz.people.algorithm.IDIntrospection;
-import com.zhsq.biz.constant.peoplestat.FourTypePeopleItem;
+import com.zhsq.biz.constant.FourTypePeople.FourTypePeopleItem;
 import com.abc.rrc.record.RootRecord;
 import com.abc.sysdate.SystemDateTimeManager;
 import com.zhsq.biz.common.AuthAlgorithm;
@@ -48,7 +48,7 @@ global java.util.List putFuseLeafAttributeList;
 global java.util.List addedLeafAttrList;
 global java.util.Map removedLeafAttrMap;
 global com.abc.rrc.record.RootRecord rootRecord;
-global  com.abc.fuse.improve.ops.builder.RecordRelationOpsBuilder recordRelationOpsBuilder;
+global  com.abc.ops.builder.RecordRelationOpsBuilder recordRelationOpsBuilder;
 global com.abc.complexus.RecordComplexus recordComplexus;
 
 rule "记录之前就业形式"

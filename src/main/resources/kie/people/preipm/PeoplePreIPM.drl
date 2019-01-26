@@ -38,7 +38,7 @@ global java.util.List putFuseLeafAttributeList;
 global java.util.List addedLeafAttrList;
 global java.util.Map removedLeafAttrMap;
 global com.abc.rrc.record.RootRecord rootRecord;
-global  com.abc.fuse.improve.ops.builder.RecordRelationOpsBuilder recordRelationOpsBuilder;
+global  com.abc.ops.builder.RecordRelationOpsBuilder recordRelationOpsBuilder;
 global com.abc.complexus.RecordComplexus recordComplexus;
 
 rule "人和家庭的关系放进空间"
@@ -66,7 +66,6 @@ when
  OpsAttribute( name==PeopleItem.和户主关系 , sqlValue!=null, $opsValue:sqlValue)
  eval(!$fa.equals($opsValue))
 then    
-
 	//移除关系
 	String relationNameHis =BaseConstant.getRelationName(String.valueOf($fa));
 	if (relationNameHis != null) {
@@ -78,6 +77,11 @@ then
 	if (relationName != null) {
 	recordRelationOpsBuilder.putRelation(relationName,$huzCode); 
 	}
+	
+	Attribute attr = AttributeFactory.newInstance(PeopleItem.户主姓名, IDIntrospection.getPeopleName(recordComplexus, $huzCode));
+	attributeList.add(attr);
+	com.zhsq.biz.common.OutputDisplay.showText("户主code：" + $huzCode);
+	com.zhsq.biz.common.OutputDisplay.showText("户主姓名：" + IDIntrospection.getPeopleName(recordComplexus, $huzCode));
 	
 end
 
