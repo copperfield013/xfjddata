@@ -2,7 +2,9 @@ package com.zhsq.biz.timertask.people;
 
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -10,6 +12,9 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import com.abc.rrc.query.RecordQueryPanel;
+import com.abc.rrc.query.criteria.BetweenSymbol;
+import com.abc.rrc.query.criteria.BizzCriteriaFactory;
 import com.abc.rrc.query.queryrecord.criteria.Criteria;
 import com.abc.rrc.query.queryrecord.criteria.CriteriaFactory;
 import com.zhsq.biz.constant.BaseConstant;
@@ -27,21 +32,48 @@ public class PeopleTimeTask {
 	//@Scheduled(cron = "0 0/3 * * * ?")//每3分钟执行一次
 	@Scheduled(cron = "0 0 1 * * ?")
 	public void doSomething() {
-		 LoadEntityToWorkMemory.loadEntity(BaseConstant.TYPE_人口信息, buildCriteria(), new PeopleBNBTimer());
+		Collection<String> codes = getCodes();
+		LoadEntityToWorkMemory.loadEntity(BaseConstant.TYPE_人口信息, codes, new PeopleBNBTimer());
+	}
+	
+	
+	private Collection<String> getCodes() {
+		Collection<String> codes = new ArrayList<String>();
+		 List<List<Criteria>> criterias = getCriterias();
+		for (int i =0; i<criterias.size(); i++) {
+			Collection<String>	codeList = RecordQueryPanel.query(criterias.get(i));
+			codes.addAll(codeList);
+		}
+		
+		return codes;
 	}
 	 
-	private List<Criteria> buildCriteria(){
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			Long time = (long) (59*365*24*60*60*1000);
-			Date date = new Date(time);
-			String format = sdf.format(date);
+	private List<List<Criteria>> getCriterias() {
+		List<List<Criteria>> list = new ArrayList<List<Criteria>>();
+		LocalDate localDate = LocalDate.now();
+		LocalDate date16 = localDate.plusYears(-16);//今天刚满16岁的 添加育龄妇女标签
+		LocalDate date51 = localDate.plusYears(-51);//今天刚满51岁的删除育龄妇女标签
+		LocalDate date60 = localDate.plusYears(-60);//今天刚满60岁的
+		LocalDate date70 = localDate.plusYears(-70);//今天刚满70岁的
+		LocalDate date80 = localDate.plusYears(-80);//今天刚满80岁的
+		LocalDate date90 = localDate.plusYears(-90);//今天刚满90岁的
 		
-			List<Criteria> criterias = new ArrayList<Criteria>();
-			CriteriaFactory criteriaFactory = new CriteriaFactory();
-			Criteria common;
-			common = criteriaFactory.createBetweenCriteria(BaseConstant.TYPE_人口信息,PeopleItem.出生日期, null, format);
-			criterias.add(common);
-			return criterias; 
+		list.add(buildCriteria(localDate));
+		list.add(buildCriteria(date16));
+		list.add(buildCriteria(date51));
+		list.add(buildCriteria(date60));
+		list.add(buildCriteria(date70));
+		list.add(buildCriteria(date80));
+		list.add(buildCriteria(date90));
+		return list;
 	}
+	
+	private List<Criteria> buildCriteria(LocalDate localDate){
+		BizzCriteriaFactory criteriaFactory = new BizzCriteriaFactory(BaseConstant.TYPE_人口信息);
+		criteriaFactory.addBetweenCriteria(PeopleItem.出生日期, localDate.toString(), localDate.toString(), BetweenSymbol.BETWEEN);
+		List<Criteria> criterias = criteriaFactory.getCriterias();//今天刚出生的
+		return criterias; 
+}
+	
 
 }

@@ -65,8 +65,12 @@ public class BirthdayIntrospection {
 			int IDMonth=ca.get(Calendar.MONTH)+1;
 			int IDDay=ca.get(Calendar.DAY_OF_MONTH);
 			
+			
+			//2019 1 24 
+			// 2017 1 24
+			
 			if(IDMonth == nowMonth){//月份相同
-				if(nowDay >IDDay) {//当前天数大
+				if(nowDay >=IDDay) {//当前天数大
 					return nowYear-IDYear;
 				} else {
 					return nowYear-IDYear-1;

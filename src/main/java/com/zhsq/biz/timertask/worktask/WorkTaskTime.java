@@ -18,20 +18,20 @@ public class WorkTaskTime {
 /*	
 	private String entityType = BaseConstant.TYPE_工作任务;*/
 	 //@Scheduled(cron = "0 0/5 * * * ?")//每5分钟执行一次
-	@Scheduled(cron = "0 0 1 * * ?")
-	public void doSomething() {
+	//@Scheduled(cron = "0 0 1 * * ?")
+	/*public void doSomething() {
 		 
-				 List<Criteria> buildCriteria = buildCriteria();
+		 List<Criteria> buildCriteria = buildCriteria();
 		 LoadEntityToWorkMemory.loadEntity(BaseConstant.TYPE_工作任务, buildCriteria, new WorkTaskBNBTimer());
-	}
-	 
+	}*/
+	/* 
 	 private List<Criteria> buildCriteria(){
 			List<Criteria> criterias = new ArrayList<Criteria>();
-			/*BizCriteriaFactory criteriaFactory = new BizCriteriaFactory();
+			BizCriteriaFactory criteriaFactory = new BizCriteriaFactory();
 			Criteria common;
 			common = criteriaFactory.createOpenBetweenQueryCriteria(WorkTaskItem.任务结束时间, null, new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
-			criterias.add(common);*/
+			criterias.add(common);
 			return criterias; 
-		}
+		}*/
 
 }

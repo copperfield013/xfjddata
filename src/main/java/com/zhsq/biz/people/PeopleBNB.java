@@ -11,7 +11,7 @@ import com.abc.complexus.RecordComplexus;
 import com.abc.fuse.identity.query.IdentityQuery;
 import com.abc.fuse.improve.ImproveResult;
 import com.abc.fuse.improve.Improvement;
-import com.abc.fuse.improve.ops.complexus.OpsComplexus;
+import com.abc.ops.complexus.OpsComplexus;
 import com.abc.rrc.query.queryrecord.criteria.Criteria;
 import com.zhsq.biz.common.KIEHelper;
 import com.zhsq.biz.common.SessionFactory;

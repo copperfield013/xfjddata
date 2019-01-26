@@ -18,8 +18,28 @@ import com.abc.relation.RelationQueryPanel;
 import com.abc.rrc.record.RootRecord;
 import com.zhsq.biz.constant.EnumKeyValue;
 import com.zhsq.biz.constant.RelationType;
+import com.zhsq.biz.constant.people.PeopleItem;
 
 public class IDIntrospection {
+	
+	
+	/**
+	 * 根据recordCode获取人口姓名
+	 * @param recordComplexus
+	 * @param recordName
+	 * @param recordCode
+	 * @return
+	 */
+	public static String getPeopleName(RecordComplexus recordComplexus, String recordCode) {
+		RootRecord rootRecord = recordComplexus.getRootRecord(recordCode);
+		String name = "";
+		if (rootRecord != null) {
+			name = rootRecord.findAttribute(PeopleItem.姓名).getValueStr();
+		}
+		
+		return name;
+	}
+	
 	
 	public static Integer getChildrenCount(RecordComplexus recordComplexus,String recordName, String recordCode) {
 		Integer count = 0;
@@ -142,7 +162,8 @@ public class IDIntrospection {
 			return idcard;
 		}
 		String birthday = idcard.substring(6, 12);
-		SimpleDateFormat sdf = new SimpleDateFormat("yyMMdd");
+		birthday = "19" +birthday;
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 		Date birthdate = null;
 		try {
 			birthdate = sdf.parse(birthday);
