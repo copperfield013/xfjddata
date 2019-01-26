@@ -50,6 +50,7 @@ public class EnumKeyValue {
 	public static final Integer ENUM_人口标签_高级职称=30430;
 	public static final Integer ENUM_人口标签_市级以上优秀党员=30431;
 	public static final Integer ENUM_人口标签_育龄妇女=30467;
+	public static final Integer ENUM_人口标签_新生儿=30483;
 	public static final Integer ENUM_性别_男=30005;
 	public static final Integer ENUM_性别_女=30006;
 	public static final Integer ENUM_性别_其他=30007;
@@ -62,6 +63,7 @@ public class EnumKeyValue {
 	public static final Integer ENUM_证件类型_独生子女证=30469;
 	public static final Integer ENUM_证件类型_退休证=30470;
 	public static final Integer ENUM_证件类型_困难证=30471;
+	public static final Integer ENUM_证件类型_援助证=30485;
 	public static final Integer ENUM_管理类型_人在户在=30012;
 	public static final Integer ENUM_管理类型_人在户不在=30013;
 	public static final Integer ENUM_管理类型_户在人不在=30014;
@@ -81,6 +83,7 @@ public class EnumKeyValue {
 	public static final Integer ENUM_和户主关系_奶奶=30337;
 	public static final Integer ENUM_和户主关系_外公=30478;
 	public static final Integer ENUM_和户主关系_外婆=30479;
+	public static final Integer ENUM_和户主关系_非亲属=30482;
 	public static final Integer ENUM_是否_是=30032;
 	public static final Integer ENUM_是否_否=30033;
 	public static final Integer ENUM_户口性质_非农业户口=30035;
@@ -300,6 +303,7 @@ public class EnumKeyValue {
 	public static final Integer ENUM_四类人员_B类=30371;
 	public static final Integer ENUM_四类人员_C类=30372;
 	public static final Integer ENUM_四类人员_D类=30373;
+	public static final Integer ENUM_四类人员_正常=30481;
 	public static final Integer ENUM_测试_c1=30376;
 	public static final Integer ENUM_c1_d1=30379;
 	public static final Integer ENUM_四类人员标签_标签=30383;
@@ -361,7 +365,6 @@ public class EnumKeyValue {
 	public static final Integer ENUM_与赡扶抚养人关系_兄弟姐妹=30460;
 	public static final Integer ENUM_与赡扶抚养人关系_其他=30461;
 	public static final Integer ENUM_有无_有=30463;
-	public static final Integer ENUM_有无_无=30464;	
+	public static final Integer ENUM_有无_无=30464;
 	
-	public static final Integer ENUM_四类人员_正常=30481;
 }

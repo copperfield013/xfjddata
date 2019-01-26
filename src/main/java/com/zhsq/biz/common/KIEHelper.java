@@ -15,10 +15,11 @@ import com.abc.complexus.RecordComplexus;
 import com.abc.fuse.improve.ImproveResult;
 import com.abc.fuse.improve.attribute.FuseAttribute;
 import com.abc.fuse.improve.attribute.leaf.FuseLeafAttribute;
-import com.abc.fuse.improve.ops.builder.RecordRelationOpsBuilder;
-import com.abc.fuse.improve.ops.builder.RootRecordOpsBuilder;
-import com.abc.fuse.improve.ops.complexus.OpsComplexus;
+import com.abc.fuse.improve.ops.builder.RootRecordBizzOpsBuilder;
 import com.abc.fuse.improve.transfer.BizzAttributeTransfer;
+import com.abc.ops.builder.RecordRelationOpsBuilder;
+
+import com.abc.ops.complexus.OpsComplexus;
 import com.abc.relation.RecordRelation;
 import com.abc.relation.RelationCorrelation;
 import com.abc.rrc.query.criteria.BizzCriteriaFactory;
@@ -195,7 +196,7 @@ public class KIEHelper {
 		kSession.destroy();
 
 		// 组装结果
-		RootRecordOpsBuilder rootRecordOpsBuilder = RootRecordOpsBuilder.getInstance(recordName, recordCode);
+		RootRecordBizzOpsBuilder rootRecordOpsBuilder = RootRecordBizzOpsBuilder.getInstance(recordName, recordCode);
 		rootRecordOpsBuilder.setRemoveLabel(removedLabelList);
 		rootRecordOpsBuilder.setAddLabel(addedLabelList);
 		rootRecordOpsBuilder.setUpdateAttribute(attributeList);
