@@ -36,9 +36,6 @@ global com.abc.rrc.record.RootRecord rootRecord;
 global  com.abc.ops.builder.RecordRelationOpsBuilder recordRelationOpsBuilder;
 global com.abc.complexus.RecordComplexus recordComplexus;
 
-global java.lang.String hjtime;//户籍更改：变动日期
-
-
 rule "新增人口标记为没死亡"
 	salience 9 
 when
@@ -83,7 +80,6 @@ when
     $FAc:FuseLeafAttribute(name==PeopleItem.户籍变更_更改户籍门牌号, $leafCode==leafCode, $value:attribute.sqlValue);
      $FAd:FuseLeafAttribute(name==PeopleItem.户籍变更_变动日期, $leafCode==leafCode);
 	eval(String.valueOf(EnumKeyValue.ENUM_是否_是).equals(String.valueOf($value)))
-	eval(hjtime==null || DateUtils.toLongTime(null, hjtime) < DateUtils.toLongTime(null, $FAd.getValueForShow()))
 then    
 	//设置户籍门牌号
 	Attribute attribute=AttributeFactory.newInstance(PeopleItem.户籍地门牌号, $FAa.getValueForShow()+$FAb.getValueForShow());
@@ -91,7 +87,6 @@ then
 	
 	FuseLeafAttribute leaf = FuseLeafAttrFactory.newInstance($FAc.getCode(), $FAc.getLeafName(), $FAc.getLeafCode(), PeopleItem.户籍变更_更改户籍门牌号, EnumKeyValue.ENUM_是否_否);
 	putFuseLeafAttributeList.add(leaf);
-	kcontext.getKnowledgeRuntime().setGlobal("hjtime", $FAd.getValueForShow());
 end
 
 rule "残疾信息有值设置【是否残疾】为是"

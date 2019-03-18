@@ -1,0 +1,41 @@
+package com.abc.rule.user.ipm
+import com.abc.fuse.improve.attribute.FuseAttribute;
+import com.zhsq.biz.constant.CommonAlgorithm;
+import com.zhsq.biz.constant.user.UserItem;
+import com.abc.rrc.factory.AttributeFactory;
+
+global java.lang.String hostCode; 
+global java.lang.String hostType;
+
+global java.lang.String userCode;
+global java.lang.String recordCode;
+global java.lang.String recordName;
+
+global java.util.List attributeList;
+global java.util.List addedLabelList;
+global java.util.List removedLabelList;
+global java.util.List addedLabelList;
+global java.util.List putFuseLeafAttributeList;
+global java.util.List addedLeafAttrList;
+global java.util.Map removedLeafAttrMap;
+global com.abc.rrc.record.RootRecord rootRecord;
+global  com.abc.ops.builder.RecordRelationOpsBuilder recordRelationOpsBuilder;
+global com.abc.complexus.RecordComplexus recordComplexus;
+
+rule "密码加密" 
+	salience 10 
+when
+	$passwordFA:FuseAttribute(name == UserItem.原始密码,CommonAlgorithm.isLawfulPassword(value));
+then
+	attributeList.add(AttributeFactory.newInstance(UserItem.加密密码,CommonAlgorithm.encryptMD5($passwordFA.getValue())));
+	attributeList.add(AttributeFactory.newInstance(UserItem.原始密码,null));
+end
+
+
+
+
+
+
+
+
+ 

@@ -54,4 +54,12 @@
 		<ksession name="ks-FourTypePeople-ipm" />
 	</kbase>
 	
+	<!-- user -->
+	<kbase name="userquery" packages="kie.user.identity.query">
+		<ksession name="ks-user-idt-query" />
+	</kbase>
+	<kbase name="useripm" packages="kie.user.ipm">
+		<ksession name="ks-user-ipm" />
+	</kbase>
+	
 </kmodule>

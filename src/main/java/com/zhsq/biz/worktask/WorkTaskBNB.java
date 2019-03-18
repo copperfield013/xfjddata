@@ -51,4 +51,10 @@ public class WorkTaskBNB implements BizNoBusy, IdentityQuery, Improvement, IFusi
 				SessionFactory.findSessionKeepContainer("ks-worktask-postipm"));
 	}
 
+	@Override
+	public ImproveResult secondImprove(BizFusionContext arg0, String arg1, RecordComplexus arg2) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

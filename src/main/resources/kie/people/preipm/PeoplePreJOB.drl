@@ -28,6 +28,7 @@ import com.zhsq.biz.common.AuthAlgorithm;
 import com.abc.transfer.builder.IRootRecordBuilder;
 import com.abc.transfer.builder.RootRecordBuilderFactory;
 import com.zhsq.biz.people.algorithm.CommIntrospection;
+import com.abc.ops.builder.RecordRelationOpsBuilder;
 
 global java.lang.String hostCode; 
 global java.lang.String hostType;
@@ -37,8 +38,7 @@ global java.lang.String recordCode;
 global java.lang.String recordName;
 
 
-
-global java.util.List recordRelationList;
+global java.util.List recordRelationOpsBuilderNew;
 global java.util.List rootRecordList;
 global java.util.List attributeList;
 global java.util.List addedLabelList;
@@ -54,7 +54,7 @@ global com.abc.complexus.RecordComplexus recordComplexus;
 rule "记录之前就业形式"
 	when
 		OpsAttribute( name==PeopleItem.就业形式,CommonCalculation.isBasicLawful(sqlValue), $opsValue:sqlValue)
-		$fuseJOB: FuseAttribute( name== PeopleItem.就业形式, $fuseValue:sqlValue)
+		$fuseJOB: FuseAttribute( name== PeopleItem.就业形式,CommonCalculation.isBasicLawful(sqlValue), $fuseValue:sqlValue)
 		eval(!$opsValue.equals($fuseValue))
 	then
 		Attribute jobType = AttributeFactory.newInstance(PeopleItem.之前就业形式, $fuseJOB.getValueForShow());
@@ -64,7 +64,7 @@ end
 
 rule "记录之前就业形式2"
 	when
-		not FuseAttribute( name== PeopleItem.就业形式)
+		(FuseAttribute( name== PeopleItem.就业形式, sqlValue==null)) or (not FuseAttribute( name== PeopleItem.就业形式))
 	then
 		kcontext.getKnowledgeRuntime().getAgenda().getAgendaGroup( "新增人员分类" ).setFocus();
 end
@@ -123,11 +123,10 @@ then
 	RootRecord record = iRootRecordBuilder.getRootRecord();
 	rootRecordList.add(record);
 	//添加关系
-	recordRelationOpsBuilder.putRelation(RelationType.RR_人口信息_关联四类人员_四类人员,record.getCode()); 
-	//所属社区的权限code： AuthAlgorithm.getAreaAuthCode((Integer)$areaValue)
-	//添加权限
-	//RecordRelation recordRelation = new RecordRelation(record.getCode(), RelationType.RR_四类人员_可被访问_权限, AuthAlgorithm.getAreaAuthCode((Integer)$areaValue));
-	//recordRelationList.add(recordRelation);
+	RecordRelationOpsBuilder builderNew = RecordRelationOpsBuilder.getInstance(BaseConstant.TYPE_四类人员,
+				record.getCode());
+	builderNew.putRelation(RelationType.RR_四类人员_关联人口_人口信息, recordCode); 
+	recordRelationOpsBuilderNew.add(builderNew);
 end 
 
 rule "新增就业形式给人员分类"
@@ -164,10 +163,8 @@ then
 	com.zhsq.biz.common.OutputDisplay.showText("record: " + record.toJson());
 	rootRecordList.add(record);
 	//添加关系
-	recordRelationOpsBuilder.putRelation(RelationType.RR_人口信息_关联四类人员_四类人员,record.getCode()); 
-	//所属社区的权限code： AuthAlgorithm.getAreaAuthCode((Integer)$areaValue)
-	//添加权限
-	//RecordRelation recordRelation = new RecordRelation(record.getCode(), RelationType.RR_四类人员_可被访问_权限, AuthAlgorithm.getAreaAuthCode((Integer)$areaValue));
-	//com.zhsq.biz.common.OutputDisplay.showText("recordRelation: " + recordRelation.toString());
-	//recordRelationList.add(recordRelation);
+	RecordRelationOpsBuilder builderNew = RecordRelationOpsBuilder.getInstance(BaseConstant.TYPE_四类人员,
+				record.getCode());
+	builderNew.putRelation(RelationType.RR_四类人员_关联人口_人口信息, recordCode); 
+	recordRelationOpsBuilderNew.add(builderNew);
 end 
