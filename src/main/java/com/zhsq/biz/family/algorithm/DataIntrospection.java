@@ -21,9 +21,7 @@ public class DataIntrospection {
 	public static Integer getFamilyPeoCount(RecordComplexus recordComplexus, String recordName, String recordCode) {
 			Integer count = 0;
 			Collection<RecordRelation> recordRelation = getRecordRelation(recordComplexus,recordName, recordCode);
-			for (RecordRelation recordRelation2 : recordRelation) {
-					count++;
-			}
+			count = recordRelation.size();
 		return count;
 	}
 	

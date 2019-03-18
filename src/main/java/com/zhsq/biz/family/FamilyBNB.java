@@ -80,4 +80,10 @@ public class FamilyBNB implements BizNoBusy, IdentityQuery, Improvement, IFusiti
 				SessionFactory.findSessionKeepContainer("ks-family-postimp"));
 	}
 
+	@Override
+	public ImproveResult secondImprove(BizFusionContext arg0, String arg1, RecordComplexus arg2) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

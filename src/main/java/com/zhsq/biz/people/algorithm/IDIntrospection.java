@@ -55,6 +55,10 @@ public class IDIntrospection {
 		
 		if (relationCorrelation !=null) {
 			Collection<RecordRelation> recordRelation = relationCorrelation.getRecordRelation();
+			
+			//relationCorrelation.getRelationByName(RelationType.RR_人口信息_子女_人口信息);
+			
+			
 			if (!recordRelation.isEmpty()) {
 				for (RecordRelation recordRelation2 : recordRelation) {
 					if (RelationType.RR_人口信息_子女_人口信息.equals(recordRelation2.getType())) {

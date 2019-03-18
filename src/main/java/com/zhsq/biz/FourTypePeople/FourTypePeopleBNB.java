@@ -46,6 +46,12 @@ public class FourTypePeopleBNB implements BizNoBusy, IdentityQuery, Improvement,
 	public ImproveResult postImprove(BizFusionContext context, String recordCode, RecordComplexus recordComplexus) {
 		return null;
 	}
+
+	@Override
+	public ImproveResult secondImprove(BizFusionContext arg0, String arg1, RecordComplexus arg2) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 
 }

@@ -36,7 +36,6 @@ public class PeopleTimeTask {
 		LoadEntityToWorkMemory.loadEntity(BaseConstant.TYPE_人口信息, codes, new PeopleBNBTimer());
 	}
 	
-	
 	private Collection<String> getCodes() {
 		Collection<String> codes = new ArrayList<String>();
 		 List<List<Criteria>> criterias = getCriterias();
