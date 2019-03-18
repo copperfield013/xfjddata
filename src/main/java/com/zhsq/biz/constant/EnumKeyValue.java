@@ -205,6 +205,9 @@ public class EnumKeyValue {
 	public static final Integer ENUM_祥符街道社区_申悦社区=30189;
 	public static final Integer ENUM_祥符街道社区_申慧社区=30190;
 	public static final Integer ENUM_祥符街道社区_蓝孔雀社区=30191;
+	public static final Integer ENUM_祥符街道社区_渡驾桥社区=30490;
+	public static final Integer ENUM_祥符街道社区_郭家厍社区=30491;
+	public static final Integer ENUM_祥符街道社区_陆家圩社区=30492;
 	public static final Integer ENUM_孩次_一孩=30198;
 	public static final Integer ENUM_孩次_二孩=30199;
 	public static final Integer ENUM_孩次_三孩=30200;

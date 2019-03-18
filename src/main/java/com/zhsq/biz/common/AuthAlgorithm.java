@@ -44,6 +44,10 @@ public class AuthAlgorithm {
 		areaMappingAuth.put(EnumKeyValue.ENUM_祥符街道社区_申悦社区, "51152f1b94e549ba8362475ea89a069a");
 		areaMappingAuth.put(EnumKeyValue.ENUM_祥符街道社区_申慧社区, "ddf805022b9b48fcb23c0c9f89f182e9");
 		areaMappingAuth.put(EnumKeyValue.ENUM_祥符街道社区_蓝孔雀社区, "a40d9d1696814d96a02c27313fd0d734");
+		
+		areaMappingAuth.put(EnumKeyValue.ENUM_祥符街道社区_郭家厍社区, "71e5232fb0f54f7c8bcf7f542ec34cb0");
+		areaMappingAuth.put(EnumKeyValue.ENUM_祥符街道社区_陆家圩社区, "eb01a96abaf747caa7458be423784cb0");
+		areaMappingAuth.put(EnumKeyValue.ENUM_祥符街道社区_渡驾桥社区, "2248d2a9204f42aeba9d03e360c8e389");
 	}
 
 }

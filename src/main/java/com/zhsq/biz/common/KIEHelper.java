@@ -76,7 +76,6 @@ public class KIEHelper {
 		String hostType = recordComplexus.getHostType();
 		// 定义 全局变量
 		
-		List<RecordRelation> recordRelationList = new ArrayList<RecordRelation>();
 		List<RootRecord> rootRecordList = new ArrayList<RootRecord>();
 		List<Integer> addedLabelList = new ArrayList<Integer>();
 		List<Integer> removedLabelList = new ArrayList<Integer>();
@@ -85,6 +84,8 @@ public class KIEHelper {
 		List<FuseLeafAttribute> addedLeafAttrList = new ArrayList<FuseLeafAttribute>();
 		Map<String, String> removedLeafAttrMap = new HashMap<String, String>();
 		
+		//存放新建
+		List<RecordRelationOpsBuilder> recordRelationOpsBuilderNew = new ArrayList<RecordRelationOpsBuilder>();
 		RecordRelationOpsBuilder recordRelationOpsBuilder = RecordRelationOpsBuilder.getInstance(recordName,
 				recordCode);
 
@@ -95,7 +96,7 @@ public class KIEHelper {
 		kSession.setGlobal("recordRelationOpsBuilder", recordRelationOpsBuilder);
 		
 		try {
-			kSession.setGlobal("recordRelationList", recordRelationList);
+			kSession.setGlobal("recordRelationOpsBuilderNew", recordRelationOpsBuilderNew);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -215,7 +216,10 @@ public class KIEHelper {
 		imprveResult.setRootRecordOps(rootRecordOpsBuilder.getRootRecordOps());
 		imprveResult.setRecordRelationOps(recordRelationOpsBuilder.getRecordRelationOps());
 		imprveResult.setAddedRecords(rootRecordList);
-		imprveResult.setAddedRecordRelation(recordRelationList);
+		
+		for (RecordRelationOpsBuilder builder : recordRelationOpsBuilderNew) {
+			imprveResult.putAddedRecordRelationOps(builder.getRecordRelationOps());
+		}
 		return imprveResult;
 	}
 

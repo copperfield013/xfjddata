@@ -11,5 +11,6 @@ public class FourTypePeopleItem {
 	public static final String 四类人员转变状态="XFJD1190";
 	public static final String 编辑时间="XFJDE1015_ED";
 	
+	
 	public static final String 就业形式="XFJD1264";
 }
