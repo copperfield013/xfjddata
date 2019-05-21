@@ -35,7 +35,6 @@ public class KIEHelper {
 	public static List<Criteria> getBizCriteriaListFromKIE(String recordCode, RecordComplexus complexus,
 			KieSession kSession) {
 		RootRecord record = complexus.getRootRecord(recordCode);
-		//List<Criteria> criteriaList = new ArrayList<Criteria>();
 		
 		List<FuseAttribute> transfer = BizzAttributeTransfer.transfer(record);
 		
@@ -49,11 +48,8 @@ public class KIEHelper {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		// kSession.startProcess("peopleQuery");
 
 		kSession.fireAllRules();
-		
 		List<Criteria> criteriaList = bizzCriteriaFactory.getCriterias();
 		
 		/*QueryResults results = kSession.getQueryResults("query criteria");
@@ -68,6 +64,7 @@ public class KIEHelper {
 
 	public static ImproveResult getImproveResultFromKIE(BizFusionContext bizFusionContext, String recordCode,
 			OpsComplexus opsComplexus, RecordComplexus recordComplexus, KieSession kSession) {
+		
 		String userCode = bizFusionContext.getUserCode();
 		
 		RootRecord rootRecord = recordComplexus.getRootRecord(recordCode);
@@ -80,18 +77,18 @@ public class KIEHelper {
 		List<Integer> addedLabelList = new ArrayList<Integer>();
 		List<Integer> removedLabelList = new ArrayList<Integer>();
 		List<Attribute> attributeList = new ArrayList<Attribute>();
-		List<FuseLeafAttribute> putFuseLeafAttributeList = new ArrayList<FuseLeafAttribute>();
 		List<FuseLeafAttribute> addedLeafAttrList = new ArrayList<FuseLeafAttribute>();
 		Map<String, String> removedLeafAttrMap = new HashMap<String, String>();
 		
 		//存放新建
 		List<RecordRelationOpsBuilder> recordRelationOpsBuilderNew = new ArrayList<RecordRelationOpsBuilder>();
+		
 		RecordRelationOpsBuilder recordRelationOpsBuilder = RecordRelationOpsBuilder.getInstance(recordName,
 				recordCode);
 
 		kSession.setGlobal("userCode", userCode);
 		kSession.setGlobal("recordCode", recordCode);
-		kSession.setGlobal("recordName", rootRecord.getName());
+		kSession.setGlobal("recordName", recordName);
 		kSession.setGlobal("recordComplexus", recordComplexus);
 		kSession.setGlobal("recordRelationOpsBuilder", recordRelationOpsBuilder);
 		
@@ -137,20 +134,13 @@ public class KIEHelper {
 			e.printStackTrace();
 		}
 		try {
-
-			kSession.setGlobal("putFuseLeafAttributeList", putFuseLeafAttributeList);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		try {
 			
 			kSession.setGlobal("addedLeafAttrList", addedLeafAttrList);
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
+		
 		try {
 
 			kSession.setGlobal("removedLeafAttrMap", removedLeafAttrMap);
@@ -164,7 +154,7 @@ public class KIEHelper {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
+		
 		try {
 			kSession.setGlobal("recordComplexus", recordComplexus);
 		} catch (Exception e) {
@@ -198,28 +188,26 @@ public class KIEHelper {
 
 		// 组装结果
 		RootRecordBizzOpsBuilder rootRecordOpsBuilder = RootRecordBizzOpsBuilder.getInstance(recordName, recordCode);
-		rootRecordOpsBuilder.setRemoveLabel(removedLabelList);
-		rootRecordOpsBuilder.setAddLabel(addedLabelList);
-		rootRecordOpsBuilder.setUpdateAttribute(attributeList);
 		
-		// 添加多值属性
-
-		rootRecordOpsBuilder.setAddedLeafAttribute(addedLeafAttrList);
+		rootRecordOpsBuilder.removeLabel(removedLabelList);
+		rootRecordOpsBuilder.addLabel(addedLabelList);
+		rootRecordOpsBuilder.addAttribute(attributeList);
+		
+		rootRecordOpsBuilder.addLeafAttribute(addedLeafAttrList);
 		// 删除的多值属性
 		for (String key : removedLeafAttrMap.keySet()) {
-			rootRecordOpsBuilder.setRemoveLeaf(removedLeafAttrMap.get(key), key);
+			rootRecordOpsBuilder.removeLeaf(removedLeafAttrMap.get(key), key);
 		}
-		// 添加更新的多值属性
-		rootRecordOpsBuilder.setUpdateLeafAttribute(putFuseLeafAttributeList);
 		
 		ImproveResult imprveResult = new ImproveResult();
 		imprveResult.setRootRecordOps(rootRecordOpsBuilder.getRootRecordOps());
 		imprveResult.setRecordRelationOps(recordRelationOpsBuilder.getRecordRelationOps());
-		imprveResult.setAddedRecords(rootRecordList);
+		imprveResult.setGeneratedRecords(rootRecordList);
 		
 		for (RecordRelationOpsBuilder builder : recordRelationOpsBuilderNew) {
-			imprveResult.putAddedRecordRelationOps(builder.getRecordRelationOps());
+			imprveResult.putDerivedRecordRelationOps(builder.getRecordRelationOps());
 		}
+		
 		return imprveResult;
 	}
 

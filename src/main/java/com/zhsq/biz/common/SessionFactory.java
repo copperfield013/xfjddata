@@ -97,9 +97,7 @@ public class SessionFactory {
 		KieScanner kieScanner = kieServices.newKieScanner(kieContainer);
 		
 		kieScanner.start(10000L);//10秒
-		KieSession kSession = kieContainer
-				.newKieSession(sessionName);
-//		kSession.addEventListener( new DebugRuleRuntimeEventListener() );
+		KieSession kSession = kieContainer.newKieSession(sessionName);
 		
 		kSession.addEventListener( new DefaultAgendaEventListener() {
 			public void afterMatchFired(AfterMatchFiredEvent event) {

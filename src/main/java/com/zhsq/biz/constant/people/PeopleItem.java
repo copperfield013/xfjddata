@@ -16,7 +16,7 @@ public class PeopleItem {
 	public static final String 证件信息="XFJD035";
 	public static final String 身份证号码="XFJD038";
 	public static final String 户籍所在地="XFJD041";
-	public static final String 户籍地门牌号="XFJD042";
+	//public static final String 户籍地门牌号="XFJD042"; //弃用
 	public static final String 管理类型="XFJD043";
 	public static final String 人口状态="XFJD044";
 	public static final String 户编号="XFJD045";

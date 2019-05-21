@@ -5,6 +5,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Collection;
 
 import com.abc.complexus.RecordComplexus;
+import com.abc.relation.RecordRelation;
 import com.abc.relation.RelationCorrelation;
 import com.abc.relation.RelationQueryPanel;
 import com.abc.rrc.record.Attribute;
@@ -13,6 +14,32 @@ import com.abc.rrc.record.RootRecord;
 import com.zhsq.biz.constant.people.PeopleItem;
 
 public class CommonAlgorithm {
+	
+	/**
+	 * 	获取指定关系的数量
+	 * @param recordComplexus
+	 * @param recordName
+	 * @param recordCode
+	 * @param relationType   指定的关系类型       type==RelationType.RR_人口信息_走访记录_走访记录
+	 * @return
+	 */
+	public static Integer getAppointRecordRelationCount(RecordComplexus recordComplexus,String recordName, String recordCode, String relationType) {
+		
+		Integer count = 0;
+		RelationCorrelation	relationCorrelation = CommonAlgorithm.getRelationCorrelation(recordComplexus, recordName, recordCode);
+		if (relationCorrelation != null) {
+			Collection<RecordRelation> recordRelation = relationCorrelation.getRecordRelation();
+			if (!recordRelation.isEmpty()) {
+				for (RecordRelation recordRelation2 : recordRelation) {
+					if (relationType.equals(recordRelation2.getType())) {
+						count++;
+					}
+				}
+			}
+		}
+		
+		return count;
+	}
 	
 	/**
 	 * 根据 recordCode 获取本实例的所有关系
