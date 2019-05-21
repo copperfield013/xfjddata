@@ -40,46 +40,8 @@ public class IDIntrospection {
 		return name;
 	}
 	
-	
-	public static Integer getChildrenCount(RecordComplexus recordComplexus,String recordName, String recordCode) {
-		Integer count = 0;
-		//RootRecord recordCompound=recordComplexus.getHostRootRecord();
-		/*RelationQueryPanel.get(recordName, recordCode);// 此方法是从数据库中读取
-		RelationCorrelation relationCorrelation = 
-		recordComplexus.getRelationCorrelation(recordCode);//此方法是当前页面加载进来的关系
-		*/
-		
-		RelationCorrelation relationCorrelation = null;
-		
-		relationCorrelation = getRelationCorrelation(recordComplexus, recordName, recordCode);
-		
-		if (relationCorrelation !=null) {
-			Collection<RecordRelation> recordRelation = relationCorrelation.getRecordRelation();
-			
-			//relationCorrelation.getRelationByName(RelationType.RR_人口信息_子女_人口信息);
-			
-			
-			if (!recordRelation.isEmpty()) {
-				for (RecordRelation recordRelation2 : recordRelation) {
-					if (RelationType.RR_人口信息_子女_人口信息.equals(recordRelation2.getType())) {
-						count++;
-					}
-				}
-			}
-		}
-		
-		return count;
-	}
-	
 	public static RelationCorrelation getRelationCorrelation(RecordComplexus recordComplexus,String recordName, String recordCode) {
-		RelationCorrelation relationCorrelation = null;
-		relationCorrelation = recordComplexus.getRelationCorrelation(recordCode);
-		
-		if (relationCorrelation == null) {
-			relationCorrelation = RelationQueryPanel.get(recordName, recordCode);
-		}
-		
-		return relationCorrelation;
+		return recordComplexus.getRelationCorrelation(recordCode);
 	}
 	
 	

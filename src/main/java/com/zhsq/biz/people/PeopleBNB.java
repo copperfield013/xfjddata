@@ -10,14 +10,14 @@ import com.abc.callback.IFusitionCallBack;
 import com.abc.complexus.RecordComplexus;
 import com.abc.fuse.identity.query.IdentityQuery;
 import com.abc.fuse.improve.ImproveResult;
-import com.abc.fuse.improve.Improvement;
+import com.abc.fuse.improve.ThreeRoundImprovement;
 import com.abc.ops.complexus.OpsComplexus;
 import com.abc.rrc.query.queryrecord.criteria.Criteria;
 import com.zhsq.biz.common.KIEHelper;
 import com.zhsq.biz.common.SessionFactory;
 
 @Repository(value = "XFJDE001")
-public class PeopleBNB implements BizNoBusy, IdentityQuery, Improvement, IFusitionCallBack {
+public class PeopleBNB implements BizNoBusy, IdentityQuery, ThreeRoundImprovement, IFusitionCallBack {
 
 	@Override
 	public List<Criteria> getCriteriaList(String recordCode, RecordComplexus complexus) {
@@ -51,10 +51,15 @@ public class PeopleBNB implements BizNoBusy, IdentityQuery, Improvement, IFusiti
 	}
 
 	@Override
-	public ImproveResult secondImprove(BizFusionContext arg0, String arg1, RecordComplexus arg2) {
-		// TODO Auto-generated method stub
+	public ImproveResult secondImprove(BizFusionContext context, String recordCode, RecordComplexus recordComplexus) {
+		return KIEHelper.getImproveResultFromKIE(context, recordCode, recordComplexus,
+				SessionFactory.findSessionKeepContainer("ks-people-secondipm"));
+	}
+
+	@Override
+	public ImproveResult thirdImprove(BizFusionContext context, String recordCode, RecordComplexus recordComplexus) {
+
 		return null;
 	}
-	
 
 }
