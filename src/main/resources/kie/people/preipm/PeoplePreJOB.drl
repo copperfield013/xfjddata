@@ -44,7 +44,6 @@ global java.util.List attributeList;
 global java.util.List addedLabelList;
 global java.util.List removedLabelList;
 global java.util.List addedLabelList;
-global java.util.List putFuseLeafAttributeList;
 global java.util.List addedLeafAttrList;
 global java.util.Map removedLeafAttrMap;
 global com.abc.rrc.record.RootRecord rootRecord;
@@ -160,7 +159,6 @@ then
 	
 	RootRecord record = iRootRecordBuilder.getRootRecord();
 	
-	com.zhsq.biz.common.OutputDisplay.showText("record: " + record.toJson());
 	rootRecordList.add(record);
 	//添加关系
 	RecordRelationOpsBuilder builderNew = RecordRelationOpsBuilder.getInstance(BaseConstant.TYPE_四类人员,

@@ -29,7 +29,6 @@ global java.util.List attributeList;
 global java.util.List addedLabelList;
 global java.util.List removedLabelList;
 global java.util.List addedLabelList;
-global java.util.List putFuseLeafAttributeList;
 global java.util.List addedLeafAttrList;
 global java.util.Map removedLeafAttrMap;
 global com.abc.rrc.record.RootRecord rootRecord;
@@ -39,7 +38,7 @@ global com.abc.complexus.RecordComplexus recordComplexus;
 rule "新增人口标记为没死亡"
 	salience 9 
 when
-	FuseAttribute(name==PeopleItem.是否死亡, attribute.sqlValue == null) or (not FuseAttribute(name==PeopleItem.是否死亡))
+	FuseAttribute(name==PeopleItem.是否死亡, sqlValue == null) or (not FuseAttribute(name==PeopleItem.是否死亡))
 then
 	Attribute attr = AttributeFactory.newInstance(PeopleItem.是否死亡, EnumKeyValue.ENUM_是否_否);
 	attributeList.add(attr);
@@ -48,8 +47,8 @@ end
 rule "人口死亡标记为未确认"
 	salience 9 
 when
-	FuseAttribute(name==PeopleItem.是否死亡,CommonCalculation.isBasicLawful(value), attribute.sqlValue==EnumKeyValue.ENUM_是否_是);
-    FuseAttribute(name==PeopleItem.待确认死亡, attribute.sqlValue==null) or (not  FuseAttribute(name==PeopleItem.待确认死亡));
+	FuseAttribute(name==PeopleItem.是否死亡,CommonCalculation.isBasicLawful(value), sqlValue==EnumKeyValue.ENUM_是否_是);
+    FuseAttribute(name==PeopleItem.待确认死亡, sqlValue==null) or (not  FuseAttribute(name==PeopleItem.待确认死亡));
 then 
 	Attribute attrc = AttributeFactory.newInstance(PeopleItem.待确认死亡, EnumKeyValue.ENUM_待确认死亡_未确认);
 	attributeList.add(attrc);
@@ -60,7 +59,7 @@ end
 rule "人口没死亡标记待确认为null"
 	salience 9 
 when
-	$nameB:FuseAttribute(name==PeopleItem.是否死亡,CommonCalculation.isBasicLawful(value), attribute.sqlValue==EnumKeyValue.ENUM_是否_否);
+	$nameB:FuseAttribute(name==PeopleItem.是否死亡,CommonCalculation.isBasicLawful(value), sqlValue==EnumKeyValue.ENUM_是否_否);
 then 
 	Attribute namec = AttributeFactory.newInstance(PeopleItem.待确认死亡, null);
 	attributeList.add(namec);
@@ -81,19 +80,19 @@ when
      $FAd:FuseLeafAttribute(name==PeopleItem.户籍变更_变动日期, $leafCode==leafCode);
 	eval(String.valueOf(EnumKeyValue.ENUM_是否_是).equals(String.valueOf($value)))
 then    
-	//设置户籍门牌号
-	Attribute attribute=AttributeFactory.newInstance(PeopleItem.户籍地门牌号, $FAa.getValueForShow()+$FAb.getValueForShow());
+	//设置户籍所在地
+	Attribute attribute=AttributeFactory.newInstance(PeopleItem.户籍所在地, $FAa.getValueForShow()+$FAb.getValueForShow());
 	attributeList.add(attribute);
 	
 	FuseLeafAttribute leaf = FuseLeafAttrFactory.newInstance($FAc.getCode(), $FAc.getLeafName(), $FAc.getLeafCode(), PeopleItem.户籍变更_更改户籍门牌号, EnumKeyValue.ENUM_是否_否);
-	putFuseLeafAttributeList.add(leaf);
+	addedLeafAttrList.add(leaf);
 end
 
 rule "残疾信息有值设置【是否残疾】为是"
 	salience 10 
 when
 	exists FuseLeafAttribute(name==PeopleItem.残疾信息_残疾类别)
-	(not FuseAttribute( name==PeopleItem.是否残疾 )) or FuseAttribute( name==PeopleItem.是否残疾, attribute.sqlValue!=EnumKeyValue.ENUM_是否_是 )
+	(not FuseAttribute( name==PeopleItem.是否残疾 )) or FuseAttribute( name==PeopleItem.是否残疾, sqlValue!=EnumKeyValue.ENUM_是否_是 )
 then 
 	Attribute attr = AttributeFactory.newInstance(PeopleItem.是否残疾, EnumKeyValue.ENUM_是否_是);
 	attributeList.add(attr);
@@ -105,5 +104,5 @@ when
 	$fa: FuseLeafAttribute(name==PeopleItem.居住信息_居住地址)
 then 
 	FuseLeafAttribute leafAttr = FuseLeafAttrFactory.newInstance($fa.getCode(), $fa.getLeafName(), $fa.getLeafCode(), PeopleItem.居住信息_居住地门牌号, $fa.getAttribute().getValueStr());
-	putFuseLeafAttributeList.add(leafAttr);
+	addedLeafAttrList.add(leafAttr);
 end 

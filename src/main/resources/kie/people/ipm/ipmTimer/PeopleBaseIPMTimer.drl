@@ -27,7 +27,6 @@ global java.lang.String recordName;
 global java.util.List attributeList;
 global java.util.List removedLabelList;
 global java.util.List addedLabelList;
-global java.util.List putFuseLeafAttributeList;
 global java.util.List addedLeafAttrList;
 global java.util.Map removedLeafAttrMap;
 global com.abc.rrc.record.RootRecord rootRecord;
@@ -38,7 +37,7 @@ global com.abc.complexus.RecordComplexus recordComplexus;
 rule "添加育龄妇女标签"//大于16周岁的女性
 	salience 8
 when
-	not FuseLabelAttribute(sqlValue == EnumKeyValue.ENUM_人口标签_育龄妇女);
+	not FuseLabelAttribute(value == EnumKeyValue.ENUM_人口标签_育龄妇女);
 	$nameA:FuseAttribute(name==PeopleItem.出生日期, CommonCalculation.isBasicLawful(attribute.sqlValue));
 	FuseAttribute(name==PeopleItem.性别, EnumKeyValue.ENUM_性别_女.equals(sqlValue));
 	eval(BirthdayIntrospection.extractAge($nameA.getValueForShow())>=16 && BirthdayIntrospection.extractAge($nameA.getValueForShow()) <=50);
@@ -59,7 +58,7 @@ end
 rule "添加新生儿标签"//5周岁
 	salience 8
 when
-	not FuseLabelAttribute(sqlValue == EnumKeyValue.ENUM_人口标签_新生儿);
+	not FuseLabelAttribute(value == EnumKeyValue.ENUM_人口标签_新生儿);
 	$nameA:FuseAttribute(name==PeopleItem.出生日期, CommonCalculation.isBasicLawful(attribute.sqlValue));
 	eval(BirthdayIntrospection.extractAge($nameA.getValueForShow()) <=5);
 then  
@@ -69,7 +68,7 @@ end
 rule "删除新生儿标签"//5周岁
 	salience 8
 when
-	FuseLabelAttribute(sqlValue == EnumKeyValue.ENUM_人口标签_新生儿);
+	FuseLabelAttribute(value == EnumKeyValue.ENUM_人口标签_新生儿);
 	$nameA:FuseAttribute(name==PeopleItem.出生日期, CommonCalculation.isBasicLawful(attribute.sqlValue));
 	eval(BirthdayIntrospection.extractAge($nameA.getValueForShow()) >5);
 then  

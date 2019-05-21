@@ -1,7 +1,6 @@
 package com.abc.rule.people.identity.query
 
 import com.abc.rrc.query.queryrecord.criteria.Criteria;
-
 import com.abc.fuse.improve.attribute.FuseAttribute;
 import com.abc.fuse.improve.attribute.leaf.FuseLeafAttribute;
 import com.abc.rrc.query.queryrecord.criteria.CriteriaFactory;
@@ -12,19 +11,6 @@ import com.abc.rrc.query.criteria.CommonSymbol;
 
 global java.lang.String recordName;
 global com.abc.rrc.query.criteria.BizzCriteriaFactory bizzCriteriaFactory;
-
-/*
-rule "姓名 and 身份证号 criteria" 
-	activation-group "people查询条件"
-	salience 9  
-when
-    $nameFB:FuseAttribute(name==PeopleItem.姓名,CommonCalculation.isBasicLawful(value));
-    $IdFB:FuseAttribute(name==PeopleItem.身份证号码,CommonCalculation.isBasicLawful(value));
-then 
-	bizzCriteriaFactory.addCriteria($nameFB.getAttribute(), CommonSymbol.EQUAL);
-	bizzCriteriaFactory.addCriteria($IdFB.getAttribute(), CommonSymbol.EQUAL);
-end
-*/
 
 rule "姓名 and 身份证号 criteria" 
 	activation-group "people查询条件"
@@ -38,17 +24,13 @@ then
 	bizzCriteriaFactory.addCriteria($IdFB.getAttribute(), CommonSymbol.EQUAL);
 end
 
-
-
 rule "姓名 and 户籍地址 criteria" 
 	activation-group "people查询条件"
 	salience 8  
 when
     $nameFA:FuseAttribute(name==PeopleItem.姓名,CommonCalculation.isBasicLawful(value));
     $siteFB:FuseAttribute(name == PeopleItem.户籍所在地,CommonCalculation.isBasicLawful(value));
-    $siteFC:FuseAttribute(name == PeopleItem.户籍地门牌号,CommonCalculation.isBasicLawful(value));
 then      
 	bizzCriteriaFactory.addCriteria($nameFA.getAttribute(), CommonSymbol.EQUAL);
 	bizzCriteriaFactory.addCriteria($siteFB.getAttribute(), CommonSymbol.EQUAL);
-	bizzCriteriaFactory.addCriteria($siteFC.getAttribute(), CommonSymbol.EQUAL);
 end
