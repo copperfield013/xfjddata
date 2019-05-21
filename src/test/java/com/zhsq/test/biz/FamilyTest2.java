@@ -39,7 +39,7 @@ public class FamilyTest2 {
 		BizFusionContext context=new BizFusionContext();
 		context.setSource(FusionContext.SOURCE_COMMON);
 //		context.setToEntityRange(BizFusionContext.ENTITY_CONTENT_RANGE_ABCNODE_CONTAIN);
-		context.setUserCode("e10adc3949ba59abbe56e057f28888u5");
+		context.setUserCode("e10adc3949ba59abbe56e057f28888d5");
 		Integration integration=PanelFactory.getIntegration();
 		Entity entity=createEntity(mapperName);
 		logger.debug(entity.toJson());
@@ -47,7 +47,7 @@ public class FamilyTest2 {
 		String code=imsg.getCode();
 		Discoverer discoverer=PanelFactory.getDiscoverer(context);
 		Entity result=discoverer.discover(code);
-		logger.debug(code + " : "+ result.toJson());
+		/*logger.debug(code + " : "+ result.toJson());*/
 		
 		long endTime = System.currentTimeMillis();// 记录结束时间
 		logger.debug((float) (endTime - startTime) / 1000);
@@ -55,8 +55,8 @@ public class FamilyTest2 {
 
 	private Entity createEntity(String mappingName) {
 		Entity entity = new Entity(mappingName);
-		entity.putValue("唯一编码", "8d4a82f356414e6a8d6273fd4ab38b1d");
-		entity.putValue("户籍地址", "西湖区"); 
+		//entity.putValue("唯一编码", "8d4a82f356414e6a8d6273fd4ab38b1d");
+		entity.putValue("户籍地址", "滨江区119987"); 
 		//entity.putValue("家庭总人数", "2");
 		entity.putValue("家庭分类", EnumKeyValue.ENUM_家庭分类_户籍家庭);
 		

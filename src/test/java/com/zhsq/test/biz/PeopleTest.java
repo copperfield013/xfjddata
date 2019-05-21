@@ -1,16 +1,8 @@
 package com.zhsq.test.biz;
 
-
-
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Map.Entry;
-
+import java.time.Period;
+import java.time.temporal.ChronoUnit;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,12 +17,14 @@ import com.abc.panel.Discoverer;
 import com.abc.panel.Integration;
 import com.abc.panel.IntegrationMsg;
 import com.abc.panel.PanelFactory;
+import com.zhsq.biz.constant.DateUtils;
 import com.zhsq.biz.constant.EnumKeyValue;
 import com.zhsq.biz.people.algorithm.BirthdayIntrospection;
 import com.zhsq.biz.people.algorithm.IDIntrospection;
 import com.zhsq.biz.timertask.people.PeopleTimeTask;
 
 import antlr.collections.List;
+
 @ContextConfiguration(locations = "classpath*:spring-core.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
 public class PeopleTest {
@@ -40,12 +34,11 @@ public class PeopleTest {
 
 	@Test
 	public void readData() {
-		
 			long startTime = System.currentTimeMillis();
 			BizFusionContext context=new BizFusionContext();
 			context.setSource(FusionContext.SOURCE_COMMON);
 //			context.setToEntityRange(BizFusionContext.ENTITY_CONTENT_RANGE_ABCNODE_CONTAIN);
-			context.setUserCode("e10adc3949ba59abbe56e057f28888u5");
+			context.setUserCode("e10adc3949ba59abbe56e057f28888d5");
 			Integration integration=PanelFactory.getIntegration();
 			Entity entity=createEntity(mapperName);
 			logger.debug(entity.toJson());
@@ -62,27 +55,28 @@ public class PeopleTest {
 	private Entity createEntity(String mappingName) {
 		
 		Entity entity = new Entity(mappingName);
-		entity.putValue("唯一编码", "578ed545c48946ffad3f830726cef376");
-		entity.putValue("姓名", "1959-1-23"); 
-		entity.putValue("人口类型", "户籍人口");
-	//	entity.putValue("所属社区", EnumKeyValue.ENUM_祥符街道社区_祥符桥社区);
-		/*entity.putValue("户籍所在地", "杭州ef1");
-		entity.putValue("户籍地门牌号", "西湖73829号fefw");*/
-		entity.putValue("身份证号码", "110101195901237997");
+		entity.putValue("唯一编码", "64f57c2bb8dd4dd4b6c56498faf3f42d");
+		entity.putValue("姓名", "滴sss"); 
+		//entity.putValue("人口类型", "户籍人口");
+		entity.putValue("所属社区", EnumKeyValue.ENUM_祥符街道社区_祥符桥社区);
+		entity.putValue("户籍所在地", "杭州3");
+		/*entity.putValue("户籍地门牌号", "西湖73829号fefw");*/
+		entity.putValue("身份证号码", "2323");
 		//entity.putValue("性别", EnumKeyValue.ENUM_性别_女);
 		//entity.putValue("出生日期", "2000-11-14");
 		/*entity.putValue("和户主关系", "配偶");*/
-		//entity.putValue("就业形式", EnumKeyValue.ENUM_就业形式_失业);
+		//entity.putValue("就业形式", EnumKeyValue.ENUM_就业形式_公益性岗位);
 		
 		
-		/*Entity relationentity = new Entity("户籍家庭");
+		Entity relationentity = new Entity("户籍家庭");
 		
-		
-		relationentity.putValue("唯一编码", "687fafa97c0f491aaa3dd86e94220618");
-		relationentity.putValue("户籍地址", "西湖区");
+		relationentity.putValue("唯一编码", "a5d7748671eb40889a4b9f8599f9979c");
+		relationentity.putValue("户籍地址", "杭州3");
 		relationentity.putValue("家庭分类", EnumKeyValue.ENUM_家庭分类_户籍家庭);
+		relationentity.putValue("户主姓名", "");
+		
 		entity.putRelationEntity("户籍家庭", "归属家庭", relationentity);
-	*/
+	
 		
 		/*SimpleEntity sentity2 = new SimpleEntity("证件信息");
 		sentity2.putValue("证件类型", EnumKeyValue.ENUM_证件类型_身份证);
@@ -158,12 +152,12 @@ public class PeopleTest {
 		return entity;
 	}
 	
-	@Test
+	/*@Test
 	public void fun() {
 	new PeopleTimeTask().doSomething();
-	}
+	}*/
 	
-	
+/*	
 	@Test 
 	public void fun1() {
 		
@@ -194,7 +188,7 @@ public class PeopleTest {
 		System.out.println(extractAge);
 	}
 	
-	
+	*/
 	
 	
 }
