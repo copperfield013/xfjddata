@@ -95,7 +95,7 @@ public class SessionFactory {
 		ReleaseId releaseId = kieServices.newReleaseId( "com.zhsq.biz", "xfjd", "0.3.65" );
 		KieContainer kieContainer = kieServices.newKieContainer(releaseId);
 		KieScanner kieScanner = kieServices.newKieScanner(kieContainer);
-		
+
 		kieScanner.start(10000L);//10秒
 		KieSession kSession = kieContainer.newKieSession(sessionName);
 		

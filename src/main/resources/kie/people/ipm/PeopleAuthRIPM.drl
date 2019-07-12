@@ -18,7 +18,6 @@ import com.zhsq.biz.common.OutputDisplay;
 
 global java.lang.String hostCode; 
 global java.lang.String hostType;
-
 global java.lang.String userCode;
 global java.lang.String recordCode;
 global java.lang.String recordName;

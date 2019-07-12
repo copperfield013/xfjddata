@@ -1,8 +1,5 @@
 package com.zhsq.test.biz;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,20 +8,14 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.abc.application.BizFusionContext;
 import com.abc.application.FusionContext;
-import com.abc.fuse.improve.attribute.OpsRecordRelation;
 import com.abc.mapping.entity.Entity;
 import com.abc.mapping.entity.SimpleEntity;
 import com.abc.panel.Discoverer;
 import com.abc.panel.Integration;
 import com.abc.panel.IntegrationMsg;
 import com.abc.panel.PanelFactory;
-import com.zhsq.biz.constant.BaseConstant;
 import com.zhsq.biz.constant.EnumKeyValue;
-import com.zhsq.biz.constant.family.FamilyItem;
-import com.zhsq.biz.constant.people.PeopleItem;
-import com.zhsq.biz.people.algorithm.BirthdayIntrospection;
-import com.zhsq.biz.people.algorithm.IDIntrospection;
-import com.zhsq.biz.timertask.people.PeopleTimeTask;
+
 @ContextConfiguration(locations = "classpath*:spring-core.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
 public class FamilyTest2 {
